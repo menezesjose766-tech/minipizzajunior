@@ -1,0 +1,15 @@
+# Render Blueprint — publica o site + painel com um clique
+services:
+  - type: web
+    name: minipizzajunior
+    runtime: node
+    plan: free
+    buildCommand: npm ci
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: ADMIN_PASSWORD
+        sync: false   # o Render pede o valor na criação

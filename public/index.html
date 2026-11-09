@@ -1,0 +1,810 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mini Pizza Junior</title>
+<meta name="description" content="Mini Pizza Junior — sua referência em pizza congelada. Venda e revenda de mini pizzas artesanais.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='48' fill='%23F5A623'/%3E%3Ccircle cx='50' cy='50' r='40' fill='%23E0521B'/%3E%3Ctext x='50' y='64' font-size='40' text-anchor='middle' font-family='Arial Black' fill='%23FFC93C'%3EJ%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --laranja:#E0521B;
+    --laranja-esc:#B83F10;
+    --amarelo:#F5A623;
+    --amarelo-claro:#FFD27A;
+    --creme:#FFF6E9;
+    --creme-2:#FCE9CF;
+    --escuro:#2A1A12;
+    --texto:#3B2A20;
+    --verde:#25D366;
+    --verde-esc:#179447;
+    --raio:24px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;overflow-x:clip}
+  body{font-family:'Nunito',system-ui,sans-serif;color:var(--texto);background:var(--creme);line-height:1.55;overflow-x:clip}
+  img,svg{display:block;max-width:100%}
+  a{color:inherit;text-decoration:none}
+  button{font:inherit}
+  .wrap{width:min(1180px,100% - 32px);margin-inline:auto}
+  h1,h2,h3,.display{font-family:'Bagel Fat One',cursive;font-weight:400;line-height:1.05;letter-spacing:.5px}
+  h2{font-size:clamp(2.1rem,4.6vw,3.4rem);color:var(--laranja);text-shadow:3px 4px 0 var(--amarelo-claro)}
+  .eyebrow{display:inline-block;font-weight:900;text-transform:uppercase;letter-spacing:3px;font-size:.78rem;color:var(--laranja-esc);background:var(--amarelo-claro);padding:7px 15px;border-radius:99px;margin-bottom:16px}
+  section{padding:110px 0;position:relative}
+  .center{text-align:center}
+  .lead{font-size:1.15rem;max-width:620px}
+  .center .lead{margin:14px auto 0}
+
+  /* ---------- botões ---------- */
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;font-weight:900;font-size:1.05rem;padding:16px 28px;border-radius:99px;transition:transform .15s, box-shadow .15s;cursor:pointer;border:0;position:relative;overflow:hidden}
+  .btn:hover{transform:translateY(-3px)}
+  .btn:active{transform:translateY(3px);box-shadow:none!important}
+  .btn svg{width:22px;height:22px}
+  .btn-wpp{background:var(--verde);color:#fff;box-shadow:0 5px 0 var(--verde-esc)}
+  .btn-wpp:hover{box-shadow:0 8px 0 var(--verde-esc)}
+  .btn-lar{background:var(--laranja);color:#fff;box-shadow:0 5px 0 var(--laranja-esc)}
+  .btn-lar:hover{box-shadow:0 8px 0 var(--laranja-esc)}
+  .btn-out{background:#fff;color:var(--laranja);border:3px solid var(--laranja);box-shadow:0 5px 0 var(--laranja)}
+  .btn-out:hover{box-shadow:0 8px 0 var(--laranja)}
+  .btn::after{content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.45),transparent);transform:skewX(-20deg);animation:brilho 3.8s ease-in-out infinite}
+  .btn-out::after{display:none}
+  @keyframes brilho{0%,60%{left:-60%}100%{left:130%}}
+
+  /* ---------- confete do logo ---------- */
+  .confete::before{content:"";position:absolute;inset:0;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='170' height='170'%3E%3Cg opacity='.3'%3E%3Cpath d='M20 18l9 3-7 6z' fill='%23F5A623'/%3E%3Cpath d='M92 30l8 6-9 3z' fill='%23E0521B'/%3E%3Cpath d='M146 14l6 8-9-1z' fill='%23F5A623'/%3E%3Cpath d='M58 74l9 1-5 8z' fill='%23E0521B'/%3E%3Cpath d='M122 88l9 4-8 5z' fill='%23F5A623'/%3E%3Cpath d='M24 118l7 7-9 1z' fill='%23F5A623'/%3E%3Cpath d='M86 140l9-2-3 9z' fill='%23E0521B'/%3E%3Cpath d='M152 134l5 8-9-2z' fill='%23E0521B'/%3E%3C/g%3E%3C/svg%3E");animation:confete 40s linear infinite}
+  @keyframes confete{to{background-position:170px 340px}}
+  .confete > *{position:relative;z-index:1}
+
+  /* ---------- loader ---------- */
+  .loader{position:fixed;inset:0;z-index:200;background:var(--laranja);display:grid;place-items:center;animation:loaderOut .6s cubic-bezier(.7,0,.3,1) 1.15s forwards}
+  .loader .lg{width:150px;animation:loaderIn .9s cubic-bezier(.3,1.6,.5,1) both}
+  @keyframes loaderIn{from{transform:scale(0) rotate(-200deg)}to{transform:none}}
+  @keyframes loaderOut{to{transform:translateY(-100%);visibility:hidden}}
+
+  /* ---------- progresso ---------- */
+  .progress{position:fixed;top:0;left:0;height:4px;width:100%;background:linear-gradient(90deg,var(--amarelo),var(--laranja));transform-origin:0 50%;transform:scaleX(0);z-index:100}
+
+  /* ---------- header ---------- */
+  header{position:sticky;top:0;z-index:50;transition:background .3s, box-shadow .3s}
+  header.scrolled{background:rgba(255,246,233,.9);backdrop-filter:blur(12px);box-shadow:0 6px 24px rgba(120,45,10,.08)}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:84px;gap:16px;transition:height .3s}
+  header.scrolled .nav{height:68px}
+  .brand{display:flex;align-items:center;gap:12px}
+  .brand .lg{width:54px;transition:transform .5s}
+  .brand:hover .lg{transform:rotate(-20deg) scale(1.08)}
+  .brand span{font-family:'Bagel Fat One';color:var(--laranja);font-size:1.3rem;line-height:1}
+  .menu{display:flex;gap:30px;font-weight:800}
+  .menu a{position:relative;padding:4px 0}
+  .menu a::after{content:"";position:absolute;left:0;bottom:-2px;height:3px;width:100%;background:var(--laranja);border-radius:3px;transform:scaleX(0);transform-origin:right;transition:transform .3s}
+  .menu a:hover::after{transform:scaleX(1);transform-origin:left}
+  .nav .btn{padding:12px 20px;font-size:.95rem}
+  .burger{display:none;background:none;border:0;cursor:pointer;width:44px;height:44px}
+  .burger span{display:block;height:3px;background:var(--laranja);margin:6px 8px;border-radius:3px;transition:transform .3s, opacity .3s}
+  .burger.x span:nth-child(1){transform:translateY(9px) rotate(45deg)}
+  .burger.x span:nth-child(2){opacity:0}
+  .burger.x span:nth-child(3){transform:translateY(-9px) rotate(-45deg)}
+
+  /* ---------- hero ---------- */
+  .hero{padding:40px 0 130px;margin-top:-84px;padding-top:124px;background:radial-gradient(circle at 80% 30%, #FFE3A6 0, transparent 50%),var(--creme);overflow:hidden}
+  .hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
+  .hero h1{font-size:clamp(2.9rem,6.6vw,5.3rem);color:var(--laranja);text-shadow:3px 4px 0 var(--amarelo-claro)}
+  .hero h1 .w{display:inline-block}
+  .hero h1 em{font-style:normal;color:var(--amarelo);-webkit-text-stroke:2px var(--laranja-esc);text-shadow:4px 5px 0 var(--laranja-esc);display:inline-block;animation:wobble 3s ease-in-out infinite}
+  @keyframes wobble{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(3deg) scale(1.05)}}
+  .hero p.lead{margin:22px 0 34px}
+  .hero-ctas{display:flex;flex-wrap:wrap;gap:14px}
+  .stats{display:flex;gap:36px;margin-top:44px;flex-wrap:wrap}
+  .stats b{display:block;font-family:'Bagel Fat One';font-size:2.1rem;color:var(--laranja);font-weight:400;line-height:1.1}
+  .stats small{font-weight:700;opacity:.75}
+
+  .hero-art{position:relative;aspect-ratio:1;width:100%;max-width:560px;margin-left:auto}
+  .halo{position:absolute;inset:8%;border-radius:50%;background:radial-gradient(circle,#F47A3C 0,#E0521B 62%,#C8440F 100%);box-shadow:0 30px 80px rgba(224,82,27,.35)}
+  .ring-dash{position:absolute;inset:1%;border-radius:50%;border:3px dashed var(--laranja);opacity:.35;animation:spin 40s linear infinite reverse}
+  .big-pizza{position:absolute;inset:13%;filter:drop-shadow(0 20px 26px rgba(90,30,5,.35))}
+  .big-pizza .spin{width:100%;height:100%;animation:spin 36s linear infinite}
+  .steam{position:absolute;left:32%;top:-6%;width:36%;overflow:visible}
+  .steam path{fill:none;stroke:#fff;stroke-width:5;stroke-linecap:round;opacity:0;animation:steam 3.2s ease-in-out infinite}
+  .steam path:nth-child(2){animation-delay:1s}
+  .steam path:nth-child(3){animation-delay:2s}
+  @keyframes steam{0%{opacity:0;transform:translateY(30px)}40%{opacity:.7}100%{opacity:0;transform:translateY(-40px)}}
+  .float{position:absolute;width:17%;z-index:3}
+  .float > div{animation:bob 4s ease-in-out infinite}
+  .float svg{width:100%;overflow:visible;filter:drop-shadow(0 8px 8px rgba(90,30,5,.25))}
+  .f1{left:-2%;top:30%}.f1>div{animation-delay:-1s}
+  .f2{right:2%;top:4%;width:14%}.f2>div{animation-delay:-2s}
+  .f3{right:-4%;top:50%;width:20%}.f3>div{animation-delay:-.5s}
+  .f4{left:8%;bottom:6%;width:12%}.f4>div{animation-delay:-3s}
+  .f5{left:46%;bottom:-3%;width:11%}.f5>div{animation-delay:-1.6s}
+  .f6{left:18%;top:0%;width:12%}.f6>div{animation-delay:-2.6s}
+  @keyframes bob{0%,100%{transform:translateY(0) rotate(-8deg)}50%{transform:translateY(-16px) rotate(10deg)}}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .selo-giro{position:absolute;right:-2%;bottom:6%;width:28%;z-index:4;animation:spin 16s linear infinite}
+  .selo-giro text{font-family:'Nunito';font-weight:900;font-size:15.5px;letter-spacing:3px;fill:var(--escuro)}
+  .tag{position:absolute;left:-4%;bottom:14%;z-index:4;background:#fff;border-radius:18px;padding:12px 16px;box-shadow:0 14px 34px rgba(120,45,10,.18);font-weight:900;display:flex;align-items:center;gap:10px;font-size:.95rem;line-height:1.2;border:2px solid var(--escuro)}
+  .tag .flake{font-size:1.7rem;animation:spin 6s linear infinite;display:inline-block}
+
+  /* ---------- faixa ---------- */
+  .faixa{background:var(--laranja);color:#fff;overflow:hidden;padding:18px 0;transform:rotate(-2deg);margin:-50px -20px 0;position:relative;z-index:5;border-block:3px solid var(--escuro)}
+  .faixa.b{background:var(--amarelo);color:var(--escuro);transform:rotate(1.5deg);margin-top:-62px;z-index:4}
+  .faixa-track{display:flex;gap:44px;white-space:nowrap;animation:marquee 26s linear infinite;width:max-content}
+  .faixa.b .faixa-track{animation-direction:reverse;animation-duration:32s}
+  .faixa-track span{font-family:'Bagel Fat One';font-size:1.55rem}
+  @keyframes marquee{to{transform:translateX(-50%)}}
+
+  /* ---------- benefícios ---------- */
+  .beneficios{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:56px;text-align:left}
+  .card{background:#fff;border-radius:var(--raio);padding:30px 24px;border:2px solid var(--escuro);box-shadow:6px 6px 0 var(--laranja);transition:transform .2s, box-shadow .2s}
+  .card:hover{transform:translate(-4px,-4px);box-shadow:10px 10px 0 var(--laranja)}
+  .card:hover .ico{animation:wiggle .5s ease-in-out}
+  @keyframes wiggle{25%{transform:rotate(-14deg) scale(1.1)}75%{transform:rotate(12deg) scale(1.1)}}
+  .ico{width:70px;height:70px;border-radius:50%;background:var(--amarelo);display:grid;place-items:center;margin-bottom:18px;border:2px solid var(--escuro)}
+  .ico svg{width:38px;height:38px}
+  .card h3{font-size:1.35rem;color:var(--laranja);margin-bottom:8px}
+
+  /* ---------- sabores (vitrine) ---------- */
+  #sabores{background:var(--creme-2)}
+  .showcase{display:grid;grid-template-columns:1.05fr 1fr;gap:56px;align-items:center;margin-top:56px;text-align:left}
+  .stage{position:relative;aspect-ratio:1;max-width:520px;width:100%;margin:0 auto}
+  .plate{position:absolute;inset:3%;border-radius:50%;background:radial-gradient(circle,#fff 0,#fff 58%,#F3E4CC 60%,#fff 64%,#EDDCC2 100%);box-shadow:0 30px 60px rgba(120,45,10,.18), inset 0 -8px 20px rgba(120,45,10,.08)}
+  .stage-pizza{position:absolute;inset:11%;filter:drop-shadow(0 14px 18px rgba(90,30,5,.3))}
+  .stage-pizza svg{width:100%;height:100%}
+  .stage-badge{position:absolute;top:2%;left:0;z-index:2;background:var(--laranja);color:#fff;border:2px solid var(--escuro);font-weight:900;padding:8px 16px;border-radius:99px;transform:rotate(-8deg);box-shadow:4px 4px 0 var(--escuro)}
+  .flavor-list{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .fl{display:flex;align-items:center;gap:12px;background:#fff;border:2px solid var(--escuro);border-radius:18px;padding:10px 14px;cursor:pointer;text-align:left;transition:transform .2s, box-shadow .2s, background .2s;box-shadow:4px 4px 0 var(--escuro)}
+  .fl:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--escuro)}
+  .fl .mini{width:52px;flex:none;transition:transform .6s}
+  .fl:hover .mini{transform:rotate(90deg)}
+  .fl b{transition:color .2s;display:block;font-family:'Bagel Fat One';font-weight:400;font-size:1.08rem;color:var(--laranja);line-height:1.1}
+  .fl small{font-weight:700;opacity:.6;font-size:.78rem}
+  .fl[aria-selected="true"]{background:var(--laranja);box-shadow:4px 4px 0 var(--escuro)}
+  .fl[aria-selected="true"] b{color:#fff}
+  .fl[aria-selected="true"] small{color:#fff;opacity:.85}
+  .fl[aria-selected="true"] .mini{animation:spin 6s linear infinite}
+  .detail{margin-top:30px;background:#fff;border:2px solid var(--escuro);border-radius:var(--raio);padding:28px;box-shadow:6px 6px 0 var(--amarelo);position:relative;overflow:hidden}
+  .detail h3{font-size:2.1rem;color:var(--laranja)}
+  .detail p{margin:8px 0 16px}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px}
+  .chip{background:var(--creme-2);border-radius:99px;padding:6px 12px;font-weight:800;font-size:.85rem}
+  .detail .row{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+  .preco{font-family:'Bagel Fat One';font-size:1.8rem;color:var(--escuro)}
+  .preco small{font-family:'Nunito';font-size:.8rem;font-weight:700;opacity:.6}
+  .timer{position:absolute;left:0;bottom:0;height:5px;background:var(--amarelo);width:0}
+  .nota{margin-top:26px;font-size:.85rem;opacity:.6;text-align:center}
+
+  /* ---------- como funciona ---------- */
+  .passos{display:grid;grid-template-columns:repeat(3,1fr);gap:30px;margin-top:64px;position:relative}
+  .linha{position:absolute;top:70px;left:16%;width:68%;height:20px;z-index:0;overflow:visible}
+  .linha path{fill:none;stroke:var(--laranja);stroke-width:4;stroke-dasharray:10 12;stroke-linecap:round}
+  .passo{position:relative;z-index:1;text-align:center;padding:0 10px}
+  .passo .circ{width:150px;height:150px;margin:0 auto 22px;border-radius:50%;background:#fff;border:3px solid var(--escuro);display:grid;place-items:center;box-shadow:6px 6px 0 var(--amarelo);position:relative}
+  .passo .circ svg{width:90px;height:90px;overflow:visible}
+  .passo .num{position:absolute;top:-6px;right:-6px;width:44px;height:44px;border-radius:50%;background:var(--laranja);color:#fff;display:grid;place-items:center;font-family:'Bagel Fat One';font-size:1.3rem;border:2px solid var(--escuro)}
+  .passo h3{font-size:1.5rem;color:var(--laranja);margin-bottom:6px}
+  .bubble{animation:pop 2.4s ease-in-out infinite;transform-origin:70% 30%}
+  @keyframes pop{0%,100%{transform:scale(1)}50%{transform:scale(1.15)}}
+  .floco{animation:spin 8s linear infinite;transform-origin:45px 48px}
+  .calor path{animation:heat 1.6s ease-in-out infinite}
+  .calor path:nth-child(2){animation-delay:.3s}.calor path:nth-child(3){animation-delay:.6s}
+  @keyframes heat{0%,100%{transform:translateY(0);opacity:.3}50%{transform:translateY(-6px);opacity:1}}
+  .brasa{animation:glow 1.4s ease-in-out infinite alternate}
+  @keyframes glow{to{fill:#FFB347}}
+
+  /* ---------- revenda ---------- */
+  .revenda{background:var(--laranja);color:#fff;overflow:hidden;padding:80px 0}
+  .revenda::after{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,210,122,.35) 2px, transparent 2.5px);background-size:26px 26px;opacity:.6;pointer-events:none}
+  .revenda .wrap{position:relative;z-index:1;display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+  .revenda h2{color:#fff;text-shadow:3px 4px 0 var(--laranja-esc)}
+  .revenda .eyebrow{background:#fff;color:var(--laranja)}
+  .lista{list-style:none;margin:26px 0 34px;display:grid;gap:14px}
+  .lista li{display:flex;gap:14px;align-items:flex-start;font-weight:700;font-size:1.08rem}
+  .lista li::before{content:"✓";flex:none;width:30px;height:30px;border-radius:50%;background:var(--amarelo);color:var(--escuro);display:grid;place-items:center;font-weight:900}
+  .onda{display:block;width:100%;height:60px}
+  .onda-wrap{line-height:0;background:var(--creme)}
+  .onda-wrap.b{transform:scaleY(-1)}
+
+  .calc{background:#fff;color:var(--texto);border-radius:28px;padding:34px;border:3px solid var(--escuro);box-shadow:10px 10px 0 var(--escuro)}
+  .calc h3{color:var(--laranja);font-size:1.7rem;margin-bottom:4px}
+  .calc .sub{opacity:.7;font-size:.95rem;margin-bottom:24px}
+  .calc label{display:flex;justify-content:space-between;font-weight:800;margin-bottom:10px}
+  .calc label output{font-family:'Bagel Fat One';color:var(--laranja);font-size:1.3rem;font-weight:400}
+  input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:12px;border-radius:99px;background:linear-gradient(90deg,var(--laranja) var(--p,30%),var(--creme-2) var(--p,30%));outline:none;margin-bottom:26px;border:2px solid var(--escuro)}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:34px;height:34px;border-radius:50%;background:var(--amarelo) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M10 2 L18 16 L2 16Z' fill='%23E0521B'/%3E%3Ccircle cx='9' cy='11' r='1.6' fill='%23FFF6E9'/%3E%3Ccircle cx='12' cy='13' r='1.3' fill='%23FFF6E9'/%3E%3C/svg%3E") center/20px no-repeat;border:3px solid var(--escuro);cursor:grab}
+  input[type=range]::-moz-range-thumb{width:30px;height:30px;border-radius:50%;background:var(--amarelo);border:3px solid var(--escuro);cursor:grab}
+  .result{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:22px}
+  .result div{background:var(--creme);border-radius:18px;padding:16px;text-align:center}
+  .result small{font-weight:800;opacity:.65;font-size:.82rem;text-transform:uppercase;letter-spacing:1px}
+  .result b{display:block;font-family:'Bagel Fat One';font-weight:400;color:var(--laranja);font-size:clamp(1.5rem,3vw,2rem);line-height:1.2}
+  .result div.big{background:var(--amarelo)}
+  .result div.big b{color:var(--escuro)}
+  .calc .btn{width:100%}
+  .calc .aviso{font-size:.75rem;opacity:.55;margin-top:12px;text-align:center}
+
+  /* ---------- festas ---------- */
+  .festas{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:56px;text-align:left}
+  .festa{border-radius:var(--raio);padding:44px 36px;background:#fff;border:2px solid var(--escuro);box-shadow:8px 8px 0 var(--laranja);position:relative;overflow:hidden;transition:transform .25s}
+  .festa:hover{transform:rotate(-1deg) translateY(-4px)}
+  .festa.dark{background:var(--escuro);color:#fff;box-shadow:8px 8px 0 var(--amarelo)}
+  .festa h3{font-size:2.1rem;color:var(--laranja);margin-bottom:10px}
+  .festa.dark h3{color:var(--amarelo)}
+  .festa p{max-width:80%}
+  .festa .btn{margin-top:24px}
+  .festa .deco{position:absolute;right:-30px;bottom:-30px;width:170px;opacity:.95;transition:transform .8s}
+  .festa:hover .deco{transform:rotate(120deg) scale(1.08)}
+  .balao{position:absolute;width:34px;bottom:-60px;opacity:.9;animation:sobe linear infinite}
+  @keyframes sobe{to{transform:translateY(-520px) rotate(20deg)}}
+
+  /* ---------- sobre ---------- */
+  .sobre{display:grid;grid-template-columns:1fr 1.1fr;gap:64px;align-items:center}
+  .sobre-art{position:relative;aspect-ratio:1;max-width:460px;width:100%;margin:0 auto}
+  .sobre-art .lg{width:100%;filter:drop-shadow(0 24px 40px rgba(224,82,27,.35))}
+  .sobre-art .lg.spinslow{animation:sway 5s ease-in-out infinite}
+  @keyframes sway{0%,100%{transform:rotate(-6deg) scale(1)}50%{transform:rotate(6deg) scale(1.03)}}
+  .selo10k{position:absolute;right:-4%;bottom:2%;background:var(--amarelo);border:3px solid var(--escuro);color:var(--escuro);border-radius:50%;width:38%;aspect-ratio:1;display:grid;place-items:center;text-align:center;font-family:'Bagel Fat One';font-size:1.05rem;line-height:1.05;transform:rotate(-12deg);box-shadow:6px 6px 0 var(--escuro)}
+  .selo10k b{display:block;font-size:2.6rem;font-weight:400;color:var(--laranja)}
+  .sobre p{margin-top:16px}
+  .quote{margin-top:24px;padding:18px 22px;border-left:6px solid var(--laranja);background:#fff;border-radius:0 18px 18px 0;font-weight:800;font-size:1.1rem}
+  .quote s{opacity:.55}
+
+  /* ---------- depoimentos ---------- */
+  #feedbacks{background:var(--creme-2);overflow:hidden}
+  .depos{display:flex;gap:24px;width:max-content;animation:marquee 45s linear infinite;margin-top:56px;padding:6px 0 14px}
+  .depos:hover{animation-play-state:paused}
+  .depo{width:360px;flex:none;background:#fff;border-radius:var(--raio);padding:28px;border:2px solid var(--escuro);box-shadow:6px 6px 0 var(--amarelo);text-align:left}
+  .depo .stars{color:var(--amarelo);font-size:1.3rem;letter-spacing:2px}
+  .depo p{margin:12px 0 18px}
+  .depo .who{display:flex;align-items:center;gap:12px;font-weight:800}
+  .depo .av{width:44px;height:44px;border-radius:50%;background:var(--laranja);color:#fff;display:grid;place-items:center;font-family:'Bagel Fat One'}
+  .depo .who small{display:block;font-weight:600;opacity:.6}
+
+  /* ---------- cta ---------- */
+  .cta{background:var(--escuro);color:#fff;text-align:center;border-radius:40px;padding:80px 28px;position:relative;overflow:hidden}
+  .cta h2{color:var(--amarelo);text-shadow:3px 4px 0 var(--laranja);font-size:clamp(2.2rem,5vw,3.8rem)}
+  .cta p{margin:16px auto 32px;max-width:540px;opacity:.85;font-size:1.1rem}
+  .cta .pz-l,.cta .pz-r{position:absolute;width:230px;opacity:.95}
+  .cta .pz-l{left:-70px;top:-60px;animation:spin 30s linear infinite}
+  .cta .pz-r{right:-80px;bottom:-80px;width:280px;animation:spin 40s linear infinite reverse}
+
+  footer{padding:60px 0 30px}
+  .foot{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:32px}
+  .foot h4{font-family:'Bagel Fat One';font-weight:400;color:var(--laranja);font-size:1.2rem;margin-bottom:12px}
+  .foot a{display:block;margin-bottom:8px;font-weight:700;transition:color .2s, transform .2s}
+  .foot a:hover{color:var(--laranja);transform:translateX(4px)}
+  .copy{margin-top:36px;padding-top:20px;border-top:1px solid rgba(224,82,27,.15);font-size:.85rem;opacity:.65;text-align:center}
+
+  .wpp-float{position:fixed;right:20px;bottom:20px;z-index:60;width:62px;height:62px;border-radius:50%;background:var(--verde);color:#fff;display:grid;place-items:center;animation:pulse 2.4s infinite;transition:transform .2s}
+  .wpp-float:hover{transform:scale(1.1) rotate(-8deg)}
+  .wpp-float svg{width:34px;height:34px}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(37,211,102,.55)}70%{box-shadow:0 0 0 18px rgba(37,211,102,0)}100%{box-shadow:0 0 0 0 rgba(37,211,102,0)}}
+
+  /* ---------- responsivo ---------- */
+  @media (max-width:980px){
+    .beneficios{grid-template-columns:repeat(2,1fr)}
+    .hero-grid,.revenda .wrap,.sobre,.showcase{grid-template-columns:1fr}
+    .hero-art{max-width:460px;margin:0 auto}
+    .hero-grid > div:first-child{text-align:center}
+    .hero-ctas,.stats{justify-content:center}
+    .hero .lead{margin-inline:auto}
+    .stage{max-width:420px}
+  }
+  @media (max-width:780px){
+    .menu{display:none;position:absolute;top:100%;left:0;right:0;background:var(--creme);flex-direction:column;padding:20px 24px;gap:16px;box-shadow:0 10px 20px rgba(0,0,0,.08)}
+    .menu.open{display:flex}
+    .burger{display:block}
+    .nav .btn{display:none}
+    section{padding:80px 0}
+    .passos,.festas,.foot{grid-template-columns:1fr}
+    .linha{display:none}
+    .hero{padding-bottom:110px}
+    .hero-grid{gap:20px}
+    .hero-art{order:-1;max-width:340px}
+    .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:32px}
+    .stats b{font-size:1.5rem}
+    .stats small{font-size:.75rem;display:block;line-height:1.2}
+    .tag{font-size:.8rem;padding:8px 12px;left:0}
+    .faixa-track span{font-size:1.2rem}
+    .flavor-list{grid-template-columns:1fr 1fr}
+    .fl{padding:8px 10px;gap:8px}
+    .fl .mini{width:40px}
+    .fl small{display:none}
+    .calc{padding:24px}
+    .festa p{max-width:100%}
+    .festa .deco{width:120px;opacity:.25}
+    .depo{width:290px}
+    .cta .pz-l,.cta .pz-r{opacity:.25}
+  }
+  @media (max-width:480px){
+    .beneficios{grid-template-columns:1fr}
+    .hero-ctas .btn{width:100%}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *,*::before,*::after{animation:none!important;transition:none!important}
+    .loader{display:none}
+  }
+</style>
+</head>
+<body>
+
+<!-- defs globais das ilustrações -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <radialGradient id="gCrust" cx="50%" cy="45%" r="55%"><stop offset="78%" stop-color="#F7D49A"/><stop offset="92%" stop-color="#E9AE62"/><stop offset="100%" stop-color="#C98339"/></radialGradient>
+    <radialGradient id="gCheese" cx="45%" cy="40%" r="60%"><stop offset="0%" stop-color="#FFF4D2"/><stop offset="100%" stop-color="#FBD98A"/></radialGradient>
+    <radialGradient id="gTom" cx="40%" cy="35%" r="70%"><stop offset="0%" stop-color="#FF6B55"/><stop offset="100%" stop-color="#C9281E"/></radialGradient>
+    <radialGradient id="gHam" cx="40%" cy="35%" r="70%"><stop offset="0%" stop-color="#FAC6C6"/><stop offset="100%" stop-color="#E6898F"/></radialGradient>
+    <path id="circTxt" d="M100,100 m-74,0 a74,74 0 1,1 148,0 a74,74 0 1,1 -148,0"/>
+  </defs>
+  <symbol id="wpp" viewBox="0 0 24 24"><path fill="currentColor" d="M17.47 14.38c-.3-.15-1.75-.86-2.02-.96-.27-.1-.47-.15-.67.15-.2.3-.77.96-.94 1.16-.17.2-.35.22-.64.07-.3-.15-1.25-.46-2.38-1.47-.88-.79-1.47-1.76-1.65-2.06-.17-.3-.02-.46.13-.6.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.03-.52-.07-.15-.67-1.6-.92-2.2-.24-.58-.49-.5-.67-.5h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.21 3.08c.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.7.63.71.22 1.36.19 1.87.12.57-.09 1.75-.72 2-1.41.25-.69.25-1.29.17-1.41-.07-.12-.27-.2-.57-.35zM12.05 21.5h-.01a9.4 9.4 0 0 1-4.8-1.31l-.34-.2-3.57.94.95-3.48-.22-.36a9.4 9.4 0 0 1-1.44-5.02c0-5.2 4.24-9.44 9.45-9.44a9.4 9.4 0 0 1 9.44 9.45c0 5.2-4.24 9.43-9.44 9.43zm8.03-17.47A11.3 11.3 0 0 0 12.04.7C5.8.7.7 5.78.7 12.04c0 2 .52 3.95 1.51 5.67L.6 23.3l5.73-1.5a11.3 11.3 0 0 0 5.71 1.46h.01c6.25 0 11.34-5.09 11.34-11.34 0-3.03-1.18-5.88-3.31-8.02z"/></symbol>
+  <symbol id="ig" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2.2c3.2 0 3.6 0 4.8.07 3.25.15 4.77 1.69 4.92 4.92.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.15 3.23-1.66 4.77-4.92 4.92-1.27.06-1.64.07-4.85.07s-3.58-.01-4.85-.07c-3.26-.15-4.77-1.7-4.92-4.92C2.13 15.58 2.12 15.2 2.12 12s.01-3.58.07-4.85C2.34 3.92 3.86 2.38 7.11 2.23 8.38 2.17 8.76 2.2 12 2.2zM12 0C8.74 0 8.33.01 7.05.07 2.7.27.27 2.69.07 7.05.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.2 4.36 2.62 6.78 6.98 6.98 1.28.06 1.69.07 4.95.07s3.67-.01 4.95-.07c4.35-.2 6.78-2.62 6.98-6.98.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95C23.73 2.7 21.31.27 16.95.07 15.67.01 15.26 0 12 0zm0 5.84a6.16 6.16 0 1 0 0 12.32 6.16 6.16 0 0 0 0-12.32zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.4-11.85a1.44 1.44 0 1 0 0 2.88 1.44 1.44 0 0 0 0-2.88z"/></symbol>
+</svg>
+
+<div class="loader" aria-hidden="true"><div class="lg" data-logo></div></div>
+<div class="progress" id="progress"></div>
+
+<header id="top">
+  <div class="wrap nav">
+    <a href="#inicio" class="brand" aria-label="Mini Pizza Junior — início"><div class="lg" data-logo></div><span>Mini Pizza<br>Junior</span></a>
+    <nav class="menu" id="menu">
+      <a href="#sabores">Sabores</a>
+      <a href="#como">Como funciona</a>
+      <a href="#revenda">Revenda</a>
+      <a href="#festas">Festas</a>
+      <a href="#sobre">Sobre nós</a>
+    </nav>
+    <a class="btn btn-lar" data-order href="#sabores">🛒 Pedir agora</a>
+    <button class="burger" id="burger" aria-label="Abrir menu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<main id="inicio">
+  <!-- HERO -->
+  <section class="hero confete">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="eyebrow h-in">🍕 Sua referência em pizza congelada</span>
+        <h1 id="heroTitle">Mais <em>sabor</em> e praticidade pro seu dia a dia!</h1>
+        <p class="lead h-in" id="heroSub">Mini pizzas artesanais, feitas com massa caseira e recheio generoso. Congeladas e prontas pro forno — perfeitas pro lanche, pras festas e pra você revender.</p>
+        <div class="hero-ctas h-in">
+          <a class="btn btn-lar" data-order href="#sabores">🍕 Fazer pedido</a>
+          <a class="btn btn-out" href="#revenda">Quero revender</a>
+        </div>
+        <div class="stats h-in">
+          <div><b><span data-count="10">0</span>K+</b><small>seguidores no Insta</small></div>
+          <div><b><span data-count="100">0</span>%</b><small>artesanal</small></div>
+          <div><b>~<span data-count="10">0</span> min</b><small>do freezer à mesa</small></div>
+        </div>
+      </div>
+      <div class="hero-art" id="heroArt">
+        <div class="ring-dash"></div>
+        <div class="halo"></div>
+        <svg class="steam" viewBox="0 0 100 80" aria-hidden="true"><path d="M25 70 C15 55 35 45 25 30 C18 20 28 12 25 5"/><path d="M50 70 C40 55 60 45 50 30 C43 20 53 12 50 5"/><path d="M75 70 C65 55 85 45 75 30 C68 20 78 12 75 5"/></svg>
+        <div class="big-pizza"><div class="spin" id="heroPizza"></div></div>
+        <div class="float f1" data-depth="40"><div data-ing="tomate"></div></div>
+        <div class="float f2" data-depth="25"><div data-ing="manjericao"></div></div>
+        <div class="float f3" data-depth="55"><div data-ing="presunto"></div></div>
+        <div class="float f4" data-depth="35"><div data-ing="azeitona_verde"></div></div>
+        <div class="float f5" data-depth="20"><div data-ing="milho"></div></div>
+        <div class="float f6" data-depth="30"><div data-ing="queijo"></div></div>
+        <svg class="selo-giro" viewBox="0 0 200 200" aria-hidden="true">
+          <circle cx="100" cy="100" r="97" fill="#fff" stroke="#2A1A12" stroke-width="4"/>
+          <text><textPath href="#circTxt">FEITO À MÃO • COM AMOR • FEITO À MÃO • COM AMOR •</textPath></text>
+          <g transform="translate(100 100) scale(.42)" data-mini="1"></g>
+        </svg>
+        <div class="tag"><span class="flake">❄️</span>Congelada & pronta<br>pro forno</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="faixa" aria-hidden="true"><div class="faixa-track" data-marquee="🍕 Mini Pizza Junior|★ Venda & Revenda|🍕 Massa artesanal|★ Pronta em minutos|🍕 Festas & eventos|★ Seja revendedor"></div></div>
+  <div class="faixa b" aria-hidden="true"><div class="faixa-track" data-marquee="sabores"></div></div>
+
+  <!-- BENEFÍCIOS -->
+  <section>
+    <div class="wrap center">
+      <span class="eyebrow rv">Por que Mini Pizza Junior?</span>
+      <h2 class="rv">Pequena no tamanho,<br>gigante no sabor</h2>
+      <div class="beneficios">
+        <div class="card stg"><div class="ico"><svg viewBox="0 0 40 40" fill="none" stroke="#2A1A12" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c-3-3-3-8 0-11s8-3 11 0"/><path d="M14 26c2 4 7 6 12 3 4-3 5-8 3-12l-4-6-3 2 2 5"/><path d="M8 30l4-4"/></svg></div><h3>Artesanal</h3><p>Massa feita à mão, todo dia, com receita da casa.</p></div>
+        <div class="card stg"><div class="ico"><svg viewBox="0 0 40 40" fill="none" stroke="#2A1A12" stroke-width="2.6" stroke-linejoin="round"><path d="M5 28l22-16 8 6v10z" fill="#FFE7A8"/><path d="M5 28h30"/><circle cx="17" cy="23" r="2" fill="#2A1A12"/><circle cx="26" cy="20" r="1.6" fill="#2A1A12"/><circle cx="28" cy="25" r="1.4" fill="#2A1A12"/></svg></div><h3>Recheio generoso</h3><p>Muito queijo e cobertura caprichada em cada pizza.</p></div>
+        <div class="card stg"><div class="ico"><svg viewBox="0 0 40 40" fill="none" stroke="#2A1A12" stroke-width="2.6" stroke-linecap="round"><path d="M20 4v32M6 12l28 16M6 28l28-16"/><path d="M16 6l4 4 4-4M16 34l4-4 4 4"/></svg></div><h3>Congelada</h3><p>Seladas a vácuo, duram no freezer sem perder o sabor.</p></div>
+        <div class="card stg"><div class="ico"><svg viewBox="0 0 40 40" fill="none" stroke="#2A1A12" stroke-width="2.6" stroke-linecap="round"><circle cx="20" cy="22" r="13"/><path d="M20 22V14M20 22l5 4M16 5h8"/></svg></div><h3>Prática</h3><p>Do freezer pro forno ou airfryer em poucos minutos.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SABORES -->
+  <section id="sabores">
+    <div class="wrap center">
+      <span class="eyebrow rv">Cardápio</span>
+      <h2 class="rv">Escolha seu sabor</h2>
+      <p class="lead rv">Toque num sabor e veja a pizza montar na hora. 👇</p>
+      <div class="showcase">
+        <div class="stage rv">
+          <div class="plate"></div>
+          <div class="stage-pizza" id="stagePizza"></div>
+          <div class="stage-badge" id="stageBadge">🔥 Mais pedida</div>
+        </div>
+        <div>
+          <div class="flavor-list" role="tablist" id="flavorList"></div>
+          <div class="detail rv" id="detail" aria-live="polite">
+            <h3 id="dName"></h3>
+            <p id="dDesc"></p>
+            <div class="chips" id="dChips"></div>
+            <div class="row">
+              <span class="preco" id="dPrice"></span>
+              <button class="btn btn-lar" id="dBtn" type="button">🛒 Adicionar ao pedido</button>
+            </div>
+            <div class="timer" id="timer"></div>
+          </div>
+        </div>
+      </div>
+      <p class="nota">* Sabores, ingredientes e preços de demonstração — ajustar com o cardápio real.</p>
+    </div>
+  </section>
+
+  <!-- COMO FUNCIONA -->
+  <section id="como">
+    <div class="wrap center">
+      <span class="eyebrow rv">Simples assim</span>
+      <h2 class="rv">Como funciona</h2>
+      <div class="passos">
+        <svg class="linha" viewBox="0 0 600 20" preserveAspectRatio="none" aria-hidden="true"><path id="linhaPath" d="M0,10 C100,-6 200,26 300,10 C400,-6 500,26 600,10"/></svg>
+        <div class="passo stg">
+          <div class="circ"><span class="num">1</span>
+            <svg viewBox="0 0 90 90"><rect x="24" y="10" width="40" height="70" rx="8" fill="#fff" stroke="#2A1A12" stroke-width="3.5"/><rect x="30" y="20" width="28" height="44" rx="3" fill="#FCE9CF"/><circle cx="44" cy="72" r="3" fill="#2A1A12"/><g class="bubble"><path d="M50 6h30a6 6 0 0 1 6 6v14a6 6 0 0 1-6 6H64l-8 7v-7h-6a6 6 0 0 1-6-6V12a6 6 0 0 1 6-6z" fill="#25D366" stroke="#2A1A12" stroke-width="3"/><circle cx="57" cy="19" r="2.4" fill="#fff"/><circle cx="65" cy="19" r="2.4" fill="#fff"/><circle cx="73" cy="19" r="2.4" fill="#fff"/></g></svg>
+          </div>
+          <h3>Peça no WhatsApp</h3><p>Escolha os sabores e a quantidade. A gente confirma rapidinho.</p>
+        </div>
+        <div class="passo stg">
+          <div class="circ"><span class="num">2</span>
+            <svg viewBox="0 0 90 90"><rect x="12" y="30" width="66" height="48" rx="8" fill="#DDF1FA" stroke="#2A1A12" stroke-width="3.5"/><rect x="8" y="22" width="74" height="12" rx="5" fill="#fff" stroke="#2A1A12" stroke-width="3.5"/><g class="floco" stroke="#3BA3D0" stroke-width="3.5" stroke-linecap="round"><path d="M45 36v24M34.6 42l20.8 12M34.6 54l20.8-12"/></g></svg>
+          </div>
+          <h3>Guarde no freezer</h3><p>Chegam congeladas e seladas a vácuo, prontas pra estocar.</p>
+        </div>
+        <div class="passo stg">
+          <div class="circ"><span class="num">3</span>
+            <svg viewBox="0 0 90 90"><rect x="10" y="26" width="70" height="54" rx="8" fill="#fff" stroke="#2A1A12" stroke-width="3.5"/><rect x="18" y="38" width="44" height="34" rx="5" fill="#2A1A12"/><rect class="brasa" x="22" y="62" width="36" height="6" rx="3" fill="#E0521B"/><circle cx="70" cy="44" r="4" fill="#F5A623" stroke="#2A1A12" stroke-width="2.5"/><circle cx="70" cy="58" r="4" fill="#F5A623" stroke="#2A1A12" stroke-width="2.5"/><ellipse cx="40" cy="58" rx="15" ry="4.5" fill="#F7C35E"/><g class="calor" fill="none" stroke="#E0521B" stroke-width="3.5" stroke-linecap="round"><path d="M30 18c-3-4 3-6 0-10"/><path d="M45 18c-3-4 3-6 0-10"/><path d="M60 18c-3-4 3-6 0-10"/></g></svg>
+          </div>
+          <h3>Forno e pronto!</h3><p>Forno ou airfryer por poucos minutos e é só aproveitar.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REVENDA -->
+  <div class="onda-wrap"><svg class="onda" viewBox="0 0 1440 60" preserveAspectRatio="none" aria-hidden="true"><path d="M0,30 C180,60 360,0 540,30 C720,60 900,0 1080,30 C1260,60 1350,15 1440,30 L1440,60 L0,60 Z" fill="#E0521B"/></svg></div>
+  <section id="revenda" class="revenda">
+    <div class="wrap">
+      <div>
+        <span class="eyebrow rv">Seja um parceiro</span>
+        <h2 class="rv">Revenda Mini Pizza Junior e lucre com a gente</h2>
+        <ul class="lista">
+          <li class="stg">Preço especial de atacado para revendedores</li>
+          <li class="stg">Alta saída em lanchonetes, mercados, cantinas e delivery</li>
+          <li class="stg">Embalagem selada a vácuo com a nossa marca</li>
+          <li class="stg">Suporte e material de divulgação pra você vender mais</li>
+        </ul>
+        <a class="btn btn-wpp rv" data-wpp="Olá! Tenho interesse em ser revendedor da Mini Pizza Junior" href="#"><svg><use href="#wpp"/></svg>Quero ser revendedor</a>
+      </div>
+      <div class="calc rv" id="calc">
+        <h3>Simule seu lucro</h3>
+        <p class="sub">Arraste e veja quanto você pode ganhar revendendo.</p>
+        <label for="qtd">Mini pizzas por semana <output id="qtdOut">100</output></label>
+        <input type="range" id="qtd" min="20" max="600" step="10" value="100">
+        <label for="margem">Lucro por unidade <output id="margemOut">R$ 3,00</output></label>
+        <input type="range" id="margem" min="1" max="8" step="0.5" value="3">
+        <div class="result">
+          <div><small>Por semana</small><b id="rSem">R$ 300</b></div>
+          <div class="big"><small>Por mês</small><b id="rMes">R$ 1.290</b></div>
+        </div>
+        <a class="btn btn-lar" data-wpp="Olá! Fiz a simulação no site e quero saber mais sobre a revenda" href="#">Quero começar a revender</a>
+        <p class="aviso">Valores ilustrativos. Consulte a tabela de atacado.</p>
+      </div>
+    </div>
+  </section>
+  <div class="onda-wrap b"><svg class="onda" viewBox="0 0 1440 60" preserveAspectRatio="none" aria-hidden="true"><path d="M0,30 C180,60 360,0 540,30 C720,60 900,0 1080,30 C1260,60 1350,15 1440,30 L1440,60 L0,60 Z" fill="#E0521B"/></svg></div>
+
+  <!-- FESTAS -->
+  <section id="festas">
+    <div class="wrap center">
+      <span class="eyebrow rv">Festas & eventos</span>
+      <h2 class="rv">A estrela da sua festa</h2>
+      <p class="lead rv">Aniversários, confraternizações, festas infantis... mini pizza é sucesso garantido com a criançada e com os adultos.</p>
+      <div class="festas">
+        <div class="festa stg" id="festaKids">
+          <h3>Kits para festas</h3>
+          <p>Monte seu kit com os sabores preferidos e na quantidade certa pro evento. A gente ajuda a calcular!</p>
+          <a class="btn btn-lar" data-wpp="Olá! Quero um orçamento de mini pizzas para festa" href="#">Pedir orçamento</a>
+          <div class="deco" data-mini="3"></div>
+        </div>
+        <div class="festa dark stg">
+          <h3>Empresas & cantinas</h3>
+          <p>Fornecimento recorrente para lanchonetes, escolas e empresas. Qualidade e padrão em todas as entregas.</p>
+          <a class="btn btn-wpp" data-wpp="Olá! Tenho interesse em fornecimento para empresa" href="#"><svg><use href="#wpp"/></svg>Falar com a gente</a>
+          <div class="deco" data-mini="2"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOBRE -->
+  <section id="sobre" style="padding-top:30px">
+    <div class="wrap sobre">
+      <div class="sobre-art rv">
+        <div class="lg spinslow" data-logo></div>
+        <div class="selo10k"><span><b><span data-count="10">0</span>K</b>seguidores</span></div>
+      </div>
+      <div>
+        <span class="eyebrow rv">Nossa história</span>
+        <h2 class="rv">Feito com carinho, de família pra sua mesa</h2>
+        <p class="rv">A Mini Pizza Junior nasceu de uma ideia simples: levar o sabor da pizza artesanal com a praticidade do congelado. Cada mini pizza é preparada à mão, com ingredientes selecionados e muito cuidado.</p>
+        <div class="quote rv"><s>“Mini pizza congelada? Ninguém vai querer.”</s><br>Hoje somos referência na região e crescemos junto com uma rede de revendedores parceiros. 🧡</div>
+        <a class="btn btn-out rv" data-ig="" style="margin-top:28px" href="https://www.instagram.com/minipizzajunior/" target="_blank" rel="noopener"><svg><use href="#ig"/></svg>@minipizzajunior</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEEDBACKS -->
+  <section id="feedbacks">
+    <div class="wrap center">
+      <span class="eyebrow rv">Feedbacks</span>
+      <h2 class="rv">Quem prova, aprova</h2>
+    </div>
+    <div class="depos" id="depos"></div>
+  </section>
+
+  <!-- CTA -->
+  <section>
+    <div class="wrap">
+      <div class="cta confete rv">
+        <div class="pz-l" data-mini="0"></div>
+        <div class="pz-r" data-mini="1"></div>
+        <h2>Bateu aquela vontade<br>de comer uma coisa gostosa?</h2>
+        <p>Chama a gente no WhatsApp e garanta suas mini pizzas hoje mesmo.</p>
+        <a class="btn btn-wpp" data-wpp="Olá! Quero fazer um pedido de mini pizzas 🍕" href="#"><svg><use href="#wpp"/></svg>Pedir pelo WhatsApp</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div>
+        <a href="#inicio" class="brand" style="margin-bottom:14px"><div class="lg" data-logo></div><span>Mini Pizza<br>Junior</span></a>
+        <p>Sua referência em pizza congelada. Venda e revenda de mini pizzas artesanais.</p>
+      </div>
+      <div>
+        <h4>Navegação</h4>
+        <a href="#sabores">Sabores</a><a href="#revenda">Seja revendedor</a><a href="#festas">Festas</a><a href="#sobre">Sobre nós</a>
+      </div>
+      <div>
+        <h4>Contato</h4>
+        <a data-wpp="Olá!" href="#" id="wppNum">WhatsApp</a>
+        <a data-ig="Instagram: " href="https://www.instagram.com/minipizzajunior/" target="_blank" rel="noopener">Instagram: @minipizzajunior</a>
+        <span id="endereco" style="display:block;font-weight:700"></span>
+      </div>
+    </div>
+    <p class="copy">© 2026 Mini Pizza Junior · Todos os direitos reservados</p>
+  </div>
+</footer>
+
+<a class="wpp-float" data-wpp="Olá! Quero fazer um pedido de mini pizzas 🍕" href="#" aria-label="Falar no WhatsApp"><svg><use href="#wpp"/></svg></a>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="/js/pizza.js"></script>
+<script src="/js/cart.js" defer></script>
+<script>
+(async () => {
+  const PK = window.PizzaKit; PK.injectDefs();
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const hasGsap = typeof gsap !== 'undefined' && !reduce;
+  if (hasGsap && typeof ScrollTrigger !== 'undefined') gsap.registerPlugin(ScrollTrigger);
+  const $ = s => document.querySelector(s), $$ = s => document.querySelectorAll(s);
+  const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+  /* ---------- dados (API → fallback) ---------- */
+  let data;
+  try { const r = await fetch('/api/public', { cache: 'no-store' }); if (!r.ok) throw 0; data = await r.json(); }
+  catch { data = PK.DEFAULT_DATA; }
+  const S = { ...PK.DEFAULT_DATA.settings, ...data.settings };
+  const FL = data.flavors && data.flavors.length ? data.flavors : PK.DEFAULT_DATA.flavors;
+  const TS = data.testimonials || [];
+  const flavorFor = key => FL.find(f => f.id === key) || FL[(+key || 0) % FL.length];
+
+  /* ---------- textos e contatos ---------- */
+  const wppLink = msg => `https://wa.me/${S.whatsapp}?text=${encodeURIComponent(msg)}`;
+  $$('[data-wpp]').forEach(a => { a.href = wppLink(a.dataset.wpp); a.target = '_blank'; a.rel = 'noopener'; });
+  $('#heroTitle').innerHTML = esc(S.heroTitle).replace(/\*(.+?)\*/g, '<em>$1</em>');
+  $('#heroSub').textContent = S.heroSubtitle;
+  $$('[data-ig]').forEach(a => {
+    a.href = `https://www.instagram.com/${encodeURIComponent(S.instagram)}/`;
+    a.lastChild.textContent = (a.dataset.ig || '') + '@' + S.instagram;
+    a.hidden = !S.instagram;
+  });
+  $('#endereco').textContent = S.endereco ? 'Endereço: ' + S.endereco : '';
+  $('#wppNum').textContent = 'WhatsApp: ' + S.whatsapp.replace(/^55(\d{2})(\d{4,5})(\d{4})$/, '($1) $2-$3');
+  const priceHTML = f => S.mostrarPrecos && f.price > 0
+    ? `R$ ${f.price.toFixed(2).replace('.', ',')} <small>/unidade</small>`
+    : `<small style="font-size:1rem;opacity:.8">Consulte o preço</small>`;
+
+  /* ---------- ilustrações ---------- */
+  const logo = logoSVG();
+  $$('[data-logo]').forEach(el => el.innerHTML = logo);
+  const heroFlavor = flavorFor(S.heroFlavor);
+  $('#heroPizza').innerHTML = PK.pizzaSVG(heroFlavor);
+  $$('[data-mini]').forEach(el => {
+    const svg = PK.pizzaSVG(flavorFor(el.dataset.mini));
+    el.innerHTML = el.tagName.toLowerCase() === 'g'
+      ? svg.replace('<svg viewBox="-100 -100 200 200"', '<svg x="-100" y="-100" width="200" height="200" viewBox="-100 -100 200 200"')
+      : svg;
+  });
+  $$('[data-ing]').forEach(el => el.innerHTML = PK.iconSVG(el.dataset.ing));
+  $$('[data-marquee]').forEach(el => {
+    const src = el.dataset.marquee === 'sabores' ? FL.map(f => esc(f.name) + ' ✦') : el.dataset.marquee.split('|');
+    const items = src.map(t => `<span>${t}</span>`).join('');
+    el.innerHTML = items.repeat(Math.max(2, Math.ceil(12 / src.length)) * 2);
+  });
+
+  function logoSVG() {
+    const R = PK.rng(7), f = n => n.toFixed(1); let tri = '';
+    for (let i = 0; i < 46; i++) {
+      const a = R() * 6.28, r = 18 + Math.sqrt(R()) * 64, x = 100 + Math.cos(a) * r, y = 100 + Math.sin(a) * r, s = 3 + R() * 3;
+      tri += `<path d="M${f(x)},${f(y - s)} L${f(x + s)},${f(y + s * .8)} L${f(x - s)},${f(y + s * .8)}Z" fill="${R() > .5 ? '#F5A623' : '#B83F10'}" transform="rotate(${f(R() * 120)} ${f(x)} ${f(y)})" opacity=".9"/>`;
+    }
+    return `<svg viewBox="0 0 200 200" role="img" aria-label="Logo Mini Pizza Junior"><circle cx="100" cy="100" r="99" fill="#F5A623"/><circle cx="100" cy="100" r="88" fill="#E0521B"/>${tri}
+      <g font-family="'Bagel Fat One', cursive" text-anchor="middle" paint-order="stroke" stroke="#8E2E0A" stroke-linejoin="round">
+        <text x="100" y="94" font-size="33" fill="#FFC93C" stroke-width="7" transform="rotate(-5 100 100)">MINI PIZZA</text>
+        <text x="100" y="138" font-size="47" fill="#FFF1D0" stroke-width="8" transform="rotate(-5 100 100)">JUNIOR</text>
+      </g></svg>`;
+  }
+
+  /* ---------- depoimentos ---------- */
+  const depHTML = TS.map(d => `<div class="depo"><div class="stars">★★★★★</div><p>“${esc(d.text)}”</p><div class="who"><div class="av">${esc((d.name || '?')[0].toUpperCase())}</div><div>${esc(d.name)}<small>${esc(d.role)}</small></div></div></div>`).join('');
+  $('#depos').innerHTML = depHTML + depHTML;
+  $('#feedbacks').hidden = !TS.length;
+
+  /* ---------- vitrine de sabores ---------- */
+  const list = $('#flavorList'), stage = $('#stagePizza');
+  list.innerHTML = FL.map((f, i) => `<button class="fl" role="tab" data-i="${i}" aria-selected="false"><div class="mini">${PK.pizzaSVG(f)}</div><div><b>${esc(f.name)}</b><small>${esc(f.short)}</small></div></button>`).join('');
+  let current = null, auto = true, busy = false, timerTween = null;
+
+  function select(i, user) {
+    if (i === current || busy) return;
+    if (user) { auto = false; if (timerTween) timerTween.kill(); if (hasGsap) gsap.set('#timer', { width: 0 }); }
+    const F = FL[i];
+    list.querySelectorAll('.fl').forEach(b => b.setAttribute('aria-selected', +b.dataset.i === i));
+    const apply = () => {
+      stage.innerHTML = PK.pizzaSVG(F);
+      $('#dName').textContent = F.name;
+      $('#dDesc').textContent = F.desc;
+      $('#dChips').innerHTML = PK.ingredientNames(F).map(c => `<span class="chip">${esc(c)}</span>`).join('');
+      $('#stageBadge').textContent = F.badge;
+      $('#stageBadge').hidden = !F.badge;
+      $('#dPrice').innerHTML = priceHTML(F);
+      $('#dBtn').href = wppLink(`Olá! Quero pedir a mini pizza de ${F.name} 🍕`);
+    };
+    if (!hasGsap || current === null) { apply(); current = i; if (hasGsap) PK.assemble(stage); return; }
+    busy = true; current = i;
+    gsap.timeline({ onComplete: () => busy = false })
+      .to(stage, { rotate: 200, scale: .4, x: 160, opacity: 0, duration: .45, ease: 'power2.in' })
+      .to('#stageBadge', { scale: 0, duration: .25 }, 0)
+      .to('#detail > *:not(.timer)', { opacity: 0, y: 10, duration: .2, stagger: .03 }, 0)
+      .add(apply)
+      .fromTo(stage, { rotate: -200, scale: .4, x: -160, opacity: 0 }, { rotate: 0, scale: 1, x: 0, opacity: 1, duration: .6, ease: 'back.out(1.4)' })
+      .add(() => PK.assemble(stage), '-=.25')
+      .to('#stageBadge', { scale: 1, duration: .5, ease: 'elastic.out(1,.5)' }, '-=.2')
+      .to('#detail > *:not(.timer)', { opacity: 1, y: 0, duration: .3, stagger: .05 }, '<');
+  }
+  list.addEventListener('click', e => { const b = e.target.closest('.fl'); if (b) select(+b.dataset.i, true); });
+  select(0);
+  window.MPJ = { S, FL, esc, wppLink, current: () => FL[current] };
+  document.dispatchEvent(new Event('mpj:ready'));
+  function cycle() {
+    if (!auto || !hasGsap || FL.length < 2) return;
+    timerTween = gsap.fromTo('#timer', { width: '0%' }, { width: '100%', duration: 5, ease: 'none', onComplete: () => {
+      if (!auto) return; select((current + 1) % FL.length); setTimeout(cycle, 900);
+    } });
+  }
+
+  /* ---------- calculadora ---------- */
+  const qtd = $('#qtd'), mg = $('#margem');
+  mg.value = S.margemPadrao;
+  const brl = v => 'R$ ' + Math.round(v).toLocaleString('pt-BR');
+  const shown = { sem: 0, mes: 0 };
+  function render() { $('#rSem').textContent = brl(shown.sem); $('#rMes').textContent = brl(shown.mes); }
+  function calc() {
+    const q = +qtd.value, m = +mg.value;
+    $('#qtdOut').textContent = q;
+    $('#margemOut').textContent = 'R$ ' + m.toFixed(2).replace('.', ',');
+    [qtd, mg].forEach(r => r.style.setProperty('--p', ((r.value - r.min) / (r.max - r.min) * 100) + '%'));
+    const target = { sem: q * m, mes: q * m * 4.3 };
+    if (hasGsap) gsap.to(shown, { ...target, duration: .5, ease: 'power2.out', overwrite: true, onUpdate: render });
+    else { Object.assign(shown, target); render(); }
+  }
+  qtd.addEventListener('input', calc); mg.addEventListener('input', calc); calc();
+
+  /* ---------- header, menu, progresso ---------- */
+  const header = $('#top'), prog = $('#progress');
+  addEventListener('scroll', () => {
+    header.classList.toggle('scrolled', scrollY > 20);
+    const h = document.documentElement.scrollHeight - innerHeight;
+    prog.style.transform = `scaleX(${h > 0 ? scrollY / h : 0})`;
+  }, { passive: true });
+  const burger = $('#burger'), menu = $('#menu');
+  burger.addEventListener('click', () => { menu.classList.toggle('open'); burger.classList.toggle('x'); });
+  menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { menu.classList.remove('open'); burger.classList.remove('x'); }));
+
+  function counters(scope) {
+    scope.querySelectorAll('[data-count]').forEach(el => {
+      const end = +el.dataset.count;
+      if (!hasGsap) { el.textContent = end; return; }
+      const o = { v: 0 }; gsap.to(o, { v: end, duration: 1.8, ease: 'power2.out', onUpdate: () => el.textContent = Math.round(o.v) });
+    });
+  }
+  if (!hasGsap) { counters(document); return; }
+
+  /* ---------- animações ---------- */
+  const words = $('#heroTitle');
+  words.innerHTML = words.innerHTML.split(/(<em>.*?<\/em>|\s+)/).filter(Boolean).map(w => /^\s+$/.test(w) ? w : `<span class="w">${w}</span>`).join('');
+  const intro = gsap.timeline({ delay: Math.max(.1, 1.35 - performance.now() / 1000) });
+  intro.from('#heroTitle .w', { y: 70, opacity: 0, rotate: 8, duration: .7, ease: 'back.out(1.8)', stagger: .06 })
+       .from('.hero .h-in', { y: 30, opacity: 0, duration: .6, stagger: .1 }, '-=.5')
+       .from('.halo', { scale: 0, duration: .8, ease: 'back.out(1.6)' }, 0)
+       .from('.big-pizza', { scale: .2, rotate: -360, opacity: 0, duration: 1.1, ease: 'back.out(1.3)' }, .1)
+       .add(() => PK.assemble($('#heroPizza')), .7)
+       .from('.float', { scale: 0, opacity: 0, duration: .6, ease: 'back.out(3)', stagger: .08 }, .9)
+       .from('.selo-giro, .tag', { scale: 0, duration: .7, ease: 'elastic.out(1,.5)', stagger: .15 }, 1.1)
+       .add(() => counters($('.hero')), .9);
+
+  const art = $('#heroArt');
+  if (matchMedia('(pointer:fine)').matches) {
+    const qs = [...art.querySelectorAll('.float')].map(el => ({ x: gsap.quickTo(el, 'x', { duration: .8, ease: 'power3' }), y: gsap.quickTo(el, 'y', { duration: .8, ease: 'power3' }), d: +el.dataset.depth }));
+    const pz = { x: gsap.quickTo('.big-pizza', 'x', { duration: 1 }), y: gsap.quickTo('.big-pizza', 'y', { duration: 1 }) };
+    $('.hero').addEventListener('mousemove', e => {
+      const nx = e.clientX / innerWidth - .5, ny = e.clientY / innerHeight - .5;
+      qs.forEach(q => { q.x(nx * q.d); q.y(ny * q.d); }); pz.x(nx * -12); pz.y(ny * -12);
+    });
+  }
+  gsap.to('.big-pizza', { yPercent: 12, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
+  gsap.to('.hero-art .float', { yPercent: i => -60 - i * 25, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
+
+  gsap.utils.toArray('.rv').forEach(el => gsap.from(el, { y: 50, opacity: 0, duration: .8, ease: 'power3.out', scrollTrigger: { trigger: el, start: 'top 88%' } }));
+  ScrollTrigger.batch('.stg', { start: 'top 88%', onEnter: els => gsap.from(els, { y: 60, opacity: 0, rotate: 2, duration: .7, ease: 'back.out(1.4)', stagger: .12 }) });
+
+  ScrollTrigger.create({ trigger: '#sabores', start: 'top 60%', once: true, onEnter: () => { PK.assemble(stage); cycle(); gsap.from('.fl', { x: 40, opacity: 0, duration: .5, stagger: .08, ease: 'back.out(2)', clearProps: 'transform,opacity' }); } });
+  ScrollTrigger.create({ trigger: '#sabores', start: 'top bottom', end: 'bottom top', onLeave: () => timerTween && timerTween.pause(), onEnterBack: () => timerTween && timerTween.resume(), onLeaveBack: () => timerTween && timerTween.pause(), onEnter: () => timerTween && timerTween.resume() });
+
+
+  gsap.fromTo('.linha', { clipPath: 'inset(0 100% 0 0)' }, { clipPath: 'inset(0 0% 0 0)', ease: 'none', scrollTrigger: { trigger: '.passos', start: 'top 75%', end: 'top 35%', scrub: true } });
+  gsap.from('.passo .circ', { scale: 0, rotate: -90, duration: .8, ease: 'back.out(2)', stagger: .2, scrollTrigger: { trigger: '.passos', start: 'top 80%' } });
+
+  gsap.from('#calc', { rotate: 6, scale: .85, duration: 1, ease: 'elastic.out(1,.6)', scrollTrigger: { trigger: '#calc', start: 'top 85%' } });
+  ScrollTrigger.create({ trigger: '#sobre', start: 'top 70%', once: true, onEnter: () => counters($('#sobre')) });
+  gsap.from('.selo10k', { scale: 0, rotate: -180, duration: 1, ease: 'back.out(2)', scrollTrigger: { trigger: '#sobre', start: 'top 70%' } });
+
+  const fk = $('#festaKids');
+  ['#E0521B', '#F5A623', '#25D366', '#E0521B'].forEach((c, i) => {
+    const b = document.createElement('div'); b.className = 'balao';
+    b.style.left = (12 + i * 22) + '%'; b.style.animationDuration = (7 + i * 1.7) + 's'; b.style.animationDelay = (-i * 2.1) + 's';
+    b.innerHTML = `<svg viewBox="0 0 30 50"><ellipse cx="15" cy="15" rx="13" ry="15" fill="${c}" opacity=".35"/><path d="M15 30 q-3 8 0 18" stroke="${c}" opacity=".35" fill="none"/></svg>`;
+    fk.prepend(b);
+  });
+
+  gsap.from('.cta .pz-l, .cta .pz-r', { scale: 0, duration: 1.2, ease: 'elastic.out(1,.5)', stagger: .2, scrollTrigger: { trigger: '.cta', start: 'top 80%' } });
+  gsap.from('.cta h2', { scale: .7, opacity: 0, duration: .8, ease: 'back.out(2)', scrollTrigger: { trigger: '.cta', start: 'top 75%' } });
+
+  if (matchMedia('(pointer:fine)').matches) {
+    $$('.btn-wpp, .btn-lar').forEach(b => {
+      b.addEventListener('mousemove', e => { const r = b.getBoundingClientRect(); gsap.to(b, { x: (e.clientX - r.left - r.width / 2) * .2, y: (e.clientY - r.top - r.height / 2) * .3, duration: .3 }); });
+      b.addEventListener('mouseleave', () => gsap.to(b, { x: 0, y: 0, duration: .5, ease: 'elastic.out(1,.4)' }));
+    });
+  }
+  document.fonts && document.fonts.ready.then(() => ScrollTrigger.refresh());
+})();
+</script>
+</body>
+</html>
