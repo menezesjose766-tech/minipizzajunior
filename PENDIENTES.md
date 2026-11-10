@@ -5,7 +5,7 @@ _Última actualización: 10/11/2026_
 ## Estado actual
 - El sitio y el panel están terminados, con los cambios que pidió el cliente: cardápio real, encomendas, eventos, revenda, e-book, logo y fotos.
 - **Versión PHP probada** para Hostinger Premium: 19/19 pruebas de API y flujo completo en el navegador. El ZIP se genera con `tools/make-zip.ps1` y la guía es [DEPLOY-HOSTINGER.md](DEPLOY-HOSTINGER.md).
-- Demo en Render (`minipizzajunior.onrender.com`) **actualizada el 10/11/2026** con la última versión y enviada al cliente para aprobar el diseño.
+- Demo en Render (`minipizzajunior.onrender.com`) **actualizada el 10/11/2026** con la última versión, lista para mandarle al cliente y que apruebe el diseño.
 
 ## Pendientes
 - [ ] **Cliente:** contratar **Hostinger Premium a 12 meses** con dominio incluido. Confirmar en el carrito que el dominio sale gratis; `.com.br` probablemente se registre aparte, en Registro.br.
