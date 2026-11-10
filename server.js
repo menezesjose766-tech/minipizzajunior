@@ -68,7 +68,7 @@ function cleanSettings(s = {}) {
 /* ---------- pedidos (data/orders.json) ---------- */
 const ORD_FILE = path.join(__dirname, 'data', 'orders.json');
 const STATUS = ['novo', 'confirmado', 'preparo', 'saiu', 'entregue', 'cancelado'];
-const PAGAMENTOS = { pix: 'Pix', dinheiro: 'Dinheiro', cartao: 'Cartão na entrega' };
+const PAGAMENTOS = { combinar: 'A combinar no WhatsApp', pix: 'Pix', dinheiro: 'Dinheiro', cartao: 'Cartão na entrega' };
 function readOrders() {
   if (!fs.existsSync(ORD_FILE)) return { next: 1001, list: [] };
   return JSON.parse(fs.readFileSync(ORD_FILE, 'utf8'));
@@ -103,7 +103,7 @@ function buildOrder(b, db) {
     address = { rua: str(a.rua, 120), numero: str(a.numero, 20), bairro: str(a.bairro, 80), cidade: str(a.cidade, 80), complemento: str(a.complemento, 80), referencia: str(a.referencia, 120) };
     if (!address.rua || !address.numero || !address.bairro || !address.cidade) throw new Error('Preencha rua, número, bairro e cidade.');
   }
-  const payment = PAGAMENTOS[b.payment] ? b.payment : 'pix';
+  const payment = PAGAMENTOS[b.payment] ? b.payment : 'combinar';
   const priced = items.every(i => i.price > 0);
   const subtotal = priced ? Math.round(items.reduce((s, i) => s + i.price * i.qty, 0) * 100) / 100 : null;
   const fee = delivery === 'entrega' ? S.taxaEntrega : 0;

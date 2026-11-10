@@ -69,7 +69,7 @@
   const fone = p => String(p).replace(/^55/, '').replace(/^(\d{2})(\d{4,5})(\d{4})$/, '($1) $2-$3');
   const STATUS = ['novo', 'confirmado', 'preparo', 'saiu', 'entregue'];
   const label = (s, o) => ({ novo: 'Novo', confirmado: 'Confirmado', preparo: 'Em preparo', saiu: o && o.delivery === 'retirada' ? 'Pronto p/ retirada' : 'Saiu p/ entrega', entregue: 'Entregue', cancelado: 'Cancelado' }[s]);
-  const PAG = { pix: 'Pix', dinheiro: 'Dinheiro', cartao: 'Cartão na entrega' };
+  const PAG = { combinar: 'A combinar no WhatsApp', pix: 'Pix', dinheiro: 'Dinheiro', cartao: 'Cartão na entrega' };
   const FILTROS = { ativos: ['Em aberto', o => !['entregue', 'cancelado'].includes(o.status)], novo: ['Novos', o => o.status === 'novo'], entregue: ['Entregues', o => o.status === 'entregue'], cancelado: ['Cancelados', o => o.status === 'cancelado'], todos: ['Todos', () => true] };
 
   let orders = [], filtro = 'ativos', busca = '', sel = null, lastMax = null, fresh = new Set(), timer;

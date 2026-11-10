@@ -67,7 +67,7 @@
   const KEY = 'mpj-cart';
   const load = () => { try { return JSON.parse(localStorage.getItem(KEY)) || []; } catch { return []; } };
   const save = () => { try { localStorage.setItem(KEY, JSON.stringify(cart)); } catch {} };
-  let cart = load(), M, step = 1, form = { delivery: 'entrega', payment: 'pix' };
+  let cart = load(), M, step = 1, form = { delivery: 'entrega' };
   const brl = v => 'R$ ' + v.toFixed(2).replace('.', ',');
 
   function init() {
@@ -207,8 +207,7 @@
         </div>
         ${S.endereco ? `<p id="pickupInfo" style="font-weight:700;margin:-4px 0 14px">📍 Retirada em: ${esc(S.endereco)}</p>` : '<p id="pickupInfo" style="font-weight:700;margin:-4px 0 14px">📍 Combinamos o local de retirada pelo WhatsApp.</p>'}
         <h4>Pagamento</h4>
-        <div class="opts three" data-opt="payment"><button type="button" data-v="pix">Pix</button><button type="button" data-v="dinheiro">Dinheiro</button><button type="button" data-v="cartao">Cartão</button></div>
-        <label id="trocoBox"><span>Troco para quanto?</span><input name="change" inputmode="decimal" placeholder="Ex.: R$ 100" value="${v('change')}"></label>
+        <p style="font-weight:800;margin:-4px 0 14px">💬 A forma de pagamento é combinada com você pelo WhatsApp.</p>
         <label><span>Observações</span><textarea name="notes" rows="3" placeholder="Ex.: entregar depois das 18h">${v('notes')}</textarea></label>
         <div class="hp" aria-hidden="true"><label>Não preencha<input name="website" tabindex="-1" autocomplete="off"></label></div>
         ${summaryHTML()}
@@ -218,7 +217,6 @@
         fm.querySelectorAll('[data-opt]').forEach(g => g.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', form[g.dataset.opt] === b.dataset.v)));
         document.getElementById('addrBox').hidden = form.delivery !== 'entrega';
         document.getElementById('pickupInfo').hidden = form.delivery !== 'retirada';
-        document.getElementById('trocoBox').hidden = form.payment !== 'dinheiro';
         const s = fm.querySelector('.sum'); if (s) s.outerHTML = summaryHTML();
       };
       fm.addEventListener('click', e => { const b = e.target.closest('[data-opt] button'); if (!b) return; form[b.closest('[data-opt]').dataset.opt] = b.dataset.v; sync(); });
@@ -243,7 +241,7 @@
     if (bad.length) { bad.forEach(el => el.classList.add('bad')); bad[0].focus(); err.innerHTML = `<div class="ferr">Preencha os campos marcados.</div>`; return; }
     btn.disabled = true; btn.textContent = 'Enviando...'; err.innerHTML = '';
     const phone = '55' + form.phone.replace(/\D/g, '').replace(/^55(?=\d{10,11}$)/, '');
-    const payload = { items: cart, customer: { name: form.name, phone }, delivery: form.delivery, address: form.delivery === 'entrega' ? form.address : null, payment: form.payment, change: form.change, notes: form.notes, website: fm.elements.website.value };
+    const payload = { items: cart, customer: { name: form.name, phone }, delivery: form.delivery, address: form.delivery === 'entrega' ? form.address : null, payment: 'combinar', notes: form.notes, website: fm.elements.website.value };
     try {
       const r = await fetch('/api/orders', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
       const res = await r.json().catch(() => ({}));
@@ -259,7 +257,7 @@
     const lines = totals().lines;
     const msg = [`Olá! Acabei de fazer o pedido *#${res.number}* pelo site 🍕`, '', ...lines.map(l => `• ${l.qty}× ${l.f.name}`), '',
       `Nome: ${p.customer.name}`, p.delivery === 'entrega' ? `Entrega: ${p.address.rua}, ${p.address.numero} — ${p.address.bairro}, ${p.address.cidade}` : 'Retirada no local',
-      `Pagamento: ${{ pix: 'Pix', dinheiro: 'Dinheiro', cartao: 'Cartão' }[p.payment]}`].join('\n');
+      'Pagamento: vamos combinar por aqui'].join('\n');
     cart = []; save(); updateFab();
     step = 3;
     document.querySelectorAll('.steps i').forEach(el => el.classList.add('on'));
@@ -268,7 +266,7 @@
       <a class="btn btn-wpp" target="_blank" rel="noopener" href="${M.wppLink(msg)}">Avisar também no WhatsApp</a></div>`;
     document.getElementById('drFoot').innerHTML = `<button class="btn btn-lar" id="ckClose">Voltar ao site</button>`;
     document.getElementById('ckClose').addEventListener('click', closeDrawer);
-    form = { delivery: form.delivery, payment: form.payment, name: form.name, phone: form.phone, address: form.address };
+    form = { delivery: form.delivery, name: form.name, phone: form.phone, address: form.address };
     if (window.gsap) {
       gsap.from('.done .big', { scale: 0, rotate: -180, duration: .8, ease: 'back.out(2.5)' });
       gsap.from('.done .num', { scale: 0, duration: .6, delay: .3, ease: 'elastic.out(1,.5)' });
