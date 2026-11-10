@@ -252,6 +252,7 @@ app.put('/api/admin/testimonials', requireAdmin, (req, res) => {
   const db = readDB(); db.testimonials = req.body.slice(0, 30).map(cleanTestimonial); writeDB(db); res.json(db.testimonials);
 });
 
+app.use('/api', (req, res) => res.status(404).json({ error: 'Rota não encontrada' })); // não expõe public/api (versão PHP)
 app.get('/admin', (req, res) => res.sendFile(path.join(__dirname, 'public', 'admin', 'index.html')));
 app.use(express.static(path.join(__dirname, 'public'), { extensions: ['html'] }));
 

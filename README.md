@@ -1,5 +1,9 @@
 # Mini Pizza Junior — sitio + panel admin
 
+> **Producción (Hostinger Premium): versión PHP.** La API está en `public/api/index.php` y tiene las mismas rutas que `server.js`. Para publicarla, ver **[DEPLOY-HOSTINGER.md](DEPLOY-HOSTINGER.md)**. `server.js` (Node) queda para desarrollo local y para la demo en Render.
+> Pruebas de la API (sirven para las dos versiones): `bash tools/test-api.sh http://localhost:3000` (Node) o `http://localhost:8080` (PHP).
+> Si cambias ingredientes o datos iniciales en `public/js/pizza.js`, ejecuta `node tools/export-catalog.js` para actualizar `public/api/catalog.json`.
+
 ## Ejecutar en local
 
 ```bash

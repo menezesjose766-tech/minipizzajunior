@@ -1,0 +1,344 @@
+{
+  "toppings": {
+    "carne": {
+      "max": 14,
+      "def": 12
+    },
+    "frango": {
+      "max": 14,
+      "def": 13
+    },
+    "presunto": {
+      "max": 4,
+      "def": 3
+    },
+    "calabresa": {
+      "max": 14,
+      "def": 10
+    },
+    "bacon": {
+      "max": 12,
+      "def": 8
+    },
+    "lombo": {
+      "max": 10,
+      "def": 7
+    },
+    "camarao": {
+      "max": 14,
+      "def": 9
+    },
+    "tomate": {
+      "max": 12,
+      "def": 9
+    },
+    "cebola": {
+      "max": 3,
+      "def": 1
+    },
+    "champignon": {
+      "max": 14,
+      "def": 9
+    },
+    "pimentao": {
+      "max": 12,
+      "def": 8
+    },
+    "palmito": {
+      "max": 12,
+      "def": 8
+    },
+    "brocolis": {
+      "max": 12,
+      "def": 8
+    },
+    "manjericao": {
+      "max": 6,
+      "def": 2
+    },
+    "cebolinha": {
+      "max": 6,
+      "def": 4
+    },
+    "abacaxi": {
+      "max": 14,
+      "def": 9
+    },
+    "milho": {
+      "max": 16,
+      "def": 8
+    },
+    "azeitona_verde": {
+      "max": 10,
+      "def": 5
+    },
+    "azeitona_preta": {
+      "max": 10,
+      "def": 5
+    },
+    "parmesao": {
+      "max": 6,
+      "def": 3
+    },
+    "morango": {
+      "max": 12,
+      "def": 8
+    },
+    "banana": {
+      "max": 14,
+      "def": 10
+    },
+    "granulado": {
+      "max": 8,
+      "def": 4
+    }
+  },
+  "bases": [
+    "tomate",
+    "branca",
+    "chocolate"
+  ],
+  "drizzles": [
+    "catupiry",
+    "cheddar",
+    "chocolate",
+    "doce_de_leite"
+  ],
+  "centers": [
+    "azeitona_verde",
+    "azeitona_preta",
+    "tomate",
+    "morango"
+  ],
+  "defaults": {
+    "settings": {
+      "whatsapp": "5533991315562",
+      "instagram": "minipizzajunior",
+      "endereco": "",
+      "heroTitle": "Mais *sabor* e praticidade pro seu dia a dia!",
+      "heroSubtitle": "Mini pizzas artesanais, feitas com massa caseira e recheio generoso. Congeladas e prontas pro forno — perfeitas pro lanche, pras festas e pra você revender.",
+      "heroFlavor": "marguerita",
+      "mostrarPrecos": true,
+      "margemPadrao": 3,
+      "aceitarPedidos": true,
+      "taxaEntrega": 0,
+      "pedidoMinimo": 1,
+      "regiao": "Nanuque e região",
+      "encomenda": "Frango com bacon\nMilho com bacon\nLombo canadense\nRomeu e Julieta\nBanana com canela\nNutella",
+      "ebookLink": "",
+      "brotinho1": 2.5,
+      "brotinho60": 2,
+      "brotinho100": 1.9,
+      "eventoLocal": 40
+    },
+    "flavors": [
+      {
+        "id": "marguerita",
+        "name": "Marguerita",
+        "short": "A clássica",
+        "badge": "",
+        "price": 10.99,
+        "active": true,
+        "desc": "Molho, queijo, tomate cereja, manjericão e azeitona.",
+        "base": "tomate",
+        "cheese": true,
+        "toppings": [
+          {
+            "k": "tomate",
+            "n": 9
+          },
+          {
+            "k": "manjericao",
+            "n": 2
+          }
+        ],
+        "drizzle": null,
+        "center": "azeitona_verde",
+        "oregano": true
+      },
+      {
+        "id": "nordestina",
+        "name": "Nordestina",
+        "short": "Carne com catupiry",
+        "badge": "",
+        "price": 14.99,
+        "active": true,
+        "desc": "Molho, queijo, carne, catupiry, milho, azeitona e cebola roxa.",
+        "base": "tomate",
+        "cheese": true,
+        "toppings": [
+          {
+            "k": "carne",
+            "n": 12
+          },
+          {
+            "k": "cebola",
+            "n": 1
+          },
+          {
+            "k": "milho",
+            "n": 8
+          }
+        ],
+        "drizzle": "catupiry",
+        "center": "azeitona_verde",
+        "oregano": false
+      },
+      {
+        "id": "frango",
+        "name": "Frango c/ Catupiry",
+        "short": "Com catupiry",
+        "badge": "",
+        "price": 12.99,
+        "active": true,
+        "desc": "Molho, queijo, frango, catupiry, milho e azeitona.",
+        "base": "tomate",
+        "cheese": true,
+        "toppings": [
+          {
+            "k": "frango",
+            "n": 13
+          },
+          {
+            "k": "milho",
+            "n": 8
+          }
+        ],
+        "drizzle": "catupiry",
+        "center": "azeitona_verde",
+        "oregano": true
+      },
+      {
+        "id": "calabresa",
+        "name": "Calabresa",
+        "short": "Clássica brasileira",
+        "badge": "",
+        "price": 10.99,
+        "active": true,
+        "desc": "Molho, queijo, calabresa, milho e azeitona.",
+        "base": "tomate",
+        "cheese": true,
+        "toppings": [
+          {
+            "k": "calabresa",
+            "n": 10
+          },
+          {
+            "k": "milho",
+            "n": 8
+          }
+        ],
+        "drizzle": null,
+        "center": "azeitona_verde",
+        "oregano": true
+      },
+      {
+        "id": "lombo-abacaxi",
+        "name": "Lombo c/ Abacaxi",
+        "short": "Doce e salgado",
+        "badge": "",
+        "price": 12.99,
+        "active": true,
+        "desc": "Molho, queijo, lombinho, catupiry, abacaxi caramelizado e azeitona.",
+        "base": "tomate",
+        "cheese": true,
+        "toppings": [
+          {
+            "k": "lombo",
+            "n": 7
+          },
+          {
+            "k": "abacaxi",
+            "n": 9
+          }
+        ],
+        "drizzle": "catupiry",
+        "center": "azeitona_verde",
+        "oregano": false
+      },
+      {
+        "id": "camarao",
+        "name": "Camarão",
+        "short": "Com catupiry e cebolinha",
+        "badge": "",
+        "price": 14.99,
+        "active": true,
+        "desc": "Molho, queijo, camarão, catupiry, cebolinha, milho e azeitona.",
+        "base": "tomate",
+        "cheese": true,
+        "toppings": [
+          {
+            "k": "camarao",
+            "n": 9
+          },
+          {
+            "k": "cebolinha",
+            "n": 4
+          },
+          {
+            "k": "milho",
+            "n": 6
+          }
+        ],
+        "drizzle": "catupiry",
+        "center": "azeitona_verde",
+        "oregano": false
+      },
+      {
+        "id": "bandeja-brotinho",
+        "name": "Bandeja Brotinho",
+        "short": "10 unidades pré-assadas",
+        "badge": "🍕 10 unidades",
+        "price": 25,
+        "active": true,
+        "desc": "Bandeja com 10 mini pizzas brotinho pré-assadas, selada a vácuo.",
+        "base": "tomate",
+        "cheese": true,
+        "toppings": [
+          {
+            "k": "calabresa",
+            "n": 6
+          },
+          {
+            "k": "frango",
+            "n": 6
+          },
+          {
+            "k": "milho",
+            "n": 6
+          }
+        ],
+        "drizzle": null,
+        "center": null,
+        "oregano": true
+      }
+    ],
+    "testimonials": [
+      {
+        "name": "Cliente",
+        "role": "Depoimento exemplo",
+        "text": "A massa é macia e o recheio vem caprichado. Meus filhos pedem toda semana!"
+      },
+      {
+        "name": "Revendedor parceiro",
+        "role": "Depoimento exemplo",
+        "text": "Comecei a revender na minha lanchonete e esgota rápido. Entrega sempre certinha."
+      },
+      {
+        "name": "Cliente de festa",
+        "role": "Depoimento exemplo",
+        "text": "Encomendei pra festa de aniversário e foi o maior sucesso. Recomendo demais!"
+      },
+      {
+        "name": "Cliente",
+        "role": "Depoimento exemplo",
+        "text": "Prático demais: tiro do freezer, 8 minutinhos no forno e pronto."
+      },
+      {
+        "name": "Cantina escolar",
+        "role": "Depoimento exemplo",
+        "text": "Os clientes da cantina amam. Virou item fixo no nosso cardápio."
+      }
+    ]
+  }
+}
