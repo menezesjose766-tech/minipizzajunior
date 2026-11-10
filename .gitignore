@@ -5,3 +5,8 @@ data/*.tmp
 data/orders.json
 /*.png
 .claude/
+video/out/
+/*.jpeg
+/*.jpg
+/*.txt
+video/audio/

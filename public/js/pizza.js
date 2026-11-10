@@ -42,6 +42,9 @@
     morango: () => `<path d="M0,12 C-12,2 -11,-9 -4,-10 C-2,-10 -1,-9 0,-8 C1,-9 2,-10 4,-10 C11,-9 12,2 0,12Z" fill="#E0303A"/><path d="M-5,-10 L0,-6 L5,-10 L0,-13Z" fill="#3E8E3A"/><g fill="#FCE38A">${[[-4, -3], [3, -4], [-1, 2], [5, 2], [-5, 3], [1, 7]].map(p => `<ellipse cx="${p[0]}" cy="${p[1]}" rx=".8" ry="1.2"/>`).join('')}</g>`,
     banana: () => `<circle r="9" fill="#F7E7A6" stroke="#E2C66A" stroke-width="1.5"/><circle r="2.4" fill="#D9B95A" opacity=".6"/>`,
     queijo: () => `<path d="M-14,-10 L14,-14 L16,10 L-12,14Z" fill="#FFE08A" stroke="#E8B64A" stroke-width="2" stroke-linejoin="round"/><circle cx="-4" cy="-2" r="3" fill="#F2C35C"/><circle cx="7" cy="5" r="2.2" fill="#F2C35C"/>`,
+    lombo: () => `<ellipse rx="16" ry="11.5" fill="#B9675A"/><ellipse rx="13.5" ry="9.2" fill="#E5A08F"/><path d="M-9,-3 C-4,-6 4,-6 9,-2" stroke="#F7D2C6" stroke-width="2.2" fill="none" stroke-linecap="round"/><ellipse cx="3" cy="3" rx="4" ry="2.4" fill="#D9887A" opacity=".7"/>`,
+    abacaxi: () => `<path d="M-8,-7 L9,-6 L5,8 L-8,5Z" fill="#F8D44C" stroke="#C7862A" stroke-width="2.4" stroke-linejoin="round"/><path d="M-4,-3 L5,-2 M-5,2 L3,3" stroke="#FCE88E" stroke-width="1.4" stroke-linecap="round"/>`,
+    camarao: () => `<path d="M7,-9 C-6,-12 -13,-2 -9,7 C-6,12 2,12 6,7" fill="none" stroke="#E8734A" stroke-width="7.5" stroke-linecap="round"/><path d="M7,-9 C-6,-12 -13,-2 -9,7 C-6,12 2,12 6,7" fill="none" stroke="#F7A07A" stroke-width="3.5" stroke-linecap="round"/><path d="M-1,-8 L1,-3 M-8,-2 L-3,0 M-7,7 L-2,4" stroke="#FFE1D2" stroke-width="1.2" stroke-linecap="round"/><path d="M6,7 L11,4 L10,10Z" fill="#E8734A"/>`,
   };
 
   function strands(R, n, colors, w) {
@@ -75,6 +78,8 @@
     presunto:       { label: 'Presunto',     group: 'Carnes',     layer: 1, max: 4,  def: 3,  place: (R, n) => scatter(R, n, 38, 36).map(p => item(p[0], p[1], R() * 90, 1.1, SHAPE.presunto())).join('') },
     calabresa:      { label: 'Calabresa',    group: 'Carnes',     layer: 1, max: 14, def: 10, place: spread('calabresa', 62, 24, 1.15) },
     bacon:          { label: 'Bacon',        group: 'Carnes',     layer: 1, max: 12, def: 8,  place: spread('bacon', 60, 22) },
+    lombo:          { label: 'Lombinho',     group: 'Carnes',     layer: 1, max: 10, def: 7,  place: spread('lombo', 58, 28, 1.15) },
+    camarao:        { label: 'Camarão',      group: 'Carnes',     layer: 2, max: 14, def: 9,  place: spread('camarao', 60, 24, 1.1) },
     tomate:         { label: 'Tomate',       group: 'Vegetais',   layer: 2, max: 12, def: 9,  place: spread('tomate', 60, 30, 1.05, 18) },
     cebola:         { label: 'Cebola roxa',  group: 'Vegetais',   layer: 2, max: 3,  def: 1,  place: (R, n) => (n === 1 ? [[0, 0]] : scatter(R, n, 34, 34)).map(p => item(p[0], p[1], R() * 40, n === 1 ? 1 : .8, SHAPE.cebola())).join('') },
     champignon:     { label: 'Champignon',   group: 'Vegetais',   layer: 2, max: 14, def: 9,  place: spread('champignon', 62, 22, 1.1) },
@@ -82,6 +87,8 @@
     palmito:        { label: 'Palmito',      group: 'Vegetais',   layer: 2, max: 12, def: 8,  place: spread('palmito', 62, 22) },
     brocolis:       { label: 'Brócolis',     group: 'Vegetais',   layer: 2, max: 12, def: 8,  place: spread('brocolis', 62, 24, 1.1) },
     manjericao:     { label: 'Manjericão',   group: 'Vegetais',   layer: 3, max: 6,  def: 2,  place: spread('manjericao', 50, 30, 1.1) },
+    cebolinha:      { label: 'Cebolinha',    group: 'Vegetais',   layer: 3, max: 6,  def: 4,  icon: 'cebolinha', place: (R, n) => flakes(R, n, (R, x, y, i) => `<circle cx="${f(x)}" cy="${f(y)}" r="2.6" fill="none" stroke="${i % 2 ? '#3E9B47' : '#5DBB5F'}" stroke-width="1.7"/>`) },
+    abacaxi:        { label: 'Abacaxi caramelizado', group: 'Doces', layer: 2, max: 14, def: 9, place: spread('abacaxi', 62, 20, 1.05) },
     milho:          { label: 'Milho',        group: 'Extras',     layer: 3, max: 16, def: 8,  place: spread('milho', 66, 18, 1, 16) },
     azeitona_verde: { label: 'Azeitona verde', group: 'Extras',   layer: 3, max: 10, def: 5,  place: spread('azeitona_verde', 64, 20) },
     azeitona_preta: { label: 'Azeitona preta', group: 'Extras',   layer: 3, max: 10, def: 5,  place: spread('azeitona_preta', 64, 20) },
@@ -95,11 +102,12 @@
   const CENTERS = { azeitona_verde: 'Azeitona verde', azeitona_preta: 'Azeitona preta', tomate: 'Tomate', morango: 'Morango' };
 
   /* ícone pequeno (para paleta e ingredientes flutuantes) */
-  const TIGHT = { milho: 7, azeitona_verde: 9, azeitona_preta: 9, palmito: 11, banana: 11, tomate: 16, calabresa: 15, champignon: 13, pimentao: 15, morango: 15, brocolis: 13, bacon: 18, manjericao: 19, queijo: 18 };
+  const TIGHT = { milho: 7, azeitona_verde: 9, azeitona_preta: 9, palmito: 11, banana: 11, tomate: 16, calabresa: 15, champignon: 13, pimentao: 15, morango: 15, brocolis: 13, bacon: 18, manjericao: 19, queijo: 18, lombo: 18, abacaxi: 12, camarao: 15 };
   function iconSVG(k, tight) {
     const v = tight && TIGHT[k] ? TIGHT[k] : 30;
     if (SHAPE[k]) return `<svg viewBox="${-v} ${-v} ${v * 2} ${v * 2}">${SHAPE[k]()}</svg>`;
     if (k === 'carne' || k === 'frango') { const R = rng(hash(k)); const c = k === 'carne' ? ['#6E3418', '#8A4722'] : ['#E57E26', '#F29A3F']; let s = ''; for (let i = 0; i < 9; i++) { const x = (R() - .5) * 26, y = (R() - .5) * 26, a = R() * 6.28; s += `<path d="M${f(x)},${f(y)} q${f(Math.cos(a) * 6 + 3)},${f(Math.sin(a) * 6 - 3)} ${f(Math.cos(a) * 12)},${f(Math.sin(a) * 12)}" stroke="${c[i % 2]}" stroke-width="4" fill="none" stroke-linecap="round"/>`; } return `<svg viewBox="-30 -30 60 60">${s}</svg>`; }
+    if (k === 'cebolinha') return `<svg viewBox="-16 -16 32 32">${[[-6, -5], [5, -6], [0, 2], [-7, 7], [7, 6]].map((p, i) => `<circle cx="${p[0]}" cy="${p[1]}" r="3.4" fill="none" stroke="${i % 2 ? '#3E9B47' : '#5DBB5F'}" stroke-width="2.2"/>`).join('')}</svg>`;
     if (k === 'granulado') return `<svg viewBox="-30 -30 60 60">${[[-10, -8, 30], [6, -10, 120], [-4, 6, 70], [10, 6, 10], [0, -2, 150]].map(p => `<rect x="${p[0]}" y="${p[1]}" width="10" height="3.6" rx="1.8" fill="#5A2E1A" transform="rotate(${p[2]} ${p[0]} ${p[1]})"/>`).join('')}</svg>`;
     return `<svg viewBox="-30 -30 60 60">${SHAPE.queijo()}</svg>`;
   }
@@ -188,25 +196,37 @@
       whatsapp: '5533991315562', instagram: 'minipizzajunior', endereco: '',
       heroTitle: 'Mais *sabor* e praticidade pro seu dia a dia!',
       heroSubtitle: 'Mini pizzas artesanais, feitas com massa caseira e recheio generoso. Congeladas e prontas pro forno — perfeitas pro lanche, pras festas e pra você revender.',
-      heroFlavor: 'marguerita', mostrarPrecos: false, margemPadrao: 3,
+      heroFlavor: 'marguerita', mostrarPrecos: true, margemPadrao: 3,
       aceitarPedidos: true, taxaEntrega: 0, pedidoMinimo: 1,
+      regiao: 'Nanuque e região',
+      encomenda: 'Frango com bacon\nMilho com bacon\nLombo canadense\nRomeu e Julieta\nBanana com canela\nNutella',
+      ebookLink: '',
+      brotinho1: 2.5, brotinho60: 2, brotinho100: 1.9, eventoLocal: 40,
     },
     flavors: [
-      { id: 'carne', name: 'Carne Desfiada', short: 'A queridinha', badge: '🔥 Mais pedida', price: 0, active: true, desc: 'Carne desfiada temperada, cebola roxa, milho, azeitona e um fio generoso de catupiry.', base: 'tomate', cheese: true, toppings: [{ k: 'carne', n: 12 }, { k: 'cebola', n: 1 }, { k: 'milho', n: 8 }], drizzle: 'catupiry', center: 'azeitona_verde', oregano: false },
-      { id: 'marguerita', name: 'Marguerita', short: 'A clássica', badge: '🌿 Clássica', price: 0, active: true, desc: 'Muçarela, rodelas de tomate fresco, manjericão, azeitona e orégano.', base: 'tomate', cheese: true, toppings: [{ k: 'tomate', n: 9 }, { k: 'manjericao', n: 2 }], drizzle: null, center: 'azeitona_verde', oregano: true },
-      { id: 'frango', name: 'Frango', short: 'Com catupiry', badge: '😋 Favorita da galera', price: 0, active: true, desc: 'Frango desfiado bem temperado, milho, azeitona e catupiry.', base: 'tomate', cheese: true, toppings: [{ k: 'frango', n: 13 }, { k: 'milho', n: 8 }], drizzle: 'catupiry', center: 'azeitona_verde', oregano: true },
-      { id: 'presunto', name: 'Presunto', short: 'Sucesso nas festas', badge: '🎉 Sucesso nas festas', price: 0, active: true, desc: 'Fatias de presunto, muçarela, milho, azeitona e catupiry.', base: 'tomate', cheese: true, toppings: [{ k: 'presunto', n: 3 }, { k: 'milho', n: 8 }], drizzle: 'catupiry', center: 'azeitona_verde', oregano: true },
+      { id: 'marguerita', name: 'Marguerita', short: 'A clássica', badge: '🌿 Clássica', price: 10.99, active: true, desc: 'Molho, queijo, tomate cereja, manjericão e azeitona.', base: 'tomate', cheese: true, toppings: [{ k: 'tomate', n: 9 }, { k: 'manjericao', n: 2 }], drizzle: null, center: 'azeitona_verde', oregano: true },
+      { id: 'nordestina', name: 'Nordestina', short: 'Carne com catupiry', badge: '🔥 Mais pedida', price: 14.99, active: true, desc: 'Molho, queijo, carne, catupiry, milho, azeitona e cebola roxa.', base: 'tomate', cheese: true, toppings: [{ k: 'carne', n: 12 }, { k: 'cebola', n: 1 }, { k: 'milho', n: 8 }], drizzle: 'catupiry', center: 'azeitona_verde', oregano: false },
+      { id: 'frango', name: 'Frango c/ Catupiry', short: 'A favorita da galera', badge: '😋 Favorita da galera', price: 12.99, active: true, desc: 'Molho, queijo, frango, catupiry, milho e azeitona.', base: 'tomate', cheese: true, toppings: [{ k: 'frango', n: 13 }, { k: 'milho', n: 8 }], drizzle: 'catupiry', center: 'azeitona_verde', oregano: true },
+      { id: 'calabresa', name: 'Calabresa', short: 'Clássica brasileira', badge: '', price: 10.99, active: true, desc: 'Molho, queijo, calabresa, milho e azeitona.', base: 'tomate', cheese: true, toppings: [{ k: 'calabresa', n: 10 }, { k: 'milho', n: 8 }], drizzle: null, center: 'azeitona_verde', oregano: true },
+      { id: 'lombo-abacaxi', name: 'Lombo c/ Abacaxi', short: 'Doce e salgado', badge: '🍍 Diferentona', price: 12.99, active: true, desc: 'Molho, queijo, lombinho, catupiry, abacaxi caramelizado e azeitona.', base: 'tomate', cheese: true, toppings: [{ k: 'lombo', n: 7 }, { k: 'abacaxi', n: 9 }], drizzle: 'catupiry', center: 'azeitona_verde', oregano: false },
+      { id: 'camarao', name: 'Camarão', short: 'Especial da casa', badge: '🦐 Especial', price: 14.99, active: true, desc: 'Molho, queijo, camarão, catupiry, cebolinha, milho e azeitona.', base: 'tomate', cheese: true, toppings: [{ k: 'camarao', n: 9 }, { k: 'cebolinha', n: 4 }, { k: 'milho', n: 6 }], drizzle: 'catupiry', center: 'azeitona_verde', oregano: false },
+      { id: 'bandeja-brotinho', name: 'Bandeja Brotinho', short: '10 unidades pré-assadas', badge: '🍕 10 unidades', price: 25, active: true, desc: 'Bandeja com 10 mini pizzas brotinho pré-assadas. Pergunte pelos sabores disponíveis!', base: 'tomate', cheese: true, toppings: [{ k: 'calabresa', n: 6 }, { k: 'frango', n: 6 }, { k: 'milho', n: 6 }], drizzle: null, center: null, oregano: true },
     ],
     testimonials: [
       { name: 'Cliente', role: 'Depoimento exemplo', text: 'A massa é macia e o recheio vem caprichado. Meus filhos pedem toda semana!' },
       { name: 'Revendedor parceiro', role: 'Depoimento exemplo', text: 'Comecei a revender na minha lanchonete e esgota rápido. Entrega sempre certinha.' },
       { name: 'Cliente de festa', role: 'Depoimento exemplo', text: 'Encomendei pra festa de aniversário e foi o maior sucesso. Recomendo demais!' },
-      { name: 'Cliente', role: 'Depoimento exemplo', text: 'Prático demais: tiro do freezer, 10 minutinhos no forno e pronto.' },
+      { name: 'Cliente', role: 'Depoimento exemplo', text: 'Prático demais: tiro do freezer, 8 minutinhos no forno e pronto.' },
       { name: 'Cantina escolar', role: 'Depoimento exemplo', text: 'Os clientes da cantina amam. Virou item fixo no nosso cardápio.' },
     ],
   };
 
+  // logo oficial (imagem do cliente)
   function logoSVG() {
+    return `<img src="/img/logo-512.png" alt="Logo Mini Pizza Junior" width="512" height="512" style="width:100%;height:auto;display:block">`;
+  }
+  // versão desenhada antiga (reserva)
+  function logoSVGDesenhado() {
     const R = rng(7); let tri = '';
     for (let i = 0; i < 46; i++) {
       const a = R() * 6.28, r = 18 + Math.sqrt(R()) * 64, x = 100 + Math.cos(a) * r, y = 100 + Math.sin(a) * r, s = 3 + R() * 3;

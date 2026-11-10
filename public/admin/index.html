@@ -53,7 +53,7 @@
   label.f{display:block;font-weight:800;font-size:.9rem;margin-bottom:14px}
   label.f > span{display:block;margin-bottom:6px}
   label.f small{display:block;font-weight:600;opacity:.6;margin-top:4px}
-  input[type=text],input[type=password],input[type=number],input[type=tel],select,textarea{width:100%;padding:11px 14px;border:2px solid var(--borda);border-radius:12px;background:#fff;outline:none;transition:border-color .2s}
+  input[type=text],input[type=password],input[type=number],input[type=tel],input[type=url],select,textarea{width:100%;padding:11px 14px;border:2px solid var(--borda);border-radius:12px;background:#fff;outline:none;transition:border-color .2s}
   input:focus,select:focus,textarea:focus{border-color:var(--laranja)}
   textarea{min-height:84px;resize:vertical}
   .grid2{display:grid;grid-template-columns:1fr 1fr;gap:0 16px}
@@ -246,9 +246,23 @@
           <label class="f"><span>Pizza grande do topo</span><select name="heroFlavor" id="heroFlavor"></select></label>
         </fieldset>
         <fieldset>
-          <legend>Preços e revenda</legend>
+          <legend>Cardápio</legend>
           <label class="switch" style="margin-bottom:16px"><input type="checkbox" name="mostrarPrecos"> Mostrar preços no site</label>
-          <label class="f" style="max-width:320px"><span>Lucro por unidade na calculadora (R$)</span><input type="number" name="margemPadrao" min="0.5" max="50" step="0.5"></label>
+          <label class="f"><span>Região de entrega</span><input type="text" name="regiao" maxlength="80" placeholder="Nanuque e região"><small>Aparece no site como “Entregamos em …”.</small></label>
+          <label class="f"><span>Sabores sob encomenda</span><textarea name="encomenda" maxlength="1000" rows="6"></textarea><small>Um sabor por linha. Aparecem numa lista abaixo do cardápio.</small></label>
+        </fieldset>
+        <fieldset>
+          <legend>Brotinhos pra eventos</legend>
+          <div class="grid2" style="max-width:640px">
+            <label class="f"><span>Preço por unidade (R$)</span><input type="number" name="brotinho1" min="0" step="0.1"></label>
+            <label class="f"><span>60 unidades ou mais (R$/un.)</span><input type="number" name="brotinho60" min="0" step="0.1"></label>
+            <label class="f"><span>100 unidades ou mais (R$/un.)</span><input type="number" name="brotinho100" min="0" step="0.1"></label>
+            <label class="f"><span>Adicional p/ assar no local do evento (R$)</span><input type="number" name="eventoLocal" min="0" step="1"></label>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>E-book</legend>
+          <label class="f"><span>Link de compra (Hotmart)</span><input type="url" name="ebookLink" maxlength="300" placeholder="https://pay.hotmart.com/..."><small>Enquanto estiver vazio, o botão “Quero o e-book” abre o WhatsApp.</small></label>
         </fieldset>
         <fieldset>
           <legend>Pedidos pelo site</legend>

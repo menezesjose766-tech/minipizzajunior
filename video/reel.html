@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Reel — criando uma demo</title>
+<link href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Nunito:wght@600;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{--laranja:#E0521B;--laranja-esc:#B83F10;--amarelo:#F5A623;--amarelo-claro:#FFD27A;--creme:#FFF6E9;--creme-2:#FCE9CF;--escuro:#2A1A12;--verde:#25D366}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{width:1080px;height:1920px;overflow:hidden;background:var(--creme);font-family:'Nunito',sans-serif;color:var(--escuro)}
+  .d{font-family:'Bagel Fat One',cursive;font-weight:400;line-height:1.02}
+  .scene{position:absolute;inset:0;opacity:0;visibility:hidden;overflow:hidden}
+  .confete::before{content:"";position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cg opacity='.35'%3E%3Cpath d='M30 28l14 5-11 9z' fill='%23F5A623'/%3E%3Cpath d='M140 46l12 9-14 5z' fill='%23E0521B'/%3E%3Cpath d='M224 22l9 12-14-2z' fill='%23F5A623'/%3E%3Cpath d='M88 114l14 2-8 12z' fill='%23E0521B'/%3E%3Cpath d='M186 134l14 6-12 8z' fill='%23F5A623'/%3E%3Cpath d='M36 180l11 11-14 2z' fill='%23F5A623'/%3E%3Cpath d='M130 214l14-3-5 14z' fill='%23E0521B'/%3E%3Cpath d='M232 206l8 12-14-3z' fill='%23E0521B'/%3E%3C/g%3E%3C/svg%3E");animation:conf 30s linear infinite}
+  @keyframes conf{to{background-position:260px 520px}}
+
+  /* barra de progresso estilo stories */
+  .bars{position:absolute;top:44px;left:40px;right:40px;display:flex;gap:10px;z-index:50}
+  .bars i{flex:1;height:8px;border-radius:9px;background:rgba(42,26,18,.15);overflow:hidden}
+  .bars i b{display:block;height:100%;width:0;background:var(--laranja)}
+  .tag{position:absolute;top:110px;left:50%;transform:translateX(-50%);background:var(--escuro);color:var(--amarelo);font-weight:900;font-size:34px;letter-spacing:4px;text-transform:uppercase;padding:14px 30px;border-radius:99px;white-space:nowrap;z-index:5}
+  .h{position:absolute;left:60px;right:60px;text-align:center;color:var(--laranja);text-shadow:5px 6px 0 var(--amarelo-claro);font-size:96px}
+
+  /* S1 */
+  #s1{background:var(--escuro)}
+  #s1 .pov{position:absolute;top:520px;left:80px;color:var(--amarelo);font-size:70px}
+  #s1 .typed{position:absolute;top:620px;left:80px;right:80px;color:#fff;font-size:108px;line-height:1.08}
+  #s1 .typed .c{opacity:0}
+  #s1 .cursor{display:inline-block;width:12px;height:100px;background:var(--amarelo);vertical-align:-12px;margin-left:6px;animation:blink .8s steps(1) infinite}
+  @keyframes blink{50%{opacity:0}}
+  #s1 .code{position:absolute;left:80px;right:80px;bottom:220px;font-family:'JetBrains Mono',monospace;font-size:30px;color:#c9b7a6;line-height:1.7;opacity:.85}
+  #s1 .code .k{color:#FF8A5B}#s1 .code .s{color:var(--amarelo)}#s1 .code .f{color:#7FD1B9}
+
+  /* S2 */
+  #s2 .logo{position:absolute;top:330px;left:50%;width:600px;margin-left:-300px;filter:drop-shadow(0 30px 50px rgba(224,82,27,.35))}
+  #s2 .t1{top:1010px;font-size:110px}
+  #s2 .t2{position:absolute;top:1160px;left:80px;right:80px;text-align:center;font-weight:800;font-size:46px;opacity:.85}
+  .sticker{position:absolute;background:#fff;border:5px solid var(--escuro);border-radius:30px;padding:22px 34px;font-weight:900;font-size:44px;box-shadow:10px 10px 0 var(--laranja);white-space:nowrap}
+  #s2 .sticker{top:1380px;left:50%;transform:translateX(-50%) rotate(-4deg)}
+
+  /* S3 */
+  #s3 .h{top:230px}
+  .swatches{position:absolute;top:560px;left:0;right:0;display:flex;justify-content:center;gap:34px}
+  .sw{text-align:center;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:28px}
+  .sw i{display:block;width:200px;height:200px;border-radius:50%;border:6px solid var(--escuro);margin-bottom:18px;box-shadow:8px 8px 0 var(--escuro)}
+  .fontcard{position:absolute;top:960px;left:110px;right:110px;background:#fff;border:6px solid var(--escuro);border-radius:44px;padding:50px;box-shadow:14px 14px 0 var(--laranja);text-align:center}
+  .fontcard .aa{font-size:220px;color:var(--laranja);text-shadow:8px 9px 0 var(--amarelo-claro)}
+  .fontcard p{font-weight:900;font-size:40px;margin-top:10px}
+  .fontcard small{display:block;font-size:32px;opacity:.6;font-weight:800}
+
+  /* S4 */
+  #s4 .h{top:230px;font-size:88px}
+  #s4 .plate{position:absolute;top:520px;left:50%;width:840px;height:840px;margin-left:-420px;border-radius:50%;background:radial-gradient(circle,#fff 0,#fff 58%,#F3E4CC 60%,#fff 64%,#EDDCC2 100%);box-shadow:0 40px 80px rgba(120,45,10,.2)}
+  #s4 .pzbox{position:absolute;top:600px;left:50%;width:680px;height:680px;margin-left:-340px;filter:drop-shadow(0 20px 26px rgba(90,30,5,.35))}
+  #s4 .pzbox svg{width:100%;height:100%}
+  #s4 .fname{position:absolute;top:1420px;left:0;right:0;text-align:center;font-size:84px;color:var(--escuro)}
+  #s4 .snip{position:absolute;bottom:150px;left:90px;right:90px;background:var(--escuro);color:#e9dccd;border-radius:30px;padding:30px 40px;font-family:'JetBrains Mono',monospace;font-size:34px;line-height:1.55;border:5px solid var(--escuro);box-shadow:10px 10px 0 var(--amarelo)}
+  #s4 .snip .k{color:#FF8A5B}#s4 .snip .s{color:var(--amarelo)}#s4 .snip .n{color:#7FD1B9}
+
+  /* S5 */
+  #s5 .h{top:200px;font-size:92px}
+  .phone{position:absolute;top:400px;left:50%;width:620px;height:1300px;margin-left:-310px;background:var(--escuro);border-radius:90px;padding:24px;box-shadow:0 50px 90px rgba(42,26,18,.4)}
+  .phone .scr{width:100%;height:100%;border-radius:68px;overflow:hidden;position:relative;background:#fff}
+  .phone .notch{position:absolute;top:24px;left:50%;width:200px;height:44px;margin-left:-100px;background:var(--escuro);border-radius:0 0 26px 26px;z-index:3}
+  .phone iframe{position:absolute;top:0;left:0;width:390px;height:850px;border:0;transform:scale(1.4718);transform-origin:0 0}
+  #s5 .sticker{font-size:40px;padding:18px 28px;z-index:4}
+  #s5 .st1{top:620px;left:20px;transform:rotate(-8deg)}
+  #s5 .st2{top:1180px;right:16px;transform:rotate(6deg)}
+
+  /* S6 */
+  #s6 .h{top:220px;font-size:92px}
+  .laptop{position:absolute;top:560px;left:50%;width:1040px;margin-left:-520px}
+  .laptop .lid{background:var(--escuro);border-radius:34px 34px 0 0;padding:20px 20px 24px}
+  .laptop .scr{position:relative;width:1000px;height:625px;overflow:hidden;border-radius:12px;background:#fff}
+  .laptop iframe{position:absolute;top:0;left:0;width:1280px;height:800px;border:0;transform:scale(.78125);transform-origin:0 0}
+  .laptop .base{height:34px;background:#4A3428;border-radius:0 0 40px 40px;margin:0 -20px;position:relative}
+  .laptop .base::after{content:"";position:absolute;top:0;left:50%;width:180px;height:14px;margin-left:-90px;background:#2A1A12;border-radius:0 0 14px 14px}
+  .notif{position:absolute;top:1330px;left:90px;right:90px;background:var(--verde);color:#fff;border:6px solid var(--escuro);border-radius:34px;padding:30px 36px;font-weight:900;font-size:46px;box-shadow:10px 10px 0 var(--escuro);display:flex;gap:22px;align-items:center}
+  .notif small{display:block;font-size:32px;font-weight:800;opacity:.9}
+  .feat{position:absolute;top:1560px;left:60px;right:60px;display:flex;flex-wrap:wrap;gap:16px;justify-content:center}
+  .feat span{background:#fff;border:4px solid var(--escuro);border-radius:99px;padding:12px 24px;font-weight:900;font-size:34px}
+  .cursor{position:absolute;width:56px;height:56px;z-index:60;opacity:0;pointer-events:none}
+  .cursor svg{width:100%;height:100%;filter:drop-shadow(3px 4px 0 rgba(0,0,0,.25))}
+  .ripple{position:absolute;width:90px;height:90px;border-radius:50%;border:6px solid var(--laranja);z-index:59;opacity:0;pointer-events:none}
+
+  /* S7 */
+  #s7{background:var(--laranja);color:#fff}
+  #s7 .big{position:absolute;top:360px;left:70px;right:70px;text-align:center;font-size:120px;color:#fff;text-shadow:6px 7px 0 var(--laranja-esc)}
+  #s7 .pzbox{position:absolute;top:820px;left:50%;width:520px;height:520px;margin-left:-260px;filter:drop-shadow(0 30px 40px rgba(0,0,0,.3))}
+  #s7 .pzbox > div{animation:spin 14s linear infinite}
+  #s7 .pzbox svg{width:100%;height:100%}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  #s7 .q{position:absolute;top:1420px;left:70px;right:70px;text-align:center;font-weight:900;font-size:56px}
+  #s7 .cta{position:absolute;top:1580px;left:50%;transform:translateX(-50%);background:var(--amarelo);color:var(--escuro);border:6px solid var(--escuro);border-radius:99px;padding:30px 60px;font-size:60px;box-shadow:0 12px 0 var(--escuro);white-space:nowrap}
+</style>
+</head>
+<body>
+<div class="bars" id="bars"></div>
+
+<!-- S1: gancho -->
+<section class="scene confete" id="s1">
+  <div class="pov d">POV:</div>
+  <div class="typed d" id="typed"></div>
+  <pre class="code" id="code"><span class="k">const</span> cliente = <span class="s">'Mini Pizza Junior'</span>;
+<span class="k">const</span> pedido  = <span class="s">'um site com a cara deles'</span>;
+<span class="f">criarDemo</span>(cliente, pedido); <span style="opacity:.6">// bora 🍕</span></pre>
+</section>
+
+<!-- S2: o cliente -->
+<section class="scene confete" id="s2">
+  <div class="logo" data-logo></div>
+  <div class="h d t1">Mini Pizza Junior</div>
+  <div class="t2">venda e revenda de mini pizzas congeladas</div>
+  <div class="sticker">📱 briefing: 3 prints do Insta</div>
+</section>
+
+<!-- S3: identidade -->
+<section class="scene confete" id="s3">
+  <div class="tag">01 · identidade</div>
+  <div class="h d">Cores e fonte tiradas do logo</div>
+  <div class="swatches">
+    <div class="sw"><i style="background:#E0521B"></i>#E0521B</div>
+    <div class="sw"><i style="background:#F5A623"></i>#F5A623</div>
+    <div class="sw"><i style="background:#FFF6E9"></i>#FFF6E9</div>
+    <div class="sw"><i style="background:#2A1A12"></i>#2A1A12</div>
+  </div>
+  <div class="fontcard"><div class="aa d">Aa</div><p>Bagel Fat One + Nunito</p><small>retrô, gordinha, divertida — igual ao logo</small></div>
+</section>
+
+<!-- S4: pizzas em código -->
+<section class="scene confete" id="s4">
+  <div class="tag">02 · ilustração</div>
+  <div class="h d">Pizzas 100% desenhadas em código</div>
+  <div class="plate"></div>
+  <div class="pzbox" id="pz4"></div>
+  <div class="fname d" id="fname"></div>
+  <pre class="snip" id="snip"></pre>
+</section>
+
+<!-- S5: site -->
+<section class="scene confete" id="s5">
+  <div class="tag">03 · o site</div>
+  <div class="h d">Animado do início ao fim</div>
+  <div class="phone"><div class="notch"></div><div class="scr"><iframe id="ifSite" title="site" scrolling="no"></iframe></div></div>
+  <div class="sticker st1">✨ animações</div>
+  <div class="sticker st2">🛒 pedido online</div>
+</section>
+
+<!-- S6: painel -->
+<section class="scene confete" id="s6">
+  <div class="tag">04 · o painel</div>
+  <div class="h d">E um painel só pro cliente</div>
+  <div class="laptop"><div class="lid"><div class="scr" id="lapScr"><iframe id="ifAdmin" title="painel" scrolling="no"></iframe></div></div><div class="base"></div></div>
+  <div class="notif" id="notif"><span style="font-size:70px">🛒</span><div>Novo pedido #1004!<small>endereço, pagamento e tudo certinho</small></div></div>
+  <div class="feat" id="feat"><span>📦 pedidos</span><span>🍕 monta sabores</span><span>⚙️ edita o site</span></div>
+  <div class="ripple" id="ripple"></div>
+  <div class="cursor" id="cursor"><svg viewBox="0 0 24 24"><path d="M4 2l15 9-6.5 1.5L16 20l-3 1.5-3.5-7.5L4 18z" fill="#fff" stroke="#2A1A12" stroke-width="1.6" stroke-linejoin="round"/></svg></div>
+</section>
+
+<!-- S7: CTA -->
+<section class="scene confete" id="s7">
+  <div class="big d">Do briefing à demo online ✅</div>
+  <div class="pzbox"><div id="pz7"></div></div>
+  <div class="q">Quer um site assim pro seu negócio?</div>
+  <div class="cta d">me chama no direct 📩</div>
+</section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="/js/pizza.js"></script>
+<script>
+const PK = PizzaKit; PK.injectDefs();
+const $ = s => document.querySelector(s);
+document.querySelectorAll('[data-logo]').forEach(el => el.innerHTML = PK.logoSVG());
+
+const F = Object.fromEntries(PK.DEFAULT_DATA.flavors.map(f => [f.id, f]));
+F.calabresa = { id: 'calabresa', name: 'Calabresa', base: 'tomate', cheese: true, toppings: [{ k: 'calabresa', n: 11 }, { k: 'cebola', n: 1 }, { k: 'azeitona_preta', n: 5 }], drizzle: 'catupiry', oregano: true };
+$('#pz7').innerHTML = PK.pizzaSVG(F.marguerita);
+
+// texto digitado
+const phrase = 'um cliente me pediu um site pra pizzaria dele 🍕';
+$('#typed').innerHTML = [...phrase].map(c => `<span class="c">${c === ' ' ? ' ' : c}</span>`).join('') + '<span class="cursor"></span>';
+
+const SC = ['#s1', '#s2', '#s3', '#s4', '#s5', '#s6', '#s7'];
+// durações ajustadas à narração (video/audio/narracao.mp3)
+const DUR = [3.5, 5.4, 3.0, 4.8, 5.8, 5.8, 3.6];
+window.SCENE_STARTS = DUR.map((d, i) => DUR.slice(0, i).reduce((a, b) => a + b, 0));
+// cortes da narração (segundos no MP3), um trecho por cena
+window.AUDIO_CUTS = [0, 3.2, 8.45, 10.95, 15.35, 18.85, 22.65];
+$('#bars').innerHTML = SC.map(() => '<i><b></b></i>').join('');
+const bars = document.querySelectorAll('#bars b');
+
+function show(tl, i, at) {
+  tl.set(SC[i], { autoAlpha: 1 }, at);
+  if (i > 0) tl.set(SC[i - 1], { autoAlpha: 0 }, at + .001);
+  tl.fromTo(bars[i], { width: '0%' }, { width: '100%', duration: DUR[i], ease: 'none' }, at);
+}
+
+function pizzaSnippet(f) {
+  return `<span class="k">{</span> name: <span class="s">'${f.name}'</span>,\n  toppings: [\n${f.toppings.map(t => `    { k: <span class="s">'${t.k}'</span>, n: <span class="n">${t.n}</span> }`).join(',\n')}\n  ]${f.drizzle ? `, drizzle: <span class="s">'${f.drizzle}'</span>` : ''} <span class="k">}</span>`;
+}
+function showPizza(f) {
+  const el = $('#pz4'); el.innerHTML = PK.pizzaSVG(f); $('#fname').textContent = f.name; $('#snip').innerHTML = pizzaSnippet(f);
+  gsap.fromTo(el, { rotate: -200, scale: .4, opacity: 0 }, { rotate: 0, scale: 1, opacity: 1, duration: .55, ease: 'back.out(1.5)' });
+  gsap.fromTo('#fname', { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: .4 });
+  setTimeout(() => PK.assemble(el), 250);
+}
+
+// cursor animado dentro do painel
+function rectIn(iframe, sel, scale) {
+  const el = iframe.contentDocument && iframe.contentDocument.querySelector(sel); if (!el) return null;
+  const r = el.getBoundingClientRect(), f = iframe.parentElement.getBoundingClientRect();
+  return { x: f.left + (r.left + r.width / 2) * scale, y: f.top + (r.top + r.height / 2) * scale, el };
+}
+function clickAt(tl, sel, at) {
+  tl.add(() => {
+    const p = rectIn($('#ifAdmin'), sel, .78125); if (!p) return;
+    gsap.to('#cursor', { x: p.x - 8, y: p.y - 6, duration: .55, ease: 'power2.inOut', onComplete: () => {
+      gsap.fromTo('#ripple', { x: p.x - 45, y: p.y - 45, scale: .3, opacity: 1 }, { scale: 1.4, opacity: 0, duration: .5 });
+      gsap.fromTo('#cursor', { scale: 1 }, { scale: .82, yoyo: true, repeat: 1, duration: .1 });
+      p.el.click();
+    } });
+  }, at);
+}
+
+window.startReel = () => {
+  const tl = gsap.timeline({ onComplete: () => window.reelDone = true });
+  let t = 0;
+  // S1
+  show(tl, 0, t);
+  tl.from('#s1 .pov', { x: -80, opacity: 0, duration: .4, ease: 'back.out(2)' }, t + .1);
+  tl.to('#typed .c', { opacity: 1, duration: .01, stagger: .045 }, t + .4);
+  tl.from('#code', { y: 60, opacity: 0, duration: .5 }, t + 1.6);
+  t += DUR[0];
+  // S2
+  show(tl, 1, t);
+  tl.from('#s2 .logo', { scale: 0, rotate: -270, duration: 1, ease: 'back.out(1.5)' }, t);
+  tl.from('#s2 .t1', { y: 80, opacity: 0, duration: .5, ease: 'back.out(2)' }, t + .6);
+  tl.from('#s2 .t2', { y: 40, opacity: 0, duration: .4 }, t + .9);
+  tl.from('#s2 .sticker', { scale: 0, duration: .6, ease: 'elastic.out(1,.5)' }, t + 1.6);
+  t += DUR[1];
+  // S3
+  show(tl, 2, t);
+  tl.from('#s3 .tag', { y: -40, opacity: 0, duration: .35 }, t);
+  tl.from('#s3 .h', { scale: .6, opacity: 0, duration: .5, ease: 'back.out(2)' }, t + .1);
+  tl.from('.sw', { y: 120, scale: 0, duration: .55, ease: 'back.out(2.2)', stagger: .14 }, t + .5);
+  tl.from('.fontcard', { y: 200, rotate: 6, opacity: 0, duration: .7, ease: 'back.out(1.6)' }, t + 1.3);
+  t += DUR[2];
+  // S4
+  show(tl, 3, t);
+  tl.from('#s4 .tag', { y: -40, opacity: 0, duration: .35 }, t);
+  tl.from('#s4 .h', { scale: .6, opacity: 0, duration: .5, ease: 'back.out(2)' }, t + .1);
+  tl.from('#s4 .plate', { scale: 0, duration: .6, ease: 'back.out(1.6)' }, t + .2);
+  tl.from('#s4 .snip', { y: 120, opacity: 0, duration: .5 }, t + .5);
+  tl.add(() => showPizza(F.marguerita), t + .45);
+  tl.add(() => showPizza(F.carne), t + 2.0);
+  tl.add(() => showPizza(F.calabresa), t + 3.35);
+  // pré-carrega o site
+  tl.add(() => { $('#ifSite').src = '/'; }, t + 3.2);
+  t += DUR[3];
+  // S5
+  show(tl, 4, t);
+  tl.from('#s5 .tag', { y: -40, opacity: 0, duration: .35 }, t);
+  tl.from('#s5 .h', { scale: .6, opacity: 0, duration: .5, ease: 'back.out(2)' }, t + .1);
+  tl.from('.phone', { y: 900, rotate: 8, duration: .8, ease: 'back.out(1.2)' }, t);
+  tl.from('#s5 .st1', { scale: 0, duration: .6, ease: 'elastic.out(1,.5)' }, t + 1.2);
+  tl.from('#s5 .st2', { scale: 0, duration: .6, ease: 'elastic.out(1,.5)' }, t + 3.2);
+  const sc = { y: 0 };
+  tl.to(sc, { y: () => { const d = $('#ifSite').contentDocument; const s = d && d.querySelector('#sabores'); return s ? s.offsetTop - 40 : 2400; }, duration: 2.2, ease: 'power2.inOut', onUpdate: () => { try { $('#ifSite').contentWindow.scrollTo({ top: sc.y, behavior: 'instant' }); } catch {} } }, t + 2.0);
+  tl.add(() => { try { $('#ifSite').contentDocument.querySelector('.fl[data-i="2"]').click(); } catch {} }, t + 4.6);
+  tl.add(() => { $('#ifAdmin').src = '/admin'; }, t + 3.5);
+  t += DUR[4];
+  // S6
+  show(tl, 5, t);
+  tl.from('#s6 .tag', { y: -40, opacity: 0, duration: .35 }, t);
+  tl.from('#s6 .h', { scale: .6, opacity: 0, duration: .5, ease: 'back.out(2)' }, t + .1);
+  tl.from('.laptop', { y: 700, duration: .8, ease: 'back.out(1.2)' }, t);
+  tl.from('#notif', { x: -1100, duration: .6, ease: 'back.out(1.6)' }, t + 1.1);
+  tl.to('#notif', { scale: 1.04, yoyo: true, repeat: 3, duration: .18 }, t + 1.7);
+  tl.from('#feat span', { scale: 0, duration: .45, ease: 'back.out(2.5)', stagger: .15 }, t + 2.0);
+  tl.set('#cursor', { opacity: 1, x: 900, y: 1250 }, t + 2.4);
+  clickAt(tl, '.tab[data-tab="sabores"]', t + 2.6);
+  clickAt(tl, '#listaSab .item[data-i="1"]', t + 4.0);
+  tl.to('#notif', { y: 60, opacity: 0, duration: .4 }, t + 2.5);
+  t += DUR[5];
+  // S7
+  show(tl, 6, t);
+  tl.from('#s7 .big', { scale: .5, opacity: 0, duration: .6, ease: 'back.out(2)' }, t);
+  tl.from('#s7 .pzbox', { scale: 0, rotate: -180, duration: .9, ease: 'back.out(1.5)' }, t + .3);
+  tl.add(() => PK.assemble($('#pz7')), t + .6);
+  tl.from('#s7 .q', { y: 60, opacity: 0, duration: .5 }, t + 1.0);
+  tl.from('#s7 .cta', { scale: 0, duration: .7, ease: 'elastic.out(1,.5)' }, t + 1.4);
+  tl.to('#s7 .cta', { scale: 1.06, yoyo: true, repeat: 3, duration: .3, ease: 'sine.inOut' }, t + 2.1);
+  tl.to({}, { duration: .2 }, t + DUR[6]);
+  return tl.duration();
+};
+
+document.fonts.ready.then(() => { window.reelReady = true; if (!location.search.includes('rec')) setTimeout(window.startReel, 500); });
+</script>
+</body>
+</html>

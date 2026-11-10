@@ -55,6 +55,13 @@ function cleanSettings(s = {}) {
     aceitarPedidos: s.aceitarPedidos !== false,
     taxaEntrega: Math.round(num(s.taxaEntrega, 0, 500, 0) * 100) / 100,
     pedidoMinimo: Math.round(num(s.pedidoMinimo, 1, 1000, 1)),
+    regiao: str(s.regiao, 80) || 'Nanuque e região',
+    encomenda: str(s.encomenda ?? PizzaKit.DEFAULT_DATA.settings.encomenda, 1000),
+    ebookLink: /^https:\/\/[^\s"'<>]+$/.test(str(s.ebookLink, 300)) ? str(s.ebookLink, 300) : '',
+    brotinho1: Math.round(num(s.brotinho1, 0, 100, 2.5) * 100) / 100,
+    brotinho60: Math.round(num(s.brotinho60, 0, 100, 2) * 100) / 100,
+    brotinho100: Math.round(num(s.brotinho100, 0, 100, 1.9) * 100) / 100,
+    eventoLocal: Math.round(num(s.eventoLocal, 0, 1000, 40) * 100) / 100,
   };
 }
 

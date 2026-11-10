@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Mini Pizza Junior</title>
 <meta name="description" content="Mini Pizza Junior — sua referência em pizza congelada. Venda e revenda de mini pizzas artesanais.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='48' fill='%23F5A623'/%3E%3Ccircle cx='50' cy='50' r='40' fill='%23E0521B'/%3E%3Ctext x='50' y='64' font-size='40' text-anchor='middle' font-family='Arial Black' fill='%23FFC93C'%3EJ%3C/text%3E%3C/svg%3E">
+<link rel="icon" type="image/png" href="/img/logo-128.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
@@ -279,6 +279,84 @@
   .wpp-float svg{width:34px;height:34px}
   @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(37,211,102,.55)}70%{box-shadow:0 0 0 18px rgba(37,211,102,0)}100%{box-shadow:0 0 0 0 rgba(37,211,102,0)}}
 
+  /* ---------- pedidos do cliente (nov/2026) ---------- */
+  .btn-ama{background:var(--amarelo);color:var(--escuro);border:3px solid var(--escuro);box-shadow:0 5px 0 var(--escuro);padding:12px 22px;font-size:.98rem}
+  .btn-ama:hover{box-shadow:0 8px 0 var(--escuro)}
+  .btn-ama::after{display:none}
+  .hero-ctas.sec{margin-top:14px}
+  .regiao{margin-top:18px;font-weight:800;font-size:1.02rem}
+  .regiao b{color:var(--laranja)}
+
+  .encomenda{margin-top:56px;display:grid;grid-template-columns:1fr 1.4fr auto;gap:28px;align-items:center;text-align:left;background:#fff;border:2px solid var(--escuro);border-radius:var(--raio);padding:28px 32px;box-shadow:6px 6px 0 var(--laranja)}
+  .encomenda h3{font-size:1.8rem;color:var(--laranja)}
+  .encomenda .eyebrow{margin-bottom:8px}
+  .encomenda p{margin-top:4px}
+  .enc-list{list-style:none;display:flex;flex-wrap:wrap;gap:10px}
+  .enc-list li{background:var(--creme-2);border:2px solid var(--escuro);border-radius:99px;padding:8px 16px;font-weight:900;transition:background .2s}
+  .enc-list li:hover{transform:rotate(-3deg) scale(1.06);background:var(--amarelo)}
+
+  .aviso-revenda{background:rgba(255,255,255,.15);border:2px dashed rgba(255,255,255,.7);border-radius:18px;padding:16px 18px;font-weight:800;margin:-10px 0 28px}
+  .foto-revenda{position:relative;max-width:440px;margin:0 auto;width:100%}
+  .foto-revenda img{width:100%;height:auto;border-radius:28px;border:4px solid var(--escuro);box-shadow:12px 12px 0 var(--escuro);transform:rotate(2deg);transition:transform .4s}
+  .foto-revenda:hover img{transform:rotate(0) scale(1.02)}
+  .sticker-foto{position:absolute;left:-18px;bottom:40px;background:var(--amarelo);color:var(--escuro);border:3px solid var(--escuro);border-radius:99px;padding:10px 18px;font-weight:900;transform:rotate(-6deg);box-shadow:4px 4px 0 var(--escuro)}
+
+  .eventos{display:grid;grid-template-columns:1.15fr .85fr;gap:36px;margin-top:56px;text-align:left;align-items:start}
+  .ev-card{position:relative;overflow:hidden;background:#fff;border:2px solid var(--escuro);border-radius:var(--raio);padding:32px;box-shadow:8px 8px 0 var(--laranja)}
+  .ev-card > *:not(.balao){position:relative;z-index:1}
+  .ev-card h3{font-size:1.9rem;color:var(--laranja);margin-bottom:14px}
+  .ev-card h4{font-family:'Bagel Fat One';font-weight:400;color:var(--laranja);font-size:1.2rem;margin:22px 0 10px}
+  .tabela{list-style:none}
+  .tabela li{display:grid;grid-template-columns:1fr auto;align-items:center;column-gap:14px;padding:12px 0;border-bottom:2px dotted var(--amarelo)}
+  .tabela span{font-weight:900;font-size:1.08rem}
+  .tabela b{font-family:'Bagel Fat One';font-weight:400;background:var(--laranja);color:#fff;border-radius:12px;padding:4px 14px;font-size:1.35rem;grid-row:span 2}
+  .tabela small{font-weight:700;opacity:.6;font-size:.8rem;grid-row:2;grid-column:1}
+  .ev-opts{display:grid;gap:8px}
+  .ev-opts button{text-align:left;padding:12px 16px;border:2px solid #E9D6BC;border-radius:14px;background:#fff;font-weight:900;cursor:pointer;transition:all .2s}
+  .ev-opts button small{display:block;font-weight:700;opacity:.65;font-size:.82rem}
+  .ev-opts button[aria-pressed="true"]{border-color:var(--escuro);background:var(--creme-2);box-shadow:4px 4px 0 var(--escuro)}
+  .ev-sim{margin:22px 0 18px;background:var(--creme);border-radius:18px;padding:16px 18px}
+  .ev-sim label{font-weight:900;display:block;margin-bottom:8px}
+  .ev-row{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+  .ev-row input{width:130px;padding:12px 14px;border:2px solid var(--escuro);border-radius:12px;font:inherit;font-weight:900;font-size:1.2rem;background:#fff}
+  .ev-total b{display:block;font-family:'Bagel Fat One';font-weight:400;font-size:1.8rem;color:var(--laranja);line-height:1.1}
+  .ev-total small{font-weight:800;opacity:.65;font-size:.8rem}
+  .ev-card .btn{width:100%}
+  .ev-foto img{width:100%;height:auto;border-radius:28px;border:4px solid var(--escuro);box-shadow:-10px 10px 0 var(--amarelo);transform:rotate(-2deg)}
+  .maiores{margin-top:36px;display:flex;gap:18px;align-items:center;justify-content:center;flex-wrap:wrap;background:var(--escuro);color:#fff;border-radius:99px;padding:16px 18px 16px 28px}
+  .maiores p{font-weight:800;font-size:1.05rem}
+  .maiores b{color:var(--amarelo)}
+
+  .ebook{background:var(--creme-2);overflow:hidden}
+  .ebook-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:64px;align-items:center}
+  .livro{position:relative;width:min(320px,80%);aspect-ratio:3/4;margin:0 auto;perspective:1200px}
+  .capa{position:absolute;inset:0;background:linear-gradient(135deg,var(--laranja),#C8440F);border-radius:8px 22px 22px 8px;border:3px solid var(--escuro);box-shadow:inset 14px 0 0 rgba(0,0,0,.18),14px 16px 0 var(--escuro);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:28px;text-align:center;color:#fff;transform:rotateY(-14deg) rotate(-3deg);transform-origin:left center;z-index:2;animation:livro 5s ease-in-out infinite}
+  @keyframes livro{50%{transform:rotateY(-24deg) rotate(-1deg) translateY(-8px)}}
+  .capa-logo{width:62%}
+  .capa b{font-family:'Bagel Fat One';font-weight:400;font-size:1.7rem;line-height:1.05;text-shadow:3px 3px 0 var(--laranja-esc)}
+  .capa small{font-weight:800;letter-spacing:2px;text-transform:uppercase;font-size:.72rem;opacity:.9}
+  .paginas{position:absolute;inset:6px -10px -10px 10px;background:repeating-linear-gradient(90deg,#fff 0 3px,#EFE3CF 3px 5px);border:3px solid var(--escuro);border-radius:6px 18px 18px 6px;z-index:1}
+  .eb-lista{list-style:none;display:grid;gap:10px;margin:18px 0 30px}
+  .eb-lista li{display:flex;gap:12px;align-items:flex-start;font-weight:700}
+  .eb-lista li::before{content:"✓";flex:none;width:26px;height:26px;border-radius:50%;background:var(--laranja);color:#fff;display:grid;place-items:center;font-weight:900;font-size:.85rem;margin-top:1px}
+
+  .sobre-foto{width:100%;height:100%;object-fit:cover;border-radius:32px;border:4px solid var(--escuro);box-shadow:12px 12px 0 var(--laranja);transform:rotate(-2deg)}
+  .sobre-art{aspect-ratio:3/4}
+
+  @media (max-width:980px){
+    .encomenda{grid-template-columns:1fr;text-align:center}
+    .enc-list{justify-content:center}
+    .eventos,.ebook-grid{grid-template-columns:1fr}
+    .ev-foto{max-width:420px;margin:0 auto}
+    .regiao{text-align:center}
+  }
+  @media (max-width:780px){
+    .ev-card{padding:22px}
+    .maiores{border-radius:24px;padding:18px;text-align:center}
+    .sticker-foto{left:0}
+    .hero-ctas.sec .btn{padding:10px 16px;font-size:.92rem}
+  }
+
   /* ---------- responsivo ---------- */
   @media (max-width:980px){
     .beneficios{grid-template-columns:repeat(2,1fr)}
@@ -348,9 +426,9 @@
     <a href="#inicio" class="brand" aria-label="Mini Pizza Junior — início"><div class="lg" data-logo></div><span>Mini Pizza<br>Junior</span></a>
     <nav class="menu" id="menu">
       <a href="#sabores">Sabores</a>
-      <a href="#como">Como funciona</a>
       <a href="#revenda">Revenda</a>
-      <a href="#festas">Festas</a>
+      <a href="#festas">Eventos</a>
+      <a href="#ebook">E-book</a>
       <a href="#sobre">Sobre nós</a>
     </nav>
     <a class="btn btn-lar" data-order href="#sabores">🛒 Pedir agora</a>
@@ -370,10 +448,15 @@
           <a class="btn btn-lar" data-order href="#sabores">🍕 Fazer pedido</a>
           <a class="btn btn-out" href="#revenda">Quero revender</a>
         </div>
+        <div class="hero-ctas sec h-in">
+          <a class="btn btn-ama" href="#festas">🎉 Pizzas pra eventos</a>
+          <a class="btn btn-ama" href="#ebook">📘 E-book</a>
+        </div>
+        <p class="regiao h-in">📍 Entregamos em <b data-regiao>Nanuque e região</b></p>
         <div class="stats h-in">
           <div><b><span data-count="10">0</span>K+</b><small>seguidores no Insta</small></div>
           <div><b><span data-count="100">0</span>%</b><small>artesanal</small></div>
-          <div><b>~<span data-count="10">0</span> min</b><small>do freezer à mesa</small></div>
+          <div><b><span data-count="8">0</span> min</b><small>no forno ou air fryer a 180°</small></div>
         </div>
       </div>
       <div class="hero-art" id="heroArt">
@@ -397,7 +480,7 @@
     </div>
   </section>
 
-  <div class="faixa" aria-hidden="true"><div class="faixa-track" data-marquee="🍕 Mini Pizza Junior|★ Venda & Revenda|🍕 Massa artesanal|★ Pronta em minutos|🍕 Festas & eventos|★ Seja revendedor"></div></div>
+  <div class="faixa" aria-hidden="true"><div class="faixa-track" data-marquee="🍕 Mini Pizza Junior|★ Venda & Revenda|🍕 Massa artesanal|★ 8 min no forno|🍕 Brotinhos pra eventos|★ Nanuque e região"></div></div>
   <div class="faixa b" aria-hidden="true"><div class="faixa-track" data-marquee="sabores"></div></div>
 
   <!-- BENEFÍCIOS -->
@@ -409,7 +492,7 @@
         <div class="card stg"><div class="ico"><svg viewBox="0 0 40 40" fill="none" stroke="#2A1A12" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c-3-3-3-8 0-11s8-3 11 0"/><path d="M14 26c2 4 7 6 12 3 4-3 5-8 3-12l-4-6-3 2 2 5"/><path d="M8 30l4-4"/></svg></div><h3>Artesanal</h3><p>Massa feita à mão, todo dia, com receita da casa.</p></div>
         <div class="card stg"><div class="ico"><svg viewBox="0 0 40 40" fill="none" stroke="#2A1A12" stroke-width="2.6" stroke-linejoin="round"><path d="M5 28l22-16 8 6v10z" fill="#FFE7A8"/><path d="M5 28h30"/><circle cx="17" cy="23" r="2" fill="#2A1A12"/><circle cx="26" cy="20" r="1.6" fill="#2A1A12"/><circle cx="28" cy="25" r="1.4" fill="#2A1A12"/></svg></div><h3>Recheio generoso</h3><p>Muito queijo e cobertura caprichada em cada pizza.</p></div>
         <div class="card stg"><div class="ico"><svg viewBox="0 0 40 40" fill="none" stroke="#2A1A12" stroke-width="2.6" stroke-linecap="round"><path d="M20 4v32M6 12l28 16M6 28l28-16"/><path d="M16 6l4 4 4-4M16 34l4-4 4 4"/></svg></div><h3>Congelada</h3><p>Seladas a vácuo, duram no freezer sem perder o sabor.</p></div>
-        <div class="card stg"><div class="ico"><svg viewBox="0 0 40 40" fill="none" stroke="#2A1A12" stroke-width="2.6" stroke-linecap="round"><circle cx="20" cy="22" r="13"/><path d="M20 22V14M20 22l5 4M16 5h8"/></svg></div><h3>Prática</h3><p>Do freezer pro forno ou airfryer em poucos minutos.</p></div>
+        <div class="card stg"><div class="ico"><svg viewBox="0 0 40 40" fill="none" stroke="#2A1A12" stroke-width="2.6" stroke-linecap="round"><circle cx="20" cy="22" r="13"/><path d="M20 22V14M20 22l5 4M16 5h8"/></svg></div><h3>Prática</h3><p>Do freezer pro forno ou air fryer: 8 minutos a 180°.</p></div>
       </div>
     </div>
   </section>
@@ -419,7 +502,7 @@
     <div class="wrap center">
       <span class="eyebrow rv">Cardápio</span>
       <h2 class="rv">Escolha seu sabor</h2>
-      <p class="lead rv">Toque num sabor e veja a pizza montar na hora. 👇</p>
+      <p class="lead rv">Pizzas de 18 cm pré-assadas. Toque num sabor e veja a pizza montar na hora. 👇</p>
       <div class="showcase">
         <div class="stage rv">
           <div class="plate"></div>
@@ -440,7 +523,15 @@
           </div>
         </div>
       </div>
-      <p class="nota">* Sabores, ingredientes e preços de demonstração — ajustar com o cardápio real.</p>
+      <div class="encomenda rv" id="encomendaBox">
+        <div>
+          <span class="eyebrow">Sob encomenda</span>
+          <h3>Quer outro sabor?</h3>
+          <p>Também fazemos sabores especiais por encomenda:</p>
+        </div>
+        <ul class="enc-list" id="encList"></ul>
+        <a class="btn btn-wpp" data-wpp="Olá! Quero encomendar um sabor especial de mini pizza 🍕" href="#"><svg><use href="#wpp"/></svg>Encomendar pelo WhatsApp</a>
+      </div>
     </div>
   </section>
 
@@ -455,7 +546,7 @@
           <div class="circ"><span class="num">1</span>
             <svg viewBox="0 0 90 90"><rect x="24" y="10" width="40" height="70" rx="8" fill="#fff" stroke="#2A1A12" stroke-width="3.5"/><rect x="30" y="20" width="28" height="44" rx="3" fill="#FCE9CF"/><circle cx="44" cy="72" r="3" fill="#2A1A12"/><g class="bubble"><path d="M50 6h30a6 6 0 0 1 6 6v14a6 6 0 0 1-6 6H64l-8 7v-7h-6a6 6 0 0 1-6-6V12a6 6 0 0 1 6-6z" fill="#25D366" stroke="#2A1A12" stroke-width="3"/><circle cx="57" cy="19" r="2.4" fill="#fff"/><circle cx="65" cy="19" r="2.4" fill="#fff"/><circle cx="73" cy="19" r="2.4" fill="#fff"/></g></svg>
           </div>
-          <h3>Peça no WhatsApp</h3><p>Escolha os sabores e a quantidade. A gente confirma rapidinho.</p>
+          <h3>Peça pelo site</h3><p>Escolha os sabores e a quantidade. A gente confirma rapidinho no WhatsApp.</p>
         </div>
         <div class="passo stg">
           <div class="circ"><span class="num">2</span>
@@ -467,7 +558,7 @@
           <div class="circ"><span class="num">3</span>
             <svg viewBox="0 0 90 90"><rect x="10" y="26" width="70" height="54" rx="8" fill="#fff" stroke="#2A1A12" stroke-width="3.5"/><rect x="18" y="38" width="44" height="34" rx="5" fill="#2A1A12"/><rect class="brasa" x="22" y="62" width="36" height="6" rx="3" fill="#E0521B"/><circle cx="70" cy="44" r="4" fill="#F5A623" stroke="#2A1A12" stroke-width="2.5"/><circle cx="70" cy="58" r="4" fill="#F5A623" stroke="#2A1A12" stroke-width="2.5"/><ellipse cx="40" cy="58" rx="15" ry="4.5" fill="#F7C35E"/><g class="calor" fill="none" stroke="#E0521B" stroke-width="3.5" stroke-linecap="round"><path d="M30 18c-3-4 3-6 0-10"/><path d="M45 18c-3-4 3-6 0-10"/><path d="M60 18c-3-4 3-6 0-10"/></g></svg>
           </div>
-          <h3>Forno e pronto!</h3><p>Forno ou airfryer por poucos minutos e é só aproveitar.</p>
+          <h3>8 minutos e pronto!</h3><p>Forno ou air fryer a 180° por 8 minutos e é só aproveitar.</p>
         </div>
       </div>
     </div>
@@ -479,28 +570,19 @@
     <div class="wrap">
       <div>
         <span class="eyebrow rv">Seja um parceiro</span>
-        <h2 class="rv">Revenda Mini Pizza Junior e lucre com a gente</h2>
+        <h2 class="rv">Revenda Mini Pizza Junior</h2>
         <ul class="lista">
-          <li class="stg">Preço especial de atacado para revendedores</li>
-          <li class="stg">Alta saída em lanchonetes, mercados, cantinas e delivery</li>
-          <li class="stg">Embalagem selada a vácuo com a nossa marca</li>
-          <li class="stg">Suporte e material de divulgação pra você vender mais</li>
+          <li class="stg"><span>Atendemos <b data-regiao>Nanuque e região</b></span></li>
+          <li class="stg"><span>Pedido mínimo de <b>15 bandejas</b></span></li>
+          <li class="stg"><span>Pizzas disco: pedido mínimo de <b>20 discos</b> (15 cm ou 18 cm)</span></li>
+          <li class="stg"><span>Embalagem com a nossa marca, pronta pra vender</span></li>
         </ul>
-        <a class="btn btn-wpp rv" data-wpp="Olá! Tenho interesse em ser revendedor da Mini Pizza Junior" href="#"><svg><use href="#wpp"/></svg>Quero ser revendedor</a>
+        <div class="aviso-revenda rv">💬 Os valores de revenda são calculados por região — chama a gente no WhatsApp pra receber a sua tabela!</div>
+        <a class="btn btn-wpp rv" data-wpp="Olá! Tenho interesse em ser revendedor da Mini Pizza Junior. Sou da cidade de: " href="#"><svg><use href="#wpp"/></svg>Quero ser revendedor</a>
       </div>
-      <div class="calc rv" id="calc">
-        <h3>Simule seu lucro</h3>
-        <p class="sub">Arraste e veja quanto você pode ganhar revendendo.</p>
-        <label for="qtd">Mini pizzas por semana <output id="qtdOut">100</output></label>
-        <input type="range" id="qtd" min="20" max="600" step="10" value="100">
-        <label for="margem">Lucro por unidade <output id="margemOut">R$ 3,00</output></label>
-        <input type="range" id="margem" min="1" max="8" step="0.5" value="3">
-        <div class="result">
-          <div><small>Por semana</small><b id="rSem">R$ 300</b></div>
-          <div class="big"><small>Por mês</small><b id="rMes">R$ 1.290</b></div>
-        </div>
-        <a class="btn btn-lar" data-wpp="Olá! Fiz a simulação no site e quero saber mais sobre a revenda" href="#">Quero começar a revender</a>
-        <p class="aviso">Valores ilustrativos. Consulte a tabela de atacado.</p>
+      <div class="foto-revenda">
+        <img src="/img/bandeja-etiqueta.jpg" alt="Bandeja de mini pizzas artesanais Mini Pizza Junior com etiqueta" width="860" height="1217" loading="lazy">
+        <span class="sticker-foto">✨ Mini Pizza Artesanal</span>
       </div>
     </div>
   </section>
@@ -510,21 +592,69 @@
   <section id="festas">
     <div class="wrap center">
       <span class="eyebrow rv">Festas & eventos</span>
-      <h2 class="rv">A estrela da sua festa</h2>
-      <p class="lead rv">Aniversários, confraternizações, festas infantis... mini pizza é sucesso garantido com a criançada e com os adultos.</p>
-      <div class="festas">
-        <div class="festa stg" id="festaKids">
-          <h3>Kits para festas</h3>
-          <p>Monte seu kit com os sabores preferidos e na quantidade certa pro evento. A gente ajuda a calcular!</p>
-          <a class="btn btn-lar" data-wpp="Olá! Quero um orçamento de mini pizzas para festa" href="#">Pedir orçamento</a>
-          <div class="deco" data-mini="3"></div>
+      <h2 class="rv">Brotinhos pra eventos</h2>
+      <p class="lead rv">Aniversários, confraternizações, festas infantis... os brotinhos são sucesso garantido com a criançada e com os adultos.</p>
+      <div class="eventos">
+        <div class="ev-card stg" id="festaKids">
+          <h3>Orçamento de brotinhos</h3>
+          <ul class="tabela">
+            <li><span>Bandejas tradicionais</span><b data-preco="brotinho1">R$ 2,50</b><small>unidade</small></li>
+            <li><span>60 unidades ou mais</span><b data-preco="brotinho60">R$ 2,00</b><small>unidade</small></li>
+            <li><span>100 unidades ou mais</span><b data-preco="brotinho100">R$ 1,90</b><small>unidade</small></li>
+          </ul>
+          <h4>Opções</h4>
+          <div class="ev-opts" id="evOpts">
+            <button type="button" data-v="pre" aria-pressed="true">🔥 Pré-assadas<small>prontas pra finalizar no local e servir quentinhas</small></button>
+            <button type="button" data-v="assadas" aria-pressed="false">🍕 Assadas<small>valor adicional calculado pela quantidade</small></button>
+            <button type="button" data-v="local" aria-pressed="false">📍 Assadas no local do evento<small>adicional de <span data-preco="eventoLocal">R$ 40,00</span></small></button>
+          </div>
+          <div class="ev-sim">
+            <label for="evQtd">Quantos brotinhos?</label>
+            <div class="ev-row">
+              <input type="number" id="evQtd" min="10" max="5000" step="10" value="60" inputmode="numeric">
+              <div class="ev-total"><small>Estimativa</small><b id="evTotal">R$ 120,00</b><small id="evUnit">R$ 2,00 por unidade</small></div>
+            </div>
+          </div>
+          <a class="btn btn-wpp" id="evBtn" href="#" target="_blank" rel="noopener"><svg><use href="#wpp"/></svg>Pedir orçamento no WhatsApp</a>
         </div>
-        <div class="festa dark stg">
-          <h3>Empresas & cantinas</h3>
-          <p>Fornecimento recorrente para lanchonetes, escolas e empresas. Qualidade e padrão em todas as entregas.</p>
-          <a class="btn btn-wpp" data-wpp="Olá! Tenho interesse em fornecimento para empresa" href="#"><svg><use href="#wpp"/></svg>Falar com a gente</a>
-          <div class="deco" data-mini="2"></div>
+        <div class="ev-foto stg">
+          <img src="/img/bandeja-brotinhos.jpg" alt="Bandeja de brotinhos Mini Pizza Junior" width="860" height="1235" loading="lazy">
         </div>
+      </div>
+      <div class="maiores rv">
+        <p>🍕 Pizzas de <b>15 cm, 18 cm ou maiores</b> pro seu evento? Consulte o valor no WhatsApp!</p>
+        <a class="btn btn-out" data-wpp="Olá! Quero saber o valor de pizzas maiores (15 cm, 18 cm ou mais) para um evento" href="#">Consultar valor</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- E-BOOK -->
+  <section id="ebook" class="ebook confete">
+    <div class="wrap ebook-grid">
+      <div class="livro" aria-hidden="true">
+        <div class="capa">
+          <div class="capa-logo" data-logo></div>
+          <b>Mini pizzas que vendem</b>
+          <small>receitas · revenda · produção</small>
+        </div>
+        <div class="paginas"></div>
+      </div>
+      <div>
+        <span class="eyebrow rv">E-book exclusivo</span>
+        <h2 class="rv">Aprenda a fazer e vender mini pizzas</h2>
+        <p class="lead rv">Neste e-book você vai aprender:</p>
+        <ul class="eb-lista">
+          <li class="stg">Receita exclusiva da nossa massa e dos recheios</li>
+          <li class="stg">Combinações de sabores disponíveis em nosso cardápio</li>
+          <li class="stg">Cardápio completo com valores dos produtos</li>
+          <li class="stg">Valores de revenda e sugestões de preços para comercialização</li>
+          <li class="stg">Dicas exclusivas para padronização dos produtos</li>
+          <li class="stg">Orientações sobre armazenamento e forneamento</li>
+          <li class="stg">Indicações de ingredientes utilizados, profissionais para tabelas nutricionais, maquinário e embalagens personalizadas</li>
+          <li class="stg">Respostas às dúvidas mais frequentes que recebemos pelo WhatsApp</li>
+          <li class="stg"><span><b>Suporte ilimitado</b> para qualquer dúvida durante sua produção!</span></li>
+        </ul>
+        <a class="btn btn-lar rv" id="ebookBtn" href="#" target="_blank" rel="noopener">📘 Quero o e-book</a>
       </div>
     </div>
   </section>
@@ -533,7 +663,7 @@
   <section id="sobre" style="padding-top:30px">
     <div class="wrap sobre">
       <div class="sobre-art rv">
-        <div class="lg spinslow" data-logo></div>
+        <img class="sobre-foto" src="/img/sabores-4.jpg" alt="Quatro mini pizzas artesanais Mini Pizza Junior" width="900" height="1200" loading="lazy">
         <div class="selo10k"><span><b><span data-count="10">0</span>K</b>seguidores</span></div>
       </div>
       <div>
@@ -578,13 +708,14 @@
       </div>
       <div>
         <h4>Navegação</h4>
-        <a href="#sabores">Sabores</a><a href="#revenda">Seja revendedor</a><a href="#festas">Festas</a><a href="#sobre">Sobre nós</a>
+        <a href="#sabores">Sabores</a><a href="#revenda">Seja revendedor</a><a href="#festas">Eventos</a><a href="#ebook">E-book</a><a href="#sobre">Sobre nós</a>
       </div>
       <div>
         <h4>Contato</h4>
         <a data-wpp="Olá!" href="#" id="wppNum">WhatsApp</a>
         <a data-ig="Instagram: " href="https://www.instagram.com/minipizzajunior/" target="_blank" rel="noopener">Instagram: @minipizzajunior</a>
         <span id="endereco" style="display:block;font-weight:700"></span>
+        <span style="display:block;font-weight:700;margin-top:8px">📍 Entregamos em <span data-regiao>Nanuque e região</span></span>
       </div>
     </div>
     <p class="copy">© 2026 Mini Pizza Junior · Todos os direitos reservados</p>
@@ -628,11 +759,39 @@
   $('#endereco').textContent = S.endereco ? 'Endereço: ' + S.endereco : '';
   $('#wppNum').textContent = 'WhatsApp: ' + S.whatsapp.replace(/^55(\d{2})(\d{4,5})(\d{4})$/, '($1) $2-$3');
   const priceHTML = f => S.mostrarPrecos && f.price > 0
-    ? `R$ ${f.price.toFixed(2).replace('.', ',')} <small>/unidade</small>`
+    ? `R$ ${f.price.toFixed(2).replace('.', ',')} <small>cada</small>`
     : `<small style="font-size:1rem;opacity:.8">Consulte o preço</small>`;
+  const reais = v => 'R$ ' + (+v).toFixed(2).replace('.', ',');
+  $$('[data-regiao]').forEach(el => el.textContent = S.regiao || 'Nanuque e região');
+  $$('[data-preco]').forEach(el => el.textContent = reais(S[el.dataset.preco] || 0));
+
+  /* ---------- sabores sob encomenda ---------- */
+  const enc = String(S.encomenda || '').split(/\r?\n/).map(s => s.trim()).filter(Boolean);
+  $('#encList').innerHTML = enc.map(s => `<li>${esc(s)}</li>`).join('');
+  $('#encomendaBox').hidden = !enc.length;
+
+  /* ---------- e-book: Hotmart quando houver link, senão WhatsApp ---------- */
+  $('#ebookBtn').href = S.ebookLink || wppLink('Olá! Quero saber mais sobre o e-book da Mini Pizza Junior 📘');
+
+  /* ---------- simulador de brotinhos pra eventos ---------- */
+  let evOpt = 'pre';
+  const OPT = { pre: 'pré-assadas', assadas: 'assadas', local: 'assadas no local do evento' };
+  function evCalc() {
+    const q = Math.max(1, Math.round(+$('#evQtd').value || 0));
+    const unit = q >= 100 ? S.brotinho100 : q >= 60 ? S.brotinho60 : S.brotinho1;
+    const extra = evOpt === 'local' ? +S.eventoLocal || 0 : 0;
+    $('#evTotal').textContent = reais(q * unit + extra) + (evOpt === 'assadas' ? ' + adicional' : '');
+    $('#evUnit').textContent = `${reais(unit)} por unidade${extra ? ` + ${reais(extra)} no local` : ''}`;
+    $('#evBtn').href = wppLink(`Olá! Quero um orçamento de ${q} brotinhos pra evento (${OPT[evOpt]}). 🍕`);
+  }
+  $('#evOpts').addEventListener('click', e => {
+    const b = e.target.closest('button'); if (!b) return;
+    evOpt = b.dataset.v; $$('#evOpts button').forEach(x => x.setAttribute('aria-pressed', x === b)); evCalc();
+  });
+  $('#evQtd').addEventListener('input', evCalc); evCalc();
 
   /* ---------- ilustrações ---------- */
-  const logo = logoSVG();
+  const logo = PK.logoSVG(); // logo oficial do cliente (/img/logo-512.png)
   $$('[data-logo]').forEach(el => el.innerHTML = logo);
   const heroFlavor = flavorFor(S.heroFlavor);
   $('#heroPizza').innerHTML = PK.pizzaSVG(heroFlavor);
@@ -648,19 +807,6 @@
     const items = src.map(t => `<span>${t}</span>`).join('');
     el.innerHTML = items.repeat(Math.max(2, Math.ceil(12 / src.length)) * 2);
   });
-
-  function logoSVG() {
-    const R = PK.rng(7), f = n => n.toFixed(1); let tri = '';
-    for (let i = 0; i < 46; i++) {
-      const a = R() * 6.28, r = 18 + Math.sqrt(R()) * 64, x = 100 + Math.cos(a) * r, y = 100 + Math.sin(a) * r, s = 3 + R() * 3;
-      tri += `<path d="M${f(x)},${f(y - s)} L${f(x + s)},${f(y + s * .8)} L${f(x - s)},${f(y + s * .8)}Z" fill="${R() > .5 ? '#F5A623' : '#B83F10'}" transform="rotate(${f(R() * 120)} ${f(x)} ${f(y)})" opacity=".9"/>`;
-    }
-    return `<svg viewBox="0 0 200 200" role="img" aria-label="Logo Mini Pizza Junior"><circle cx="100" cy="100" r="99" fill="#F5A623"/><circle cx="100" cy="100" r="88" fill="#E0521B"/>${tri}
-      <g font-family="'Bagel Fat One', cursive" text-anchor="middle" paint-order="stroke" stroke="#8E2E0A" stroke-linejoin="round">
-        <text x="100" y="94" font-size="33" fill="#FFC93C" stroke-width="7" transform="rotate(-5 100 100)">MINI PIZZA</text>
-        <text x="100" y="138" font-size="47" fill="#FFF1D0" stroke-width="8" transform="rotate(-5 100 100)">JUNIOR</text>
-      </g></svg>`;
-  }
 
   /* ---------- depoimentos ---------- */
   const depHTML = TS.map(d => `<div class="depo"><div class="stars">★★★★★</div><p>“${esc(d.text)}”</p><div class="who"><div class="av">${esc((d.name || '?')[0].toUpperCase())}</div><div>${esc(d.name)}<small>${esc(d.role)}</small></div></div></div>`).join('');
@@ -709,23 +855,6 @@
       if (!auto) return; select((current + 1) % FL.length); setTimeout(cycle, 900);
     } });
   }
-
-  /* ---------- calculadora ---------- */
-  const qtd = $('#qtd'), mg = $('#margem');
-  mg.value = S.margemPadrao;
-  const brl = v => 'R$ ' + Math.round(v).toLocaleString('pt-BR');
-  const shown = { sem: 0, mes: 0 };
-  function render() { $('#rSem').textContent = brl(shown.sem); $('#rMes').textContent = brl(shown.mes); }
-  function calc() {
-    const q = +qtd.value, m = +mg.value;
-    $('#qtdOut').textContent = q;
-    $('#margemOut').textContent = 'R$ ' + m.toFixed(2).replace('.', ',');
-    [qtd, mg].forEach(r => r.style.setProperty('--p', ((r.value - r.min) / (r.max - r.min) * 100) + '%'));
-    const target = { sem: q * m, mes: q * m * 4.3 };
-    if (hasGsap) gsap.to(shown, { ...target, duration: .5, ease: 'power2.out', overwrite: true, onUpdate: render });
-    else { Object.assign(shown, target); render(); }
-  }
-  qtd.addEventListener('input', calc); mg.addEventListener('input', calc); calc();
 
   /* ---------- header, menu, progresso ---------- */
   const header = $('#top'), prog = $('#progress');
@@ -782,7 +911,10 @@
   gsap.fromTo('.linha', { clipPath: 'inset(0 100% 0 0)' }, { clipPath: 'inset(0 0% 0 0)', ease: 'none', scrollTrigger: { trigger: '.passos', start: 'top 75%', end: 'top 35%', scrub: true } });
   gsap.from('.passo .circ', { scale: 0, rotate: -90, duration: .8, ease: 'back.out(2)', stagger: .2, scrollTrigger: { trigger: '.passos', start: 'top 80%' } });
 
-  gsap.from('#calc', { rotate: 6, scale: .85, duration: 1, ease: 'elastic.out(1,.6)', scrollTrigger: { trigger: '#calc', start: 'top 85%' } });
+  gsap.from('.foto-revenda', { rotate: 8, scale: .85, duration: 1, ease: 'elastic.out(1,.6)', scrollTrigger: { trigger: '.foto-revenda', start: 'top 85%' } });
+  gsap.fromTo('.enc-list li', { scale: 0, rotate: -20 }, { scale: 1, rotate: 0, duration: .5, ease: 'back.out(2.5)', stagger: .07, clearProps: 'transform', scrollTrigger: { trigger: '#encomendaBox', start: 'top 85%' } });
+  gsap.from('.livro', { x: -120, rotate: -20, opacity: 0, duration: 1, ease: 'back.out(1.4)', scrollTrigger: { trigger: '#ebook', start: 'top 75%' } });
+  gsap.from('.tabela li', { x: -40, opacity: 0, duration: .5, stagger: .12, scrollTrigger: { trigger: '.tabela', start: 'top 85%' } });
   ScrollTrigger.create({ trigger: '#sobre', start: 'top 70%', once: true, onEnter: () => counters($('#sobre')) });
   gsap.from('.selo10k', { scale: 0, rotate: -180, duration: 1, ease: 'back.out(2)', scrollTrigger: { trigger: '#sobre', start: 'top 70%' } });
 

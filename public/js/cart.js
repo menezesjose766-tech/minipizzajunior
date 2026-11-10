@@ -197,6 +197,7 @@
         <label><span>Nome *</span><input name="name" autocomplete="name" value="${v('name')}" required></label>
         <label><span>WhatsApp *</span><input name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="(33) 99999-9999" value="${v('phone')}" required></label>
         <h4>Como você quer receber?</h4>
+        <p style="font-weight:800;margin:-4px 0 10px;font-size:.9rem">📍 Entregamos em ${esc(S.regiao || 'Nanuque e região')}</p>
         <div class="opts" data-opt="delivery"><button type="button" data-v="entrega">🛵 Entrega</button><button type="button" data-v="retirada">🏠 Retirar no local</button></div>
         <div id="addrBox">
           <div class="g2"><label><span>Rua *</span><input name="rua" autocomplete="address-line1" value="${av('rua')}"></label><label><span>Número *</span><input name="numero" value="${av('numero')}"></label></div>
