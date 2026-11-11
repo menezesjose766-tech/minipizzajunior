@@ -1,7 +1,7 @@
 /*
  * Grava o Reel (1080x1920) em MP4.
  * Requer: servidor principal rodando em :3000 (npm start) e as ferramentas em TOOLS.
- * Uso: node video/record.js <pasta-das-ferramentas>
+ * Uso: node video/record.js <pasta-das-ferramentas> [reel|reel2]
  */
 const path = require('path');
 const fs = require('fs');
@@ -9,6 +9,8 @@ const express = require('express');
 const { execFileSync } = require('child_process');
 
 const TOOLS = process.argv[2];
+const REEL = process.argv[3] || 'reel'; // reel.html, reel2.html...
+const NAME = REEL === 'reel' ? 'reel-minipizzajunior' : REEL === 'reel2' ? 'reel-clikko-pizzaria' : 'reel-' + REEL;
 const { chromium } = require(path.join(TOOLS, 'node_modules', 'playwright-core'));
 const FFMPEG = require(path.join(TOOLS, 'node_modules', 'ffmpeg-static'));
 const ROOT = path.join(__dirname, '..');
@@ -45,7 +47,7 @@ const pass = (fs.readFileSync(path.join(ROOT, '.env'), 'utf8').match(/^ADMIN_PAS
 
   const page = await context.newPage();
   page.on('pageerror', e => console.log('erro na página:', e.message));
-  await page.goto(`http://localhost:${PORT}/reel/reel.html?rec=1`);
+  await page.goto(`http://localhost:${PORT}/reel/${REEL}.html?rec=1`);
   await page.waitForFunction(() => window.reelReady);
   await page.waitForTimeout(800);
 
@@ -81,11 +83,11 @@ const pass = (fs.readFileSync(path.join(ROOT, '.env'), 'utf8').match(/^ADMIN_PAS
   console.log(`${frames.length} quadros em ${span.toFixed(1)} s (~${(frames.length / span).toFixed(1)} fps capturados)`);
   execFileSync(FFMPEG, ['-y', '-loglevel', 'error', '-f', 'concat', '-safe', '0', '-i', 'list.txt',
     '-vf', 'fps=30,scale=1080:1920:flags=lanczos,format=yuv420p', '-c:v', 'libx264', '-preset', 'slow', '-crf', '18',
-    '-movflags', '+faststart', 'reel-minipizzajunior.mp4'], { cwd: OUT, stdio: 'inherit' });
-  console.log('✅', path.join(OUT, 'reel-minipizzajunior.mp4'));
+    '-movflags', '+faststart', NAME + '.mp4'], { cwd: OUT, stdio: 'inherit' });
+  console.log('✅', path.join(OUT, NAME + '.mp4'));
 
   // narração: cada trecho do MP3 começa junto com a sua cena
-  const VOZ = path.join(__dirname, 'audio', 'narracao.mp3');
+  const VOZ = path.join(__dirname, 'audio', REEL === 'reel' ? 'narracao.mp3' : REEL + '.mp3');
   if (fs.existsSync(VOZ) && meta.cuts) {
     const t0 = Math.max(0, meta.wall - frames[0].t) + 0.12; // início do reel dentro do vídeo
     const n = meta.cuts.length;
@@ -96,9 +98,9 @@ const pass = (fs.readFileSync(path.join(ROOT, '.env'), 'utf8').match(/^ADMIN_PAS
       fc += `[1:a]atrim=start=${a}${b},asetpts=PTS-STARTPTS,adelay=${ms}|${ms}[a${i}];`;
     }
     fc += meta.cuts.map((_, i) => `[a${i}]`).join('') + `amix=inputs=${n}:normalize=0,loudnorm=I=-14:TP=-1.5:LRA=11,apad[aout]`;
-    execFileSync(FFMPEG, ['-y', '-loglevel', 'error', '-i', 'reel-minipizzajunior.mp4', '-i', VOZ, '-filter_complex', fc,
+    execFileSync(FFMPEG, ['-y', '-loglevel', 'error', '-i', NAME + '.mp4', '-i', VOZ, '-filter_complex', fc,
       '-map', '0:v', '-map', '[aout]', '-c:v', 'copy', '-c:a', 'aac', '-b:a', '192k', '-ar', '48000', '-shortest',
-      '-movflags', '+faststart', 'reel-minipizzajunior-voz.mp4'], { cwd: OUT, stdio: 'inherit' });
-    console.log('✅ com voz:', path.join(OUT, 'reel-minipizzajunior-voz.mp4'));
+      '-movflags', '+faststart', NAME + '-voz.mp4'], { cwd: OUT, stdio: 'inherit' });
+    console.log('✅ com voz:', path.join(OUT, NAME + '-voz.mp4'));
   }
 })().catch(e => { console.error(e); process.exit(1); });

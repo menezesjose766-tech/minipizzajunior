@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Reel — site que vende sozinho</title>
+<link href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Nunito:wght@600;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{--laranja:#E0521B;--laranja-esc:#B83F10;--amarelo:#F5A623;--amarelo-claro:#FFD27A;--creme:#FFF6E9;--creme-2:#FCE9CF;--escuro:#2A1A12;--verde:#25D366;--verde-esc:#128C4A}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{width:1080px;height:1920px;overflow:hidden;background:var(--creme);font-family:'Nunito',sans-serif;color:var(--escuro)}
+  .d{font-family:'Bagel Fat One',cursive;font-weight:400;line-height:1.02}
+  .scene{position:absolute;inset:0;opacity:0;visibility:hidden;overflow:hidden}
+  .confete::before{content:"";position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cg opacity='.35'%3E%3Cpath d='M30 28l14 5-11 9z' fill='%23F5A623'/%3E%3Cpath d='M140 46l12 9-14 5z' fill='%23E0521B'/%3E%3Cpath d='M224 22l9 12-14-2z' fill='%23F5A623'/%3E%3Cpath d='M88 114l14 2-8 12z' fill='%23E0521B'/%3E%3Cpath d='M186 134l14 6-12 8z' fill='%23F5A623'/%3E%3Cpath d='M36 180l11 11-14 2z' fill='%23F5A623'/%3E%3Cpath d='M130 214l14-3-5 14z' fill='%23E0521B'/%3E%3Cpath d='M232 206l8 12-14-3z' fill='%23E0521B'/%3E%3C/g%3E%3C/svg%3E");animation:conf 30s linear infinite}
+  @keyframes conf{to{background-position:260px 520px}}
+  .bars{position:absolute;top:44px;left:40px;right:40px;display:flex;gap:10px;z-index:50}
+  .bars i{flex:1;height:8px;border-radius:9px;background:rgba(42,26,18,.15);overflow:hidden}
+  .bars i b{display:block;height:100%;width:0;background:var(--laranja)}
+  .h{position:absolute;left:60px;right:60px;text-align:center;color:var(--laranja);text-shadow:5px 6px 0 var(--amarelo-claro);font-size:92px}
+  .sticker{position:absolute;background:#fff;border:5px solid var(--escuro);border-radius:30px;padding:20px 30px;font-weight:900;font-size:42px;box-shadow:10px 10px 0 var(--laranja);white-space:nowrap;z-index:4}
+
+  /* S1: caos no direct */
+  #s1{background:var(--escuro)}
+  #s1 .h{top:190px;color:#fff;text-shadow:5px 6px 0 var(--laranja);font-size:100px}
+  .dms{position:absolute;top:640px;left:90px;right:90px;display:flex;flex-direction:column;gap:26px}
+  .dm{display:flex;gap:22px;align-items:center;background:#3B2A20;border-radius:36px;padding:24px 30px;color:#fff}
+  .dm .av{width:86px;height:86px;border-radius:50%;flex:none;display:grid;place-items:center;font-size:44px;background:linear-gradient(135deg,#F58529,#DD2A7B,#8134AF)}
+  .dm b{display:block;font-size:36px;font-weight:900}
+  .dm span{font-size:34px;opacity:.8;font-weight:700}
+  .dm .dot{margin-left:auto;width:26px;height:26px;border-radius:50%;background:#3897F0;flex:none}
+  #s1 .count{position:absolute;bottom:170px;left:50%;transform:translateX(-50%);background:#ED4956;color:#fff;font-weight:900;font-size:50px;padding:16px 40px;border-radius:99px;white-space:nowrap}
+
+  /* S2 / S3: celular */
+  .phone{position:absolute;top:470px;left:50%;width:620px;height:1300px;margin-left:-310px;background:var(--escuro);border-radius:90px;padding:24px;box-shadow:0 50px 90px rgba(42,26,18,.4)}
+  .phone .scr{width:100%;height:100%;border-radius:68px;overflow:hidden;position:relative;background:#fff}
+  .phone .notch{position:absolute;top:24px;left:50%;width:200px;height:44px;margin-left:-100px;background:var(--escuro);border-radius:0 0 26px 26px;z-index:3}
+  .phone iframe{position:absolute;top:0;left:0;width:390px;height:850px;border:0;transform:scale(1.4718);transform-origin:0 0}
+  #s2 .h{top:170px}
+  #s2 .st1{top:1230px;left:14px;transform:rotate(-8deg)}
+  #s2 .st2{top:1640px;right:16px;transform:rotate(6deg)}
+
+  /* S3: pedido completo */
+  #s3 .h{top:170px}
+  .ticket{position:absolute;top:470px;left:120px;right:120px;background:#fff;border:6px solid var(--escuro);border-radius:44px;padding:50px 54px;box-shadow:14px 14px 0 var(--laranja)}
+  .ticket .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:26px}
+  .ticket .top b{font-size:58px;color:var(--laranja)}
+  .ticket .novo{background:var(--verde);color:#fff;font-weight:900;font-size:32px;padding:10px 24px;border-radius:99px}
+  .ticket .ln{display:flex;gap:22px;align-items:flex-start;font-size:40px;font-weight:800;padding:22px 0;border-top:3px dashed var(--creme-2)}
+  .ticket .ln i{font-style:normal;font-size:46px;width:60px;flex:none;text-align:center}
+  .ticket .ln small{display:block;font-size:32px;opacity:.6}
+  .ticket .tot{display:flex;justify-content:space-between;align-items:center;border-top:5px solid var(--escuro);padding-top:28px;margin-top:10px}
+  .ticket .tot span{font-weight:900;font-size:42px}
+  .ticket .tot b{font-size:72px}
+  .check{position:absolute;top:1560px;left:50%;width:180px;height:180px;margin-left:-90px;border-radius:50%;background:var(--verde);border:6px solid var(--escuro);display:grid;place-items:center;box-shadow:0 10px 0 var(--verde-esc)}
+  .check svg{width:100px;height:100px}
+
+  /* S4: painel */
+  #s4 .h{top:170px}
+  .laptop{position:absolute;top:500px;left:50%;width:1040px;margin-left:-520px}
+  .laptop .lid{background:var(--escuro);border-radius:34px 34px 0 0;padding:20px 20px 24px}
+  .laptop .scr{position:relative;width:1000px;height:625px;overflow:hidden;border-radius:12px;background:#fff}
+  .laptop iframe{position:absolute;top:0;left:0;width:1280px;height:800px;border:0;transform:scale(.78125);transform-origin:0 0}
+  .laptop .base{height:34px;background:#4A3428;border-radius:0 0 40px 40px;margin:0 -20px;position:relative}
+  .laptop .base::after{content:"";position:absolute;top:0;left:50%;width:180px;height:14px;margin-left:-90px;background:#2A1A12;border-radius:0 0 14px 14px}
+  .feat{position:absolute;top:1330px;left:60px;right:60px;display:flex;flex-direction:column;align-items:center;gap:26px}
+  .feat span{background:#fff;border:5px solid var(--escuro);border-radius:99px;padding:18px 40px;font-weight:900;font-size:46px;box-shadow:8px 8px 0 var(--amarelo)}
+
+  /* S5: CTA */
+  #s5{background:var(--laranja);color:#fff}
+  #s5 .q{position:absolute;top:300px;left:70px;right:70px;text-align:center;font-size:118px;color:#fff;text-shadow:6px 7px 0 var(--laranja-esc)}
+  #s5 .logo{position:absolute;top:880px;left:50%;width:400px;height:400px;margin-left:-200px;border-radius:50%;overflow:hidden;border:10px solid #fff;box-shadow:0 30px 60px rgba(0,0,0,.3);background:#fff}
+  #s5 .logo img{width:100%;height:100%;object-fit:cover;display:block}
+  #s5 .cta{position:absolute;top:1400px;left:50%;transform:translateX(-50%);background:var(--amarelo);color:var(--escuro);border:6px solid var(--escuro);border-radius:99px;padding:30px 60px;font-size:62px;box-shadow:0 12px 0 var(--escuro);white-space:nowrap}
+  #s5 .ig{position:absolute;top:1600px;left:0;right:0;text-align:center;font-weight:900;font-size:58px}
+</style>
+</head>
+<body>
+<div class="bars" id="bars"></div>
+
+<section class="scene" id="s1">
+  <div class="h d">Pedido só pelo direct? 😩</div>
+  <div class="dms">
+    <div class="dm"><div class="av">🙋</div><div><b>ana.souza</b><span>Oi! Tem de calabresa?</span></div><i class="dot"></i></div>
+    <div class="dm"><div class="av">🧑</div><div><b>joao_p</b><span>Qual o preço da bandeja?</span></div><i class="dot"></i></div>
+    <div class="dm"><div class="av">👩</div><div><b>carla.m</b><span>Entrega no centro?</span></div><i class="dot"></i></div>
+    <div class="dm"><div class="av">🧔</div><div><b>rafa.lima</b><span>Oi?? Alguém aí? 😅</span></div><i class="dot"></i></div>
+  </div>
+  <div class="count">📩 12 mensagens sem resposta</div>
+</section>
+
+<section class="scene confete" id="s2">
+  <div class="h d">Toca no sabor… e a pizza se monta 🍕</div>
+  <div class="phone"><div class="notch"></div><div class="scr"><iframe id="ifSite" title="site" scrolling="no"></iframe></div></div>
+  <div class="sticker st1">✨ cardápio animado</div>
+  <div class="sticker st2">📱 direto do celular</div>
+</section>
+
+<section class="scene confete" id="s3">
+  <div class="h d">O pedido chega completinho</div>
+  <div class="ticket">
+    <div class="top"><b class="d">Pedido #1027</b><span class="novo">NOVO</span></div>
+    <div class="ln"><i>🍕</i><div>2× Calabresa<small>1× Frango c/ Catupiry</small></div></div>
+    <div class="ln"><i>📍</i><div>Rua das Flores, 120<small>Centro · Nanuque</small></div></div>
+    <div class="ln"><i>📞</i><div>(33) 9 0000-0000<small>Ana Souza</small></div></div>
+    <div class="tot"><span>Total</span><b class="d">R$ 34,97</b></div>
+  </div>
+  <div class="check"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+</section>
+
+<section class="scene confete" id="s4">
+  <div class="h d">E a dona controla tudo</div>
+  <div class="laptop"><div class="lid"><div class="scr"><iframe id="ifAdmin" title="painel" scrolling="no"></iframe></div></div><div class="base"></div></div>
+  <div class="feat"><span>🍕 sabores</span><span>💲 preços</span><span>📦 pedidos</span></div>
+</section>
+
+<section class="scene confete" id="s5">
+  <div class="q d">Quer um site assim? 🚀</div>
+  <div class="logo"><img src="/img/clikko.png" alt="Clikko"></div>
+  <div class="cta d">Chama no direct 📩</div>
+  <div class="ig">@clikko.pt</div>
+</section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script>
+const $ = s => document.querySelector(s);
+const SC = ['#s1', '#s2', '#s3', '#s4', '#s5'];
+// durações e cortes ajustados à narração (video/audio/reel2.mp3)
+const DUR = window.DUR_OVERRIDE || [2.95, 5.65, 4.65, 3.95, 4.6];
+window.SCENE_STARTS = DUR.map((d, i) => DUR.slice(0, i).reduce((a, b) => a + b, 0));
+window.AUDIO_CUTS = window.CUTS_OVERRIDE || [0, 2.95, 8.6, 13.25, 17.2];
+$('#bars').innerHTML = SC.map(() => '<i><b></b></i>').join('');
+const bars = document.querySelectorAll('#bars b');
+
+function show(tl, i, at) {
+  tl.set(SC[i], { autoAlpha: 1 }, at);
+  if (i > 0) tl.set(SC[i - 1], { autoAlpha: 0 }, at + .001);
+  tl.fromTo(bars[i], { width: '0%' }, { width: '100%', duration: DUR[i], ease: 'none' }, at);
+}
+const site = () => $('#ifSite').contentDocument;
+function clickFlavor(i) { try { site().querySelector(`.fl[data-i="${i}"]`).click(); } catch {} }
+
+// pré-carrega site e painel
+$('#ifSite').src = '/';
+$('#ifAdmin').src = '/admin';
+
+window.startReel = () => {
+  const tl = gsap.timeline({ onComplete: () => window.reelDone = true });
+  let t = 0;
+  // S1
+  show(tl, 0, t);
+  tl.from('#s1 .h', { scale: .5, opacity: 0, duration: .45, ease: 'back.out(2)' }, t);
+  tl.from('.dm', { x: 900, duration: .4, ease: 'back.out(1.5)', stagger: .3 }, t + .3);
+  tl.from('#s1 .count', { scale: 0, duration: .5, ease: 'elastic.out(1,.5)' }, t + 1.7);
+  tl.to('.dm', { x: () => gsap.utils.random(-12, 12), yoyo: true, repeat: 5, duration: .06 }, t + 2.3);
+  t += DUR[0];
+  // S2
+  show(tl, 1, t);
+  tl.from('#s2 .h', { scale: .6, opacity: 0, duration: .5, ease: 'back.out(2)' }, t);
+  tl.from('.phone', { y: 900, rotate: 8, duration: .8, ease: 'back.out(1.2)' }, t);
+  tl.add(() => { try { const s = site().querySelector('#sabores'); $('#ifSite').contentWindow.scrollTo({ top: s.offsetTop + 150, behavior: 'instant' }); } catch {} }, t);
+  tl.add(() => clickFlavor(3), t + .9);
+  tl.from('#s2 .st1', { scale: 0, duration: .6, ease: 'elastic.out(1,.5)' }, t + 1.2);
+  tl.add(() => clickFlavor(2), t + 2.6);
+  tl.from('#s2 .st2', { scale: 0, duration: .6, ease: 'elastic.out(1,.5)' }, t + 3.2);
+  tl.add(() => clickFlavor(1), t + 4.1);
+  t += DUR[1];
+  // S3
+  show(tl, 2, t);
+  tl.from('#s3 .h', { scale: .6, opacity: 0, duration: .5, ease: 'back.out(2)' }, t);
+  tl.from('.ticket', { y: 300, rotate: -5, opacity: 0, duration: .7, ease: 'back.out(1.5)' }, t + .1);
+  tl.from('.ticket .ln', { x: -80, opacity: 0, duration: .4, stagger: .45 }, t + .7);
+  tl.from('.ticket .tot', { scale: .7, opacity: 0, duration: .45, ease: 'back.out(2)' }, t + 2.2);
+  tl.from('.check', { scale: 0, rotate: -90, duration: .6, ease: 'back.out(2)' }, t + 2.8);
+  t += DUR[2];
+  // S4
+  show(tl, 3, t);
+  tl.from('#s4 .h', { scale: .6, opacity: 0, duration: .5, ease: 'back.out(2)' }, t);
+  tl.from('.laptop', { y: 700, duration: .8, ease: 'back.out(1.2)' }, t);
+  tl.from('.feat span', { scale: 0, duration: .45, ease: 'back.out(2.5)', stagger: .55 }, t + .9);
+  tl.add(() => { try { $('#ifAdmin').contentDocument.querySelector('.tab[data-tab="sabores"]').click(); } catch {} }, t + 1.6);
+  t += DUR[3];
+  // S5
+  show(tl, 4, t);
+  tl.from('#s5 .q', { scale: .5, opacity: 0, duration: .6, ease: 'back.out(2)' }, t);
+  tl.from('#s5 .logo', { scale: 0, rotate: -180, duration: .8, ease: 'back.out(1.5)' }, t + .3);
+  tl.from('#s5 .cta', { scale: 0, duration: .7, ease: 'elastic.out(1,.5)' }, t + 1.0);
+  tl.from('#s5 .ig', { y: 50, opacity: 0, duration: .4 }, t + 1.4);
+  tl.to('#s5 .cta', { scale: 1.06, yoyo: true, repeat: 3, duration: .3, ease: 'sine.inOut' }, t + 1.9);
+  tl.to({}, { duration: .2 }, t + DUR[4]);
+  return tl.duration();
+};
+
+document.fonts.ready.then(() => setTimeout(() => {
+  window.reelReady = true;
+  if (!location.search.includes('rec')) window.startReel();
+}, 2500));
+</script>
+</body>
+</html>
