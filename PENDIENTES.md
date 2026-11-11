@@ -14,7 +14,7 @@ _Última actualización: 10/11/2026_
 - [ ] **Depoimentos:** hoy son de ejemplo. Pedir 3 o 4 reales al cliente o quitar la sección.
 - [ ] **Avisos por WhatsApp (propuesta, sin decidir):** botón "📲 Avisar cliente" en el panel con un mensaje listo según el estado (confirmado / en preparo / salió / entregado). Opcional: aviso de pedido nuevo al dueño.
 - [ ] Antes de entregar: borrar los pedidos de prueba en el panel.
-- [ ] **Render (demo):** el último deploy (8e1996a) quedó "Live" pero sigue sirviendo archivos del 10/11. Cuando el dashboard cargue, hacer **Manual Deploy → Clear build cache & deploy**. Mientras tanto, el link de Hotmart de la demo se cargó desde el panel.
+- [x] **Render (demo):** republicado el 11/11 con "Clear build cache & deploy". La demo tiene la última versión (link de Hotmart y salto corregido). Si en el futuro un deploy no cambia nada, volver a usar esa opción.
 
 ## Para retomar el trabajo
 - Abrir esta carpeta en Claude Code y pedir: _"sigamos con Mini Pizza Junior, lee PENDIENTES.md"_.
