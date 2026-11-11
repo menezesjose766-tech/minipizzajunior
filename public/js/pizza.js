@@ -200,7 +200,7 @@
       aceitarPedidos: true, taxaEntrega: 0, pedidoMinimo: 1,
       regiao: 'Nanuque e região',
       encomenda: 'Frango com bacon\nMilho com bacon\nLombo canadense\nRomeu e Julieta\nBanana com canela\nNutella',
-      ebookLink: '',
+      ebookLink: 'https://go.hotmart.com/R108434856U',
       brotinho1: 2.5, brotinho60: 2, brotinho100: 1.9, eventoLocal: 40,
     },
     flavors: [
