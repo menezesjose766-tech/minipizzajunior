@@ -297,15 +297,15 @@
         "toppings": [
           {
             "k": "calabresa",
-            "n": 7
+            "n": 10
           },
           {
             "k": "frango",
-            "n": 7
+            "n": 10
           },
           {
             "k": "carne",
-            "n": 7
+            "n": 10
           }
         ],
         "drizzle": null,
