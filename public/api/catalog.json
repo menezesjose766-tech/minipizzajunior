@@ -293,24 +293,24 @@
         "active": true,
         "desc": "Bandeja com 10 mini pizzas brotinho pré-assadas, selada a vácuo.",
         "base": "tomate",
-        "cheese": true,
+        "cheese": false,
         "toppings": [
           {
             "k": "calabresa",
-            "n": 6
+            "n": 7
           },
           {
             "k": "frango",
-            "n": 6
+            "n": 7
           },
           {
-            "k": "milho",
-            "n": 6
+            "k": "carne",
+            "n": 7
           }
         ],
         "drizzle": null,
         "center": null,
-        "oregano": true
+        "oregano": false
       }
     ],
     "testimonials": [
