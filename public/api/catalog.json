@@ -133,28 +133,56 @@
     },
     "flavors": [
       {
-        "id": "calabresa",
-        "name": "Calabresa",
-        "short": "Clássica brasileira",
+        "id": "marguerita",
+        "name": "Marguerita",
+        "short": "A clássica",
         "badge": "",
         "price": 10.99,
         "active": true,
-        "desc": "Molho, queijo, calabresa, milho e azeitona.",
+        "desc": "Molho, queijo, tomate cereja, manjericão e azeitona.",
         "base": "tomate",
         "cheese": true,
         "toppings": [
           {
-            "k": "calabresa",
-            "n": 10
+            "k": "tomate",
+            "n": 9
+          },
+          {
+            "k": "manjericao",
+            "n": 2
+          }
+        ],
+        "drizzle": null,
+        "center": "azeitona_verde",
+        "oregano": true
+      },
+      {
+        "id": "nordestina",
+        "name": "Nordestina",
+        "short": "Carne com catupiry",
+        "badge": "",
+        "price": 14.99,
+        "active": true,
+        "desc": "Molho, queijo, carne, catupiry, milho, azeitona e cebola roxa.",
+        "base": "tomate",
+        "cheese": true,
+        "toppings": [
+          {
+            "k": "carne",
+            "n": 12
+          },
+          {
+            "k": "cebola",
+            "n": 1
           },
           {
             "k": "milho",
             "n": 8
           }
         ],
-        "drizzle": null,
+        "drizzle": "catupiry",
         "center": "azeitona_verde",
-        "oregano": true
+        "oregano": false
       },
       {
         "id": "frango",
@@ -181,27 +209,75 @@
         "oregano": true
       },
       {
-        "id": "carne",
-        "name": "Carne",
-        "short": "Carne com catupiry",
+        "id": "calabresa",
+        "name": "Calabresa",
+        "short": "Clássica brasileira",
         "badge": "",
-        "price": 14.99,
+        "price": 10.99,
         "active": true,
-        "desc": "Molho, queijo, carne, catupiry, milho, azeitona e cebola roxa.",
+        "desc": "Molho, queijo, calabresa, milho e azeitona.",
         "base": "tomate",
         "cheese": true,
         "toppings": [
           {
-            "k": "carne",
-            "n": 12
-          },
-          {
-            "k": "cebola",
-            "n": 1
+            "k": "calabresa",
+            "n": 10
           },
           {
             "k": "milho",
             "n": 8
+          }
+        ],
+        "drizzle": null,
+        "center": "azeitona_verde",
+        "oregano": true
+      },
+      {
+        "id": "lombo-abacaxi",
+        "name": "Lombo c/ Abacaxi",
+        "short": "Doce e salgado",
+        "badge": "",
+        "price": 12.99,
+        "active": true,
+        "desc": "Molho, queijo, lombinho, catupiry, abacaxi caramelizado e azeitona.",
+        "base": "tomate",
+        "cheese": true,
+        "toppings": [
+          {
+            "k": "lombo",
+            "n": 7
+          },
+          {
+            "k": "abacaxi",
+            "n": 9
+          }
+        ],
+        "drizzle": "catupiry",
+        "center": "azeitona_verde",
+        "oregano": false
+      },
+      {
+        "id": "camarao",
+        "name": "Camarão",
+        "short": "Com catupiry e cebolinha",
+        "badge": "",
+        "price": 14.99,
+        "active": true,
+        "desc": "Molho, queijo, camarão, catupiry, cebolinha, milho e azeitona.",
+        "base": "tomate",
+        "cheese": true,
+        "toppings": [
+          {
+            "k": "camarao",
+            "n": 9
+          },
+          {
+            "k": "cebolinha",
+            "n": 4
+          },
+          {
+            "k": "milho",
+            "n": 6
           }
         ],
         "drizzle": "catupiry",
@@ -235,82 +311,6 @@
         "drizzle": null,
         "center": null,
         "oregano": true
-      },
-      {
-        "id": "marguerita",
-        "name": "Marguerita",
-        "short": "A clássica",
-        "badge": "",
-        "price": 10.99,
-        "active": false,
-        "desc": "Molho, queijo, tomate cereja, manjericão e azeitona.",
-        "base": "tomate",
-        "cheese": true,
-        "toppings": [
-          {
-            "k": "tomate",
-            "n": 9
-          },
-          {
-            "k": "manjericao",
-            "n": 2
-          }
-        ],
-        "drizzle": null,
-        "center": "azeitona_verde",
-        "oregano": true
-      },
-      {
-        "id": "lombo-abacaxi",
-        "name": "Lombo c/ Abacaxi",
-        "short": "Doce e salgado",
-        "badge": "",
-        "price": 12.99,
-        "active": false,
-        "desc": "Molho, queijo, lombinho, catupiry, abacaxi caramelizado e azeitona.",
-        "base": "tomate",
-        "cheese": true,
-        "toppings": [
-          {
-            "k": "lombo",
-            "n": 7
-          },
-          {
-            "k": "abacaxi",
-            "n": 9
-          }
-        ],
-        "drizzle": "catupiry",
-        "center": "azeitona_verde",
-        "oregano": false
-      },
-      {
-        "id": "camarao",
-        "name": "Camarão",
-        "short": "Com catupiry e cebolinha",
-        "badge": "",
-        "price": 14.99,
-        "active": false,
-        "desc": "Molho, queijo, camarão, catupiry, cebolinha, milho e azeitona.",
-        "base": "tomate",
-        "cheese": true,
-        "toppings": [
-          {
-            "k": "camarao",
-            "n": 9
-          },
-          {
-            "k": "cebolinha",
-            "n": 4
-          },
-          {
-            "k": "milho",
-            "n": 6
-          }
-        ],
-        "drizzle": "catupiry",
-        "center": "azeitona_verde",
-        "oregano": false
       }
     ],
     "testimonials": [

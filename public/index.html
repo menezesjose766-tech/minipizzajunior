@@ -766,7 +766,7 @@
   try { const r = await fetch('/api/public', { cache: 'no-store' }); if (!r.ok) throw 0; data = await r.json(); }
   catch { data = PK.DEFAULT_DATA; }
   const S = { ...PK.DEFAULT_DATA.settings, ...data.settings };
-  const FL = data.flavors && data.flavors.length ? data.flavors : PK.DEFAULT_DATA.flavors.filter(f => f.active !== false);
+  const FL = data.flavors && data.flavors.length ? data.flavors : PK.DEFAULT_DATA.flavors;
   const TS = data.testimonials || [];
   const flavorFor = key => FL.find(f => f.id === key) || FL[(+key || 0) % FL.length];
 
