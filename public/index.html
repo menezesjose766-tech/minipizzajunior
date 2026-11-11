@@ -172,6 +172,9 @@
   .preco{font-family:'Bagel Fat One';font-size:1.8rem;color:var(--escuro)}
   .preco small{font-family:'Nunito';font-size:.8rem;font-weight:700;opacity:.6}
   .timer{position:absolute;left:0;bottom:0;height:5px;background:var(--amarelo);width:0}
+  .perso{margin-top:20px;padding-top:18px;border-top:2px dashed var(--creme-2);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+  .perso[hidden]{display:none}
+  .perso p{margin:0;font-weight:800;font-size:1.02rem}
   .nota{margin-top:26px;font-size:.85rem;opacity:.6;text-align:center}
 
   /* ---------- como funciona ---------- */
@@ -533,6 +536,10 @@
               <span class="preco" id="dPrice"></span>
               <button class="btn btn-lar" id="dBtn" type="button">🛒 Adicionar ao pedido</button>
             </div>
+            <div class="perso" id="dPerso" hidden>
+              <p>Deseja personalizar sua bandeja? Chame no WhatsApp! 💬</p>
+              <a class="btn btn-wpp" id="dPersoBtn" href="#" target="_blank" rel="noopener"><svg><use href="#wpp"/></svg>Chamar no WhatsApp</a>
+            </div>
             <div class="timer" id="timer"></div>
           </div>
         </div>
@@ -849,6 +856,9 @@
       $('#stageBadge').hidden = !F.badge;
       $('#dPrice').innerHTML = priceHTML(F);
       $('#dBtn').href = wppLink(`Olá! Quero pedir a mini pizza de ${F.name} 🍕`);
+      const bandeja = /bandeja/i.test(F.id + ' ' + F.name);
+      $('#dPerso').hidden = !bandeja;
+      if (bandeja) $('#dPersoBtn').href = wppLink(`Olá! Quero personalizar minha ${F.name} 🍕`);
     };
     if (!hasGsap || current === null) { apply(); current = i; if (hasGsap) PK.assemble(stage); return; }
     busy = true; current = i;
