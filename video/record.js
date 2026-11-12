@@ -10,7 +10,7 @@ const { execFileSync } = require('child_process');
 
 const TOOLS = process.argv[2];
 const REEL = process.argv[3] || 'reel'; // reel.html, reel2.html...
-const NAME = REEL === 'reel' ? 'reel-minipizzajunior' : REEL === 'reel2' ? 'reel-clikko-pizzaria' : 'reel-' + REEL;
+const NAME = REEL === 'reel' ? 'reel-minipizzajunior' : REEL === 'reel2' ? 'reel-clikko-pizzaria' : REEL === 'reel3' ? 'reel-clikko-pedidos' : 'reel-' + REEL;
 const { chromium } = require(path.join(TOOLS, 'node_modules', 'playwright-core'));
 const FFMPEG = require(path.join(TOOLS, 'node_modules', 'ffmpeg-static'));
 const ROOT = path.join(__dirname, '..');

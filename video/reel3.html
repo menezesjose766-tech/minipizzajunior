@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Reel — pedidos automatizados (Clikko)</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;700;800;900&family=Caveat:wght@700&display=swap" rel="stylesheet">
+<style>
+  :root{--rosa:#F0365A;--rosa-esc:#C21E43;--laranja:#FF7A3D;--amarelo:#FFC24B;--escuro:#15102A;--escuro-2:#251D44;--claro:#FFF4F6;--verde:#22C55E;--verde-esc:#15803D;--azul:#3B82F6}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{width:1080px;height:1920px;overflow:hidden;background:var(--claro);font-family:'Outfit',sans-serif;color:var(--escuro)}
+  .scene{position:absolute;inset:0;opacity:0;visibility:hidden;overflow:hidden}
+  .dots::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(240,54,90,.16) 3px,transparent 3.5px);background-size:54px 54px;animation:dr 30s linear infinite}
+  @keyframes dr{to{background-position:54px 540px}}
+  .bars{position:absolute;top:44px;left:40px;right:40px;display:flex;gap:10px;z-index:50}
+  .bars i{flex:1;height:8px;border-radius:9px;background:rgba(21,16,42,.15);overflow:hidden}
+  .bars i b{display:block;height:100%;width:0;background:var(--rosa)}
+  .h{position:absolute;left:60px;right:60px;text-align:center;font-weight:900;font-size:96px;line-height:1.02;letter-spacing:-2px}
+  .h em{font-style:normal;background:linear-gradient(90deg,var(--rosa),var(--laranja));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .card{background:#fff;border:5px solid var(--escuro);border-radius:40px;box-shadow:12px 12px 0 var(--rosa)}
+  .pill{position:absolute;background:var(--escuro);color:#fff;font-weight:800;font-size:40px;padding:18px 34px;border-radius:99px;white-space:nowrap;z-index:5}
+
+  /* S1: caos */
+  #s1{background:var(--escuro);color:#fff}
+  #s1 .h{top:170px;color:#fff}
+  .caderno{position:absolute;top:560px;left:150px;width:780px;height:820px;background:#FFFDF4;border-radius:24px;transform:rotate(-4deg);box-shadow:0 30px 60px rgba(0,0,0,.4);background-image:repeating-linear-gradient(#FFFDF4 0 66px,#B9D3F0 66px 69px);padding:80px 60px 0 110px;font-family:'Caveat',cursive;font-size:62px;color:#23408E;line-height:69px}
+  .caderno::before{content:"";position:absolute;top:0;bottom:0;left:84px;width:4px;background:#F08A9B}
+  .caderno p{position:relative;white-space:nowrap}
+  .caderno p.x::after{content:"";position:absolute;left:-10px;right:-10px;top:50%;height:6px;background:#D12B2B;border-radius:4px;transform:rotate(-3deg) scaleX(var(--s,0));transform-origin:left}
+  .bub{position:absolute;background:var(--verde);color:#fff;font-weight:800;font-size:40px;padding:22px 32px;border-radius:36px 36px 36px 8px;box-shadow:0 14px 30px rgba(0,0,0,.35);white-space:nowrap}
+  .bub.b1{top:520px;right:40px}.bub.b2{top:1080px;left:40px}.bub.b3{top:1300px;right:60px}.bub.b4{top:780px;left:30px}
+  #s1 .alert{position:absolute;bottom:190px;left:50%;transform:translateX(-50%);background:var(--rosa);color:#fff;font-weight:900;font-size:50px;padding:18px 44px;border-radius:99px;white-space:nowrap}
+
+  /* S2: cliente pede sozinho */
+  #s2 .h{top:170px}
+  .phone{position:absolute;top:470px;left:50%;width:600px;height:1240px;margin-left:-300px;background:var(--escuro);border-radius:88px;padding:22px;box-shadow:0 50px 90px rgba(21,16,42,.35)}
+  .phone .scr{width:100%;height:100%;border-radius:66px;overflow:hidden;position:relative;background:#fff;padding:110px 34px 0}
+  .phone .notch{position:absolute;top:22px;left:50%;width:190px;height:42px;margin-left:-95px;background:var(--escuro);border-radius:0 0 24px 24px;z-index:3}
+  .shop{font-weight:900;font-size:44px;margin-bottom:26px}
+  .prod{display:flex;align-items:center;gap:22px;border:4px solid #EEE6EA;border-radius:30px;padding:20px;margin-bottom:20px}
+  .prod .im{width:110px;height:110px;border-radius:24px;display:grid;place-items:center;font-size:64px;flex:none}
+  .prod b{display:block;font-size:34px;font-weight:800}
+  .prod span{font-size:30px;font-weight:700;opacity:.55}
+  .prod .add{margin-left:auto;width:72px;height:72px;border-radius:50%;background:var(--rosa);color:#fff;font-size:52px;font-weight:900;display:grid;place-items:center;flex:none}
+  .cartbar{position:absolute;left:34px;right:34px;bottom:40px;background:var(--escuro);color:#fff;border-radius:34px;padding:26px 30px;display:flex;justify-content:space-between;align-items:center;font-weight:800;font-size:33px;white-space:nowrap}
+  .cartbar .n{background:var(--rosa);border-radius:99px;padding:4px 20px;margin-right:12px}
+  .sent{position:absolute;inset:0;background:var(--verde);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;font-weight:900;font-size:58px;text-align:center;opacity:0}
+  .sent .ck{width:200px;height:200px;border-radius:50%;background:#fff;display:grid;place-items:center}
+  .sent .ck svg{width:120px;height:120px}
+  .tap{position:absolute;width:80px;height:80px;border-radius:50%;background:rgba(240,54,90,.35);border:5px solid var(--rosa);z-index:6;opacity:0;pointer-events:none}
+  #s2 .p1{top:620px;left:16px;transform:rotate(-7deg)}
+  #s2 .p2{top:1480px;right:16px;transform:rotate(5deg);background:var(--rosa)}
+
+  /* S3: pedido organizado */
+  #s3 .h{top:170px}
+  .ticket{position:absolute;top:500px;left:110px;right:110px;padding:48px 52px}
+  .ticket .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px}
+  .ticket .top b{font-size:58px;font-weight:900}
+  .ticket .novo{background:var(--verde);color:#fff;font-weight:900;font-size:32px;padding:10px 24px;border-radius:99px}
+  .ln{display:flex;gap:24px;align-items:center;font-size:40px;font-weight:800;padding:24px 0;border-top:3px dashed #EEE6EA}
+  .ln .ic{font-size:50px;width:64px;text-align:center;flex:none}
+  .ln small{display:block;font-size:32px;font-weight:700;opacity:.55}
+  .ln .ok{margin-left:auto;width:62px;height:62px;border-radius:50%;background:var(--verde);display:grid;place-items:center;flex:none}
+  .ln .ok svg{width:38px;height:38px}
+  .semerro{position:absolute;top:1480px;left:50%;transform:translateX(-50%) rotate(-3deg);background:var(--amarelo);border:5px solid var(--escuro);font-weight:900;font-size:50px;padding:20px 44px;border-radius:99px;white-space:nowrap;box-shadow:8px 8px 0 var(--escuro)}
+
+  /* S4: painel kanban */
+  #s4 .h{top:170px}
+  .board{position:absolute;top:520px;left:40px;right:40px;display:flex;gap:22px}
+  .col{flex:1;background:#fff;border:5px solid var(--escuro);border-radius:34px;padding:22px 16px;min-height:880px}
+  .col h4{font-size:34px;font-weight:900;text-align:center;padding:10px 0 20px;border-bottom:4px solid #EEE6EA;margin-bottom:20px;white-space:nowrap}
+  .col h4 i{display:inline-block;width:22px;height:22px;border-radius:50%;margin-right:10px;vertical-align:2px}
+  .ord{background:var(--claro);border:4px solid var(--escuro);border-radius:24px;padding:22px 18px;margin-bottom:20px;font-weight:900;font-size:36px;box-shadow:5px 5px 0 var(--escuro)}
+  .ord small{display:block;font-size:27px;margin-top:4px;opacity:.55;font-weight:700}
+  .fly{position:absolute;width:290px;z-index:10}
+
+  /* S5: benefícios */
+  #s5{background:var(--escuro);color:#fff}
+  #s5 .h{top:220px;color:#fff}
+  .ben{position:absolute;left:100px;right:100px;display:flex;gap:34px;align-items:center;background:var(--escuro-2);border:4px solid rgba(255,255,255,.12);border-radius:40px;padding:40px 44px}
+  .ben .ic{width:140px;height:140px;border-radius:36px;display:grid;place-items:center;font-size:78px;flex:none}
+  .ben b{display:block;font-size:52px;font-weight:900;line-height:1.05}
+  .ben span{font-size:34px;font-weight:600;opacity:.7}
+  .ben.a{top:620px}.ben.b{top:910px}.ben.c{top:1200px}
+
+  /* S6: CTA */
+  #s6{background:linear-gradient(160deg,var(--rosa),var(--laranja));color:#fff}
+  #s6 .q{position:absolute;top:260px;left:70px;right:70px;text-align:center;font-weight:900;font-size:108px;line-height:1.02;letter-spacing:-2px}
+  #s6 .logo{position:absolute;top:860px;left:50%;width:400px;height:400px;margin-left:-200px;border-radius:50%;overflow:hidden;border:10px solid #fff;box-shadow:0 30px 60px rgba(0,0,0,.3);background:#fff}
+  #s6 .logo img{width:100%;height:100%;object-fit:cover;display:block}
+  #s6 .cta{position:absolute;top:1380px;left:50%;transform:translateX(-50%);background:#fff;color:var(--escuro);border:6px solid var(--escuro);border-radius:99px;padding:28px 60px;font-weight:900;font-size:62px;box-shadow:0 12px 0 var(--escuro);white-space:nowrap}
+  #s6 .ig{position:absolute;top:1590px;left:0;right:0;text-align:center;font-weight:900;font-size:60px}
+</style>
+</head>
+<body>
+<div class="bars" id="bars"></div>
+
+<section class="scene" id="s1">
+  <div class="h">Pedido no caderninho? 😵‍💫</div>
+  <div class="caderno">
+    <p>Ana - 2 marmitas</p>
+    <p class="x">Rua 7, nº ??</p>
+    <p>João - 3 açaís...</p>
+    <p class="x">ou eram 2?</p>
+    <p>Pix? Dinheiro?</p>
+    <p class="x">Carla - ???</p>
+  </div>
+  <div class="bub b1">Oi, cadê meu pedido?</div>
+  <div class="bub b4">Ainda tem? 🙏</div>
+  <div class="bub b2">Mandei áudio!</div>
+  <div class="bub b3">Alguém aí?? 😅</div>
+  <div class="alert">🔔 27 mensagens não lidas</div>
+</section>
+
+<section class="scene dots" id="s2">
+  <div class="h">O cliente pede <em>sozinho</em></div>
+  <div class="phone"><div class="notch"></div><div class="scr">
+    <div class="shop">🛍️ Sua Loja</div>
+    <div class="prod" id="pA"><div class="im" style="background:#FFE7D6">🍔</div><div><b>Combo da casa</b><span>R$ 32,90</span></div><div class="add">+</div></div>
+    <div class="prod" id="pB"><div class="im" style="background:#E8E1FF">🥤</div><div><b>Suco natural</b><span>R$ 9,90</span></div><div class="add">+</div></div>
+    <div class="prod"><div class="im" style="background:#FFF1C7">🍰</div><div><b>Sobremesa</b><span>R$ 14,90</span></div><div class="add">+</div></div>
+    <div class="cartbar" id="cartbar"><span><span class="n" id="cartN">0</span>Enviar pedido</span><span id="cartT">R$ 0,00</span></div>
+    <div class="sent" id="sent"><div class="ck"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#22C55E" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Pedido enviado!</div>
+  </div></div>
+  <div class="tap" id="tap"></div>
+  <div class="pill p1">🕐 24h por dia</div>
+  <div class="pill p2">sem precisar responder</div>
+</section>
+
+<section class="scene dots" id="s3">
+  <div class="h">Chega tudo <em>organizado</em></div>
+  <div class="card ticket">
+    <div class="top"><b>Pedido #2048</b><span class="novo">NOVO</span></div>
+    <div class="ln"><span class="ic">🛒</span><div>2× Combo da casa<small>1× Suco natural</small></div><span class="ok"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#fff" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+    <div class="ln"><span class="ic">📍</span><div>Av. Brasil, 450<small>Ap. 12 · Centro</small></div><span class="ok"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#fff" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+    <div class="ln"><span class="ic">💰</span><div>R$ 75,70<small>Pagamento: Pix</small></div><span class="ok"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#fff" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+  </div>
+  <div class="semerro">✍️ zero erro de anotação</div>
+</section>
+
+<section class="scene dots" id="s4">
+  <div class="h">Tudo num <em>painel</em></div>
+  <div class="board">
+    <div class="col" id="cNovo"><h4><i style="background:var(--rosa)"></i>Novo</h4>
+      <div class="ord" id="o1">#2048 · Ana<small>2 itens · R$ 75,70</small></div>
+      <div class="ord">#2049 · João<small>1 item · R$ 32,90</small></div>
+      <div class="ord" id="o3">#2050 · Carla<small>3 itens · R$ 57,70</small></div>
+    </div>
+    <div class="col" id="cPrep"><h4><i style="background:var(--amarelo)"></i>Em preparo</h4>
+      <div class="ord">#2046 · Rafa<small>2 itens · R$ 42,80</small></div>
+    </div>
+    <div class="col" id="cSaiu"><h4><i style="background:var(--verde)"></i>Saiu 🛵</h4>
+      <div class="ord">#2045 · Bia<small>1 item · R$ 14,90</small></div>
+    </div>
+  </div>
+</section>
+
+<section class="scene" id="s5">
+  <div class="h">Menos <em>mensagem</em>,<br>mais <em>venda</em></div>
+  <div class="ben a"><div class="ic" style="background:var(--rosa)">⏱️</div><div><b>Menos tempo no celular</b><span>o site atende por você</span></div></div>
+  <div class="ben b"><div class="ic" style="background:var(--amarelo)">🗂️</div><div><b>Nenhum pedido perdido</b><span>tudo registrado num lugar</span></div></div>
+  <div class="ben c"><div class="ic" style="background:var(--verde)">📈</div><div><b>Mais tempo pra vender</b><span>e cliente bem atendido</span></div></div>
+</section>
+
+<section class="scene" id="s6">
+  <div class="q">Automatize os pedidos do seu negócio 🚀</div>
+  <div class="logo"><img src="/img/clikko.png" alt="Clikko"></div>
+  <div class="cta">Chama no direct 📩</div>
+  <div class="ig">@clikko.pt</div>
+</section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script>
+const $ = s => document.querySelector(s);
+const SC = ['#s1', '#s2', '#s3', '#s4', '#s5', '#s6'];
+// durações e cortes ajustados à narração (video/audio/reel3.mp3)
+const DUR = [4.05, 6.7, 5.32, 4.49, 3.4, 4.6];
+window.SCENE_STARTS = DUR.map((d, i) => DUR.slice(0, i).reduce((a, b) => a + b, 0));
+window.AUDIO_CUTS = [0, 4.05, 10.75, 16.07, 20.56, 23.96];
+$('#bars').innerHTML = SC.map(() => '<i><b></b></i>').join('');
+const bars = document.querySelectorAll('#bars b');
+function show(tl, i, at) {
+  tl.set(SC[i], { autoAlpha: 1 }, at);
+  if (i > 0) tl.set(SC[i - 1], { autoAlpha: 0 }, at + .001);
+  tl.fromTo(bars[i], { width: '0%' }, { width: '100%', duration: DUR[i], ease: 'none' }, at);
+}
+function tapOn(tl, sel, at, after) {
+  tl.add(() => {
+    const r = $(sel).getBoundingClientRect();
+    gsap.fromTo('#tap', { x: r.left + r.width / 2 - 40, y: r.top + r.height / 2 - 40, scale: .4, opacity: 1 }, { scale: 1.5, opacity: 0, duration: .5 });
+    gsap.fromTo(sel, { scale: 1 }, { scale: .9, yoyo: true, repeat: 1, duration: .1 });
+    after && after();
+  }, at);
+}
+let n = 0, tot = 0;
+const fmt = v => 'R$ ' + v.toFixed(2).replace('.', ',');
+function addCart(v) { n++; tot += v; $('#cartN').textContent = n; $('#cartT').textContent = fmt(tot); gsap.fromTo('#cartbar', { scale: 1.06 }, { scale: 1, duration: .3, ease: 'back.out(3)' }); }
+
+window.startReel = () => {
+  const tl = gsap.timeline({ onComplete: () => window.reelDone = true });
+  let t = 0;
+  // S1
+  show(tl, 0, t);
+  tl.from('#s1 .h', { scale: .5, opacity: 0, duration: .45, ease: 'back.out(2)' }, t);
+  tl.from('.caderno', { y: 900, rotate: 10, duration: .7, ease: 'back.out(1.3)' }, t + .1);
+  tl.from('.caderno p', { opacity: 0, x: -30, duration: .2, stagger: .14 }, t + .6);
+  tl.to('.caderno p.x', { '--s': 1, duration: .25, stagger: .25 }, t + 1.6);
+  tl.from('.bub', { scale: 0, duration: .4, ease: 'back.out(2.5)', stagger: .35 }, t + 1.0);
+  tl.from('#s1 .alert', { scale: 0, duration: .5, ease: 'elastic.out(1,.5)' }, t + 2.4);
+  tl.to('.bub', { x: () => gsap.utils.random(-14, 14), yoyo: true, repeat: 5, duration: .06 }, t + 3.0);
+  t += DUR[0];
+  // S2
+  show(tl, 1, t);
+  tl.from('#s2 .h', { scale: .6, opacity: 0, duration: .5, ease: 'back.out(2)' }, t);
+  tl.from('.phone', { y: 900, rotate: 8, duration: .8, ease: 'back.out(1.2)' }, t);
+  tapOn(tl, '#pA .add', t + 2.5, () => addCart(32.9));
+  tapOn(tl, '#pA .add', t + 3.0, () => addCart(32.9));
+  tapOn(tl, '#pB .add', t + 3.6, () => addCart(9.9));
+  tl.from('#s2 .p1', { scale: 0, duration: .6, ease: 'elastic.out(1,.5)' }, t + 5.3);
+  tapOn(tl, '#cartbar', t + 4.4);
+  tl.to('#sent', { opacity: 1, duration: .3 }, t + 4.6);
+  tl.from('#sent .ck', { scale: 0, rotate: -90, duration: .5, ease: 'back.out(2)' }, t + 4.7);
+  tl.from('#s2 .p2', { scale: 0, duration: .6, ease: 'elastic.out(1,.5)' }, t + 5.8);
+  t += DUR[1];
+  // S3
+  show(tl, 2, t);
+  tl.from('#s3 .h', { scale: .6, opacity: 0, duration: .5, ease: 'back.out(2)' }, t);
+  tl.from('.ticket', { y: 300, rotate: -5, opacity: 0, duration: .7, ease: 'back.out(1.5)' }, t + .1);
+  tl.from('.ticket .ln', { x: -80, opacity: 0, duration: .4, stagger: .7 }, t + 1.7);
+  tl.from('.ticket .ok', { scale: 0, duration: .4, ease: 'back.out(3)', stagger: .7 }, t + 2.0);
+  tl.from('.semerro', { scale: 0, duration: .6, ease: 'elastic.out(1,.5)' }, t + 3.9);
+  t += DUR[2];
+  // S4
+  show(tl, 3, t);
+  tl.from('#s4 .h', { scale: .6, opacity: 0, duration: .5, ease: 'back.out(2)' }, t);
+  tl.from('.col', { y: 400, opacity: 0, duration: .6, ease: 'back.out(1.4)', stagger: .15 }, t + .1);
+  const move = (sel, to, at) => tl.add(() => {
+    const el = $(sel), r = el.getBoundingClientRect();
+    const dest = $(to), last = dest.lastElementChild.getBoundingClientRect();
+    const ty = last.bottom + 18;
+    gsap.timeline()
+      .to(el, { x: dest.getBoundingClientRect().left + 16 - r.left, y: ty - r.top, rotate: 4, scale: 1.05, duration: .6, ease: 'power2.inOut' })
+      .add(() => { gsap.set(el, { x: 0, y: 0, rotate: 0, scale: 1 }); dest.appendChild(el); gsap.from(el, { scale: 1.12, duration: .3, ease: 'back.out(3)' }); });
+  }, at);
+  move('#o1', '#cPrep', t + 1.7);
+  move('#o1', '#cSaiu', t + 3.1);
+  move('#o3', '#cPrep', t + 3.6);
+  t += DUR[3];
+  // S5
+  show(tl, 4, t);
+  tl.from('#s5 .h', { scale: .6, opacity: 0, duration: .5, ease: 'back.out(2)' }, t);
+  tl.from('.ben', { x: 1000, duration: .55, ease: 'back.out(1.4)', stagger: .55 }, t + .4);
+  tl.from('.ben .ic', { rotate: -90, scale: 0, duration: .5, ease: 'back.out(2)', stagger: .55 }, t + .6);
+  t += DUR[4];
+  // S6
+  show(tl, 5, t);
+  tl.from('#s6 .q', { scale: .5, opacity: 0, duration: .6, ease: 'back.out(2)' }, t);
+  tl.from('#s6 .logo', { scale: 0, rotate: -180, duration: .8, ease: 'back.out(1.5)' }, t + .3);
+  tl.from('#s6 .cta', { scale: 0, duration: .7, ease: 'elastic.out(1,.5)' }, t + 1.0);
+  tl.from('#s6 .ig', { y: 50, opacity: 0, duration: .4 }, t + 1.4);
+  tl.to('#s6 .cta', { scale: 1.06, yoyo: true, repeat: 3, duration: .3, ease: 'sine.inOut' }, t + 1.9);
+  tl.to({}, { duration: .2 }, t + DUR[5]);
+  return tl.duration();
+};
+
+document.fonts.ready.then(() => setTimeout(() => {
+  window.reelReady = true;
+  if (!location.search.includes('rec')) window.startReel();
+}, 800));
+</script>
+</body>
+</html>
