@@ -1,22 +1,29 @@
-# Pendientes — Mini Pizza Junior
+# Pendientes: Mini Pizza Junior
 
-_Última actualización: 10/11/2026_
+_Última actualización: 12/11/2026_
 
-## Estado actual
-- El sitio y el panel están terminados, con los cambios que pidió el cliente: cardápio real, encomendas, eventos, revenda, e-book, logo y fotos.
-- **Versión PHP probada** para Hostinger Premium: 19/19 pruebas de API y flujo completo en el navegador. El ZIP se genera con `tools/make-zip.ps1` y la guía es [DEPLOY-HOSTINGER.md](DEPLOY-HOSTINGER.md).
-- Demo en Render (`minipizzajunior.onrender.com`) **actualizada el 10/11/2026** con la última versión, lista para mandarle al cliente y que apruebe el diseño.
+## Estado actual: **listo para subir a Hostinger**
+- El sitio y el panel están terminados, con todos los cambios de la clienta: cardápio, encomendas, eventos, revenda, e-book con link de Hotmart, Bandeja Brotinho (calabresa, frango, carne) y el botón "personalizar bandeja" por WhatsApp.
+- **Versión PHP probada el 12/11** desde cero, como en una instalación nueva: 19/19 pruebas de API y revisión en el navegador.
+- **ZIP listo:** `deploy/minipizzajunior-hostinger.zip` (generado el 12/11, 916 KB). No lleva datos ni contraseñas. Si se cambia algo en el código, regenerarlo (paso 1 de DEPLOY-HOSTINGER.md).
+- La demo en Render (`minipizzajunior.onrender.com`) tiene la misma versión.
 
-## Pendientes
-- [ ] **Cliente:** contratar **Hostinger Premium a 12 meses** con dominio incluido. Confirmar en el carrito que el dominio sale gratis; `.com.br` probablemente se registre aparte, en Registro.br.
-- [ ] **Subir a Hostinger** siguiendo DEPLOY-HOSTINGER.md y correr `bash tools/test-api.sh https://dominio-del-cliente` contra la dirección real.
-- [x] **Link de Hotmart del e-book:** configurado (https://go.hotmart.com/R108434856U). Se puede cambiar en el panel, en Configurações → E-book.
-- [ ] **Depoimentos:** hoy son de ejemplo. Pedir 3 o 4 reales al cliente o quitar la sección.
-- [ ] **Avisos por WhatsApp (propuesta, sin decidir):** botón "📲 Avisar cliente" en el panel con un mensaje listo según el estado (confirmado / en preparo / salió / entregado). Opcional: aviso de pedido nuevo al dueño.
-- [ ] Antes de entregar: borrar los pedidos de prueba en el panel.
-- [x] **Render (demo):** republicado el 11/11 con "Clear build cache & deploy". La demo tiene la última versión (link de Hotmart y salto corregido). Si en el futuro un deploy no cambia nada, volver a usar esa opción.
+## Para el día de la subida (seguir [DEPLOY-HOSTINGER.md](DEPLOY-HOSTINGER.md))
+- [ ] La clienta contrata **Hostinger Premium a 12 meses** con dominio. Confirmar en el carrito que el dominio es gratis; `.com.br` probablemente se registre aparte, en Registro.br.
+- [ ] Poner PHP 8.2 o superior, subir y extraer el ZIP en `public_html`, crear el `.env` un nivel arriba y activar el SSL.
+- [ ] **Contraseña del panel:** por ahora poner en el `.env` la misma contraseña de la demo, la que ya conoce la clienta. Cambiarla después por una fuerte.
+- [ ] Probar con `bash tools/test-api.sh https://dominio-del-cliente`. El script lee la contraseña del `.env` **local**, así que debe coincidir con la del servidor.
+- [ ] Hacer un pedido de prueba desde el celular, verlo en el panel y borrarlo.
+
+## Decidido
+- **Depoimentos:** se quedan los actuales.
+- El sitio en Hostinger arranca con datos limpios, sin pedidos de prueba.
+
+## Opcional, sin decidir
+- [ ] Botón "📲 Avisar cliente" en el panel, con un mensaje de WhatsApp listo según el estado del pedido (confirmado / en preparo / salió / entregado).
 
 ## Para retomar el trabajo
 - Abrir esta carpeta en Claude Code y pedir: _"sigamos con Mini Pizza Junior, lee PENDIENTES.md"_.
-- Correr en local: `npm start` (Node, http://localhost:3000). La versión PHP necesita PHP 8.1+:
+- Correr en local: `npm start` (Node, http://localhost:3000). La versión PHP necesita PHP 8.1 o superior:
   `php -S localhost:8080 -t public tools/php-router.php`
+- Videos para redes: `node video/record.js <reel-tools> reel2|reel3` (voz de ElevenLabs "Yuri" en `video/audio/`).
