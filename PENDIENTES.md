@@ -6,7 +6,8 @@ _Última actualización: 12/11/2026_
 - El sitio y el panel están terminados, con todos los cambios de la clienta: cardápio, encomendas, eventos, revenda, e-book con link de Hotmart, Bandeja Brotinho (calabresa, frango, carne) y el botón "personalizar bandeja" por WhatsApp.
 - **Versión PHP probada el 12/11** desde cero, como en una instalación nueva: 19/19 pruebas de API y revisión en el navegador.
 - **ZIP listo:** `deploy/minipizzajunior-hostinger.zip` (generado el 12/11, 916 KB). No lleva datos ni contraseñas. Si se cambia algo en el código, regenerarlo (paso 1 de DEPLOY-HOSTINGER.md).
-- La demo en Render (`minipizzajunior.onrender.com`) tiene la misma versión.
+- **Seguridad revisada el 13/11:** sesiones revocables, límites generales contra fuerza bruta y contra lluvias de pedidos, y cabeceras CSP y HSTS. El ZIP ya la incluye.
+- [ ] **Demo en Render (`minipizzajunior.onrender.com`):** le faltan los arreglos de seguridad del 13/11. Republicar con Manual Deploy → "Clear build cache & deploy". Hay que iniciar sesión en Render dentro del navegador de Claude.
 
 ## Para el día de la subida (seguir [DEPLOY-HOSTINGER.md](DEPLOY-HOSTINGER.md))
 - [ ] La clienta contrata **Hostinger Premium a 12 meses** con dominio. Confirmar en el carrito que el dominio es gratis; `.com.br` probablemente se registre aparte, en Registro.br.
