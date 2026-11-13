@@ -144,15 +144,19 @@ function cleanFlavor(f = {}, used) {
 const cleanTestimonial = t => ({ name: str(t && t.name, 40) || 'Cliente', role: str(t && t.role, 40), text: str(t && t.text, 300) });
 
 /* ---------- sessão com cookie assinado ---------- */
+// token = expiração.época.assinatura — "sair" aumenta a época (derruba cookies copiados);
+// a chave mistura a senha, então trocar ADMIN_PASSWORD invalida todas as sessões.
 const COOKIE = 'mpj_admin';
-const sign = v => crypto.createHmac('sha256', SECRET).update(v).digest('base64url');
-function makeToken() { const exp = String(Date.now() + 8 * 3600e3); return exp + '.' + sign(exp); }
+const KEY = crypto.createHmac('sha256', SECRET).update(ADMIN_PASSWORD).digest();
+let epoch = 1;
+const sign = v => crypto.createHmac('sha256', KEY).update(v).digest('base64url');
+function makeToken() { const v = `${Date.now() + 8 * 3600e3}.${epoch}`; return v + '.' + sign(v); }
 function validToken(tok) {
-  if (!tok) return false;
-  const [exp, sig] = tok.split('.');
-  if (!exp || !sig) return false;
-  const a = Buffer.from(sig), b = Buffer.from(sign(exp));
-  return a.length === b.length && crypto.timingSafeEqual(a, b) && Date.now() < +exp;
+  if (typeof tok !== 'string') return false;
+  const [exp, ep, sig, extra] = tok.split('.');
+  if (!exp || !ep || !sig || extra !== undefined) return false;
+  const a = Buffer.from(sig), b = Buffer.from(sign(`${exp}.${ep}`));
+  return a.length === b.length && crypto.timingSafeEqual(a, b) && Date.now() < +exp && +ep === epoch;
 }
 function getCookie(req, name) {
   const m = (req.headers.cookie || '').split(/;\s*/).find(c => c.startsWith(name + '='));
@@ -171,6 +175,19 @@ function tooMany(ip) {
   attempts.set(ip, a);
   return a.n >= 5 ? a : (a.n++, null);
 }
+// tetos gerais (contra ataques vindos de muitos IPs) e limpeza dos mapas para não crescerem sem fim
+const globalHits = { login: [], order: [] };
+function globalLimit(kind, max, windowMs, count) {
+  const now = Date.now(); globalHits[kind] = globalHits[kind].filter(t => now - t < windowMs);
+  if (globalHits[kind].length >= max) return true;
+  if (count) globalHits[kind].push(now);
+  return false;
+}
+setInterval(() => {
+  const now = Date.now();
+  for (const [ip, a] of attempts) if (now - a.t > 15 * 60e3) attempts.delete(ip);
+  for (const [ip, h] of orderHits) if (!h.some(t => now - t < 10 * 60e3)) orderHits.delete(ip);
+}, 10 * 60e3).unref();
 
 /* ---------- app ---------- */
 const app = express();
@@ -180,6 +197,9 @@ app.use((req, res, next) => {
   res.setHeader('X-Content-Type-Options', 'nosniff');
   res.setHeader('X-Frame-Options', 'DENY');
   res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+  res.setHeader('Permissions-Policy', 'camera=(), microphone=(), geolocation=(), payment=()');
+  res.setHeader('Content-Security-Policy', "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'");
+  if (PROD) res.setHeader('Strict-Transport-Security', 'max-age=31536000');
   next();
 });
 app.use(express.json({ limit: '200kb' }));
@@ -189,6 +209,8 @@ app.use(['/api/admin', '/api/orders'], (req, res, next) => (req.method === 'GET'
 app.post('/api/orders', (req, res) => {
   const now = Date.now(), hits = (orderHits.get(req.ip) || []).filter(t => now - t < 10 * 60e3);
   if (hits.length >= 5) return res.status(429).json({ error: 'Muitos pedidos seguidos. Aguarde alguns minutos ou chame no WhatsApp.' });
+  if (globalLimit('order', 60, 3600e3, false)) return res.status(429).json({ error: 'Estamos recebendo muitos pedidos agora. Chame a gente no WhatsApp!' });
+  if (readOrders().list.length >= 5000) return res.status(503).json({ error: 'Não foi possível registrar o pedido agora. Chame a gente no WhatsApp!' });
   if (req.body && req.body.website) return res.json({ ok: true, number: 0 }); // armadilha para robôs
   let order;
   try { order = buildOrder(req.body || {}, readDB()); }
@@ -197,7 +219,7 @@ app.post('/api/orders', (req, res) => {
   order.number = o.next++;
   o.list.push(order);
   writeOrders(o);
-  hits.push(now); orderHits.set(req.ip, hits);
+  hits.push(now); orderHits.set(req.ip, hits); globalLimit('order', 60, 3600e3, true);
   console.log(`🛒 Novo pedido #${order.number} — ${order.customer.name} (${order.units} un.)`);
   res.json({ ok: true, number: order.number, total: order.total, fee: order.fee, subtotal: order.subtotal });
 });
@@ -226,15 +248,22 @@ app.get('/api/public', (req, res) => {
 
 app.post('/api/login', (req, res) => {
   const lock = tooMany(req.ip);
-  if (lock) return res.status(429).json({ error: 'Muitas tentativas. Tente de novo em alguns minutos.' });
-  const given = crypto.createHash('sha256').update(String(req.body && req.body.password || '')).digest();
+  if (lock || globalLimit('login', 30, 15 * 60e3, false)) return res.status(429).json({ error: 'Muitas tentativas. Tente de novo em alguns minutos.' });
+  const pw = req.body && req.body.password;
+  const given = crypto.createHash('sha256').update(typeof pw === 'string' ? pw : '').digest();
   const real = crypto.createHash('sha256').update(ADMIN_PASSWORD).digest();
-  if (!crypto.timingSafeEqual(given, real)) return res.status(401).json({ error: 'Senha incorreta' });
+  if (typeof pw !== 'string' || !crypto.timingSafeEqual(given, real)) {
+    globalLimit('login', 30, 15 * 60e3, true);
+    return setTimeout(() => res.status(401).json({ error: 'Senha incorreta' }), 200 + Math.random() * 200);
+  }
   attempts.delete(req.ip);
   setCookie(res, makeToken(), 8 * 3600);
   res.json({ ok: true });
 });
-app.post('/api/logout', (req, res) => { setCookie(res, '', 0); res.json({ ok: true }); });
+app.post('/api/logout', (req, res) => {
+  if (validToken(getCookie(req, COOKIE))) epoch++; // derruba todas as sessões abertas
+  setCookie(res, '', 0); res.json({ ok: true });
+});
 app.get('/api/me', (req, res) => res.json({ admin: validToken(getCookie(req, COOKIE)) }));
 
 app.get('/api/admin/data', requireAdmin, (req, res) => { const db = readDB(); res.json({ ...db, settings: cleanSettings(db.settings) }); });

@@ -18,10 +18,28 @@ Options -Indexes
   RewriteRule ^admin/?$ admin/index.html [L]
 </IfModule>
 
-# nunca servir arquivos sensíveis
-<FilesMatch "^(\.env|.*\.lock|.*\.tmp|db\.json|orders\.json|ratelimit\.json|secret\.key)$">
+# nunca servir arquivos sensíveis nem ocultos (.env, .git, .htaccess...)
+<FilesMatch "^(\..+|.*\.lock|.*\.tmp|.*\.bak|.*\.log|.*\.ini|db\.json|orders\.json|ratelimit\.json|session\.json|secret\.key)$">
   Require all denied
 </FilesMatch>
+# o único PHP que pode rodar é a API
+<FilesMatch "\.(php|phtml|phar)$">
+  Require all denied
+</FilesMatch>
+<Files "index.php">
+  Require all granted
+</Files>
+
+# cabeçalhos de segurança
+<IfModule mod_headers.c>
+  Header always set Strict-Transport-Security "max-age=31536000"
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "DENY"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=()"
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests"
+  Header always unset X-Powered-By
+</IfModule>
 
 # cache de imagens e scripts
 <IfModule mod_expires.c>

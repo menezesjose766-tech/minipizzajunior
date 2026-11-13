@@ -17,6 +17,10 @@
  */
 declare(strict_types=1);
 
+// nunca mostrar erros do PHP ao visitante (revelariam caminhos do servidor)
+ini_set('display_errors', '0');
+ini_set('log_errors', '1');
+
 /* ---------- configuração ---------- */
 $ROOT = dirname(__DIR__, 2); // pasta acima do site (ex.: domains/seusite.com)
 $ENV = [];
@@ -38,6 +42,8 @@ header('X-Content-Type-Options: nosniff');
 header('X-Frame-Options: DENY');
 header('Referrer-Policy: strict-origin-when-cross-origin');
 header('Cache-Control: no-store');
+header("Content-Security-Policy: default-src 'none'; frame-ancestors 'none'");
+header('X-Robots-Tag: noindex');
 
 function out($data, int $code = 200): void {
     http_response_code($code);
@@ -209,15 +215,18 @@ function buildOrder(array $b, array $db): array {
     ];
 }
 
-/* ---------- limite de tentativas (por IP, guardado em arquivo) ---------- */
-function rateHit(string $bucket, int $max, int $windowSec, bool $count = true): bool {
+/* ---------- limite de tentativas (por IP ou global, guardado em arquivo) ---------- */
+// O IP vem só de REMOTE_ADDR: cabeçalhos como X-Forwarded-For são ignorados (o atacante pode forjá-los).
+function rateHit(string $bucket, int $max, int $windowSec, bool $count = true, bool $global = false): bool {
     global $DATA_DIR;
-    $ip = hash('sha256', $_SERVER['REMOTE_ADDR'] ?? '0');
+    $ip = $global ? 'all' : hash('sha256', $_SERVER['REMOTE_ADDR'] ?? '0');
     return locked('rate', function () use ($bucket, $max, $windowSec, $count, $ip, $DATA_DIR) {
         $f = $DATA_DIR . '/ratelimit.json';
         $r = jread($f, []);
         $now = time();
-        foreach ($r as $k => $hits) { $r[$k] = array_values(array_filter($hits, fn($t) => $now - $t < 3600)); if (!$r[$k]) unset($r[$k]); }
+        foreach ($r as $k => $hits) { $r[$k] = array_values(array_filter((array)$hits, fn($t) => $now - $t < 3600)); if (!$r[$k]) unset($r[$k]); }
+        // ataque com milhares de IPs: o arquivo não cresce sem limite
+        if (count($r) > 5000) $r = array_slice($r, -5000, null, true);
         $key = "$bucket:$ip";
         $hits = array_values(array_filter($r[$key] ?? [], fn($t) => $now - $t < $windowSec));
         if (count($hits) >= $max) { jwrite($f, $r); return true; }
@@ -234,20 +243,32 @@ function rateClear(string $bucket): void {
     });
 }
 
-/* ---------- sessão (cookie assinado) ---------- */
-const COOKIE = 'mpj_admin';
+/* ---------- sessão (cookie assinado e revogável) ----------
+ * token = expiração.época.assinatura
+ * - a chave da assinatura mistura o segredo com a senha: trocar a senha no .env derruba todas as sessões;
+ * - "sair" aumenta a época guardada em data/: qualquer cookie antigo (mesmo copiado/roubado) deixa de valer. */
+function cookieName(): string { global $HTTPS; return $HTTPS ? '__Host-mpj_admin' : 'mpj_admin'; } // __Host-: só HTTPS, sem domínio
 function b64url(string $s): string { return rtrim(strtr(base64_encode($s), '+/', '-_'), '='); }
-function sign(string $v): string { global $SECRET; return b64url(hash_hmac('sha256', $v, $SECRET, true)); }
+function sign(string $v): string { global $SECRET, $ADMIN_PASSWORD; return b64url(hash_hmac('sha256', $v, hash_hmac('sha256', $ADMIN_PASSWORD, $SECRET, true), true)); }
+function sessionEpoch(): int { global $DATA_DIR; return (int)(jread($DATA_DIR . '/session.json', ['epoch' => 1])['epoch'] ?? 1); }
+function bumpEpoch(): void {
+    global $DATA_DIR;
+    locked('session', function () use ($DATA_DIR) { jwrite($DATA_DIR . '/session.json', ['epoch' => sessionEpoch() + 1]); });
+}
+function makeToken(): string {
+    $v = ((int)(microtime(true) * 1000) + 8 * 3600 * 1000) . '.' . sessionEpoch();
+    return $v . '.' . sign($v);
+}
 function validToken(?string $tok): bool {
-    if (!$tok || !str_contains($tok, '.')) return false;
-    [$exp, $sig] = explode('.', $tok, 2);
-    return hash_equals(sign($exp), $sig) && (int)$exp > (int)(microtime(true) * 1000);
+    if (!is_string($tok) || substr_count($tok, '.') !== 2) return false;
+    [$exp, $epoch, $sig] = explode('.', $tok);
+    return hash_equals(sign("$exp.$epoch"), $sig) && (int)$exp > (int)(microtime(true) * 1000) && (int)$epoch === sessionEpoch();
 }
 function setSession(string $value, int $maxAge): void {
     global $HTTPS;
-    setcookie(COOKIE, $value, ['expires' => $maxAge ? time() + $maxAge : time() - 3600, 'path' => '/', 'httponly' => true, 'samesite' => 'Strict', 'secure' => $HTTPS]);
+    setcookie(cookieName(), $value, ['expires' => $maxAge ? time() + $maxAge : time() - 3600, 'path' => '/', 'httponly' => true, 'samesite' => 'Strict', 'secure' => $HTTPS]);
 }
-function isAdmin(): bool { return validToken($_COOKIE[COOKIE] ?? null); }
+function isAdmin(): bool { return validToken($_COOKIE[cookieName()] ?? null); }
 function requireAdmin(): void { if (!isAdmin()) fail('Não autorizado', 401); }
 
 /* ---------- roteamento ---------- */
@@ -272,6 +293,9 @@ switch (true) {
 
     case $route === 'orders' && $method === 'POST':
         if (rateHit('order', 5, 600, false)) fail('Muitos pedidos seguidos. Aguarde alguns minutos ou chame no WhatsApp.', 429);
+        // teto geral: impede que um robô com muitos IPs encha o painel de pedidos falsos
+        if (rateHit('order', 60, 3600, false, true)) fail('Estamos recebendo muitos pedidos agora. Chame a gente no WhatsApp!', 429);
+        if (count(readOrders()['list']) >= 5000) fail('Não foi possível registrar o pedido agora. Chame a gente no WhatsApp!', 503);
         if (!empty($body['website'])) out(['ok' => true, 'number' => 0]); // armadilha para robôs
         try { $order = buildOrder($body, readDB()); } catch (RuntimeException $e) { fail($e->getMessage()); }
         $order = locked('orders', function () use ($order) {
@@ -282,17 +306,25 @@ switch (true) {
             return $order;
         });
         rateHit('order', 5, 600);
+        rateHit('order', 60, 3600, true, true);
         out(['ok' => true, 'number' => $order['number'], 'total' => $order['total'], 'fee' => $order['fee'], 'subtotal' => $order['subtotal']]);
 
     case $route === 'login' && $method === 'POST':
         if (rateHit('login', 5, 900)) fail('Muitas tentativas. Tente de novo em alguns minutos.', 429);
-        if (!hash_equals(hash('sha256', $ADMIN_PASSWORD), hash('sha256', (string)($body['password'] ?? '')))) fail('Senha incorreta', 401);
+        // teto geral contra força bruta distribuída (muitos IPs tentando senhas ao mesmo tempo)
+        if (rateHit('login-all', 30, 900, false, true)) fail('Muitas tentativas. Tente de novo em alguns minutos.', 429);
+        $given = $body['password'] ?? '';
+        if (!is_string($given) || !hash_equals(hash('sha256', $ADMIN_PASSWORD), hash('sha256', $given))) {
+            rateHit('login-all', 30, 900, true, true);
+            usleep(random_int(200000, 400000)); // freia tentativas automáticas
+            fail('Senha incorreta', 401);
+        }
         rateClear('login');
-        $exp = (string)((int)(microtime(true) * 1000) + 8 * 3600 * 1000);
-        setSession($exp . '.' . sign($exp), 8 * 3600);
+        setSession(makeToken(), 8 * 3600);
         out(['ok' => true]);
 
     case $route === 'logout' && $method === 'POST':
+        if (isAdmin()) bumpEpoch(); // invalida todas as sessões abertas (inclusive cookies copiados)
         setSession('', 0); out(['ok' => true]);
 
     case $route === 'me' && $method === 'GET':

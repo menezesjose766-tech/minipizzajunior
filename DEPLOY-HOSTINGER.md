@@ -36,5 +36,13 @@ La primera vez, la API crea sola la carpeta `data/` junto al `.env`, con los dat
 ## 4. Actualizar el sitio después
 Vuelve a subir el zip y extráelo **encima**. Los datos (`data/`) y el `.env` quedan fuera de `public_html`, así que no se tocan.
 
+## Seguridad (ya incluida)
+- **Contraseña:** usa una larga y difícil de adivinar (12 caracteres o más, con números y símbolos). Si la cambias en el `.env`, se cierran todas las sesiones abiertas.
+- **"Sair" en el panel** cierra todas las sesiones, incluso si alguien copió la cookie.
+- **Límites contra ataques:**
+  - **Login:** 5 intentos por IP cada 15 min y 30 fallos en total cada 15 min. Si atacan con muchas IPs, el login se bloquea 15 minutos también para la dueña; después vuelve solo.
+  - **Pedidos:** 5 por IP cada 10 min, 60 en total por hora y 5000 guardados como máximo. Si se llena, borra pedidos viejos en el panel.
+- `.htaccess` bloquea archivos ocultos y de datos, y cualquier PHP que no sea la API. También envía cabeceras de seguridad: CSP, HSTS y protección contra clickjacking.
+
 ## Copia de seguridad
 Descarga de vez en cuando la carpeta `data/`: `db.json` tiene sabores y configuración; `orders.json` tiene los pedidos, con datos personales de los clientes.
