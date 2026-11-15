@@ -1,20 +1,24 @@
 # Pendientes: Mini Pizza Junior
 
-_Última actualización: 12/11/2026_
+_Última actualización: 15/11/2026_
 
 ## Estado actual: **listo para subir a Hostinger**
 - El sitio y el panel están terminados, con todos los cambios de la clienta: cardápio, encomendas, eventos, revenda, e-book con link de Hotmart, Bandeja Brotinho (calabresa, frango, carne) y el botón "personalizar bandeja" por WhatsApp.
 - **Versión PHP probada el 12/11** desde cero, como en una instalación nueva: 19/19 pruebas de API y revisión en el navegador.
-- **ZIP listo:** `deploy/minipizzajunior-hostinger.zip` (generado el 12/11, 916 KB). No lleva datos ni contraseñas. Si se cambia algo en el código, regenerarlo (paso 1 de DEPLOY-HOSTINGER.md).
+- **ZIP listo para `minipizzajunior.com`:** `deploy/minipizzajunior-hostinger.zip` (generado el 15/11, 1,5 MB). No lleva datos ni contraseñas. Si se cambia algo en el código o el dominio, regenerarlo con `-Domain` (paso 1 de DEPLOY-HOSTINGER.md).
+- **Auditoría SEO hecha el 15/11:** sitemap, robots, canonical, Open Graph con imagen 1200x630, Schema.org, imágenes WebP, GA4 configurable en el panel con eventos de conversión, página 404 y redirección de www a sin www.
 - **Seguridad revisada el 13/11:** sesiones revocables, límites generales contra fuerza bruta y contra lluvias de pedidos, y cabeceras CSP y HSTS. El ZIP ya la incluye.
-- [x] **Demo en Render (`minipizzajunior.onrender.com`):** republicada el 13/11 con los arreglos de seguridad, ya comprobados en vivo. Para futuros cambios: Manual Deploy → "Clear build cache & deploy", con la sesión de Render iniciada en el navegador de Claude.
+- [ ] **Demo en Render:** tiene la seguridad del 13/11, pero le faltan los cambios de SEO del 15/11 (`noindex` para no competir con el sitio oficial, 404 y WebP). Republicar con Manual Deploy → "Clear build cache & deploy", con la sesión de Render iniciada en el navegador de Claude.
 
 ## Para el día de la subida (seguir [DEPLOY-HOSTINGER.md](DEPLOY-HOSTINGER.md))
-- [ ] La clienta contrata **Hostinger Premium a 12 meses** con dominio. Confirmar en el carrito que el dominio es gratis; `.com.br` probablemente se registre aparte, en Registro.br.
+- [x] **Hostinger Premium contratado.** Vence el 15/11/2027. Tengo acceso como colaborador.
+- [ ] **Registrar `minipizzajunior.com`** (dominio gratis del plan) en hPanel → Dominios. Pide los datos personales de la clienta como titular, así que lo completa ella o el usuario.
+- [ ] Crear el sitio PHP/HTML en hPanel apuntando a `minipizzajunior.com`.
 - [ ] Poner PHP 8.2 o superior, subir y extraer el ZIP en `public_html`, crear el `.env` un nivel arriba y activar el SSL.
 - [ ] **Contraseña del panel:** por ahora poner en el `.env` la misma contraseña de la demo, la que ya conoce la clienta. Cambiarla después por una fuerte.
-- [ ] Probar con `bash tools/test-api.sh https://dominio-del-cliente`. El script lee la contraseña del `.env` **local**, así que debe coincidir con la del servidor.
+- [ ] Probar con `bash tools/test-api.sh https://minipizzajunior.com`. El script lee la contraseña del `.env` **local**, así que debe coincidir con la del servidor.
 - [ ] Hacer un pedido de prueba desde el celular, verlo en el panel y borrarlo.
+- [ ] Después de publicar: Search Console (TXT en DNS y enviar el sitemap), ID de GA4 en el panel y comprobar las cabeceras y el `.htaccess` en vivo (sección "SEO y Analytics" de DEPLOY-HOSTINGER.md).
 
 ## Decidido
 - **Depoimentos:** se quedan los actuales.
