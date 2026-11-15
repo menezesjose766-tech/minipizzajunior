@@ -3,9 +3,59 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Mini Pizza Junior</title>
-<meta name="description" content="Mini Pizza Junior — sua referência em pizza congelada. Venda e revenda de mini pizzas artesanais.">
+<title>Mini Pizza Junior | Mini pizzas congeladas em Nanuque-MG</title>
+<meta name="description" content="Mini pizzas artesanais pré-assadas e congeladas, prontas em 8 min no forno ou air fryer. Venda, revenda e brotinhos pra festas em Nanuque e região.">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#E0521B">
+<link rel="canonical" href="__SITE_URL__/">
 <link rel="icon" type="image/png" href="/img/logo-128.png">
+<link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+<!-- Open Graph / redes sociais (WhatsApp, Instagram, Facebook, LinkedIn) -->
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:site_name" content="Mini Pizza Junior">
+<meta property="og:title" content="Mini Pizza Junior | Mini pizzas congeladas em Nanuque-MG">
+<meta property="og:description" content="Mini pizzas artesanais pré-assadas, prontas em 8 minutos. Peça pelo site, revenda ou encomende brotinhos pra sua festa.">
+<meta property="og:url" content="__SITE_URL__/">
+<meta property="og:image" content="__SITE_URL__/img/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Mini Pizza Junior: mini pizzas artesanais pré-assadas e congeladas">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Mini Pizza Junior | Mini pizzas congeladas em Nanuque-MG">
+<meta name="twitter:description" content="Mini pizzas artesanais pré-assadas, prontas em 8 minutos. Peça pelo site, revenda ou encomende brotinhos pra sua festa.">
+<meta name="twitter:image" content="__SITE_URL__/img/og-image.jpg">
+<!-- Dados estruturados (Google) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "__SITE_URL__/#website",
+      "url": "__SITE_URL__/",
+      "name": "Mini Pizza Junior",
+      "inLanguage": "pt-BR",
+      "publisher": { "@id": "__SITE_URL__/#negocio" }
+    },
+    {
+      "@type": "FoodEstablishment",
+      "@id": "__SITE_URL__/#negocio",
+      "name": "Mini Pizza Junior",
+      "description": "Venda e revenda de mini pizzas artesanais pré-assadas e congeladas, e brotinhos para festas e eventos.",
+      "url": "__SITE_URL__/",
+      "logo": "__SITE_URL__/img/logo-512.png",
+      "image": ["__SITE_URL__/img/og-image.jpg", "__SITE_URL__/img/sabores-4.jpg", "__SITE_URL__/img/bandeja-etiqueta.jpg"],
+      "telephone": "+55 33 99131-5562",
+      "servesCuisine": "Pizza",
+      "address": { "@type": "PostalAddress", "addressLocality": "Nanuque", "addressRegion": "MG", "addressCountry": "BR" },
+      "areaServed": { "@type": "City", "name": "Nanuque" },
+      "sameAs": ["https://www.instagram.com/minipizzajunior/"],
+      "hasMenu": "__SITE_URL__/#sabores"
+    }
+  ]
+}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
@@ -299,6 +349,7 @@
   .enc-list li:hover{transform:rotate(-3deg) scale(1.06);background:var(--amarelo)}
 
   .aviso-revenda{background:rgba(255,255,255,.15);border:2px dashed rgba(255,255,255,.7);border-radius:18px;padding:16px 18px;font-weight:800;margin:-10px 0 28px}
+  picture{display:contents}
   .foto-revenda{position:relative;max-width:440px;margin:0 auto;width:100%}
   .foto-revenda img{width:100%;height:auto;border-radius:28px;border:4px solid var(--escuro);box-shadow:12px 12px 0 var(--escuro);transform:rotate(2deg);transition:transform .4s}
   .foto-revenda:hover img{transform:rotate(0) scale(1.02)}
@@ -601,7 +652,7 @@
         <a class="btn btn-wpp rv" data-wpp="Olá! Tenho interesse em ser revendedor da Mini Pizza Junior. Sou da cidade de: " href="#"><svg><use href="#wpp"/></svg>Quero ser revendedor</a>
       </div>
       <div class="foto-revenda">
-        <img src="/img/bandeja-etiqueta.jpg" alt="Bandeja de mini pizzas artesanais Mini Pizza Junior com etiqueta" width="860" height="1217" loading="lazy">
+        <picture><source srcset="/img/bandeja-etiqueta.webp" type="image/webp"><img src="/img/bandeja-etiqueta.jpg" alt="Bandeja de mini pizzas Mini Pizza Junior selada a vácuo, com etiqueta da marca" width="860" height="1217" loading="lazy" decoding="async"></picture>
         <span class="sticker-foto">✨ Mini Pizza Artesanal</span>
       </div>
     </div>
@@ -638,7 +689,7 @@
           <a class="btn btn-wpp" id="evBtn" href="#" target="_blank" rel="noopener"><svg><use href="#wpp"/></svg>Pedir orçamento no WhatsApp</a>
         </div>
         <div class="ev-foto stg">
-          <img src="/img/bandeja-brotinhos.jpg" alt="Bandeja de brotinhos Mini Pizza Junior" width="860" height="1235" loading="lazy">
+          <picture><source srcset="/img/bandeja-brotinhos.webp" type="image/webp"><img src="/img/bandeja-brotinhos.jpg" alt="Bandeja com mini pizzas brotinho pré-assadas da Mini Pizza Junior para festas e eventos" width="860" height="1235" loading="lazy" decoding="async"></picture>
         </div>
       </div>
       <div class="maiores rv">
@@ -683,7 +734,7 @@
   <section id="sobre" style="padding-top:30px">
     <div class="wrap sobre">
       <div class="sobre-art rv">
-        <img class="sobre-foto" src="/img/sabores-4.jpg" alt="Quatro mini pizzas artesanais Mini Pizza Junior" width="900" height="1200" loading="lazy">
+        <picture><source srcset="/img/sabores-4.webp" type="image/webp"><img class="sobre-foto" src="/img/sabores-4.jpg" alt="Quatro mini pizzas artesanais pré-assadas da Mini Pizza Junior em sabores variados" width="900" height="1200" loading="lazy" decoding="async"></picture>
         <div class="selo10k"><span><b><span data-count="10">0</span>K</b>seguidores</span></div>
       </div>
       <div>
@@ -797,6 +848,38 @@
   /* ---------- e-book: Hotmart quando houver link, senão WhatsApp ---------- */
   $('#ebookBtn').href = S.ebookLink || wppLink('Olá! Quero saber mais sobre o E-book Mini Pizzas Pré-Assadas 📘');
 
+  /* ---------- Google Analytics 4 (só carrega se o ID estiver no painel; não bloqueia a página) ---------- */
+  const track = (name, params = {}) => { try { if (window.gtag) window.gtag('event', name, params); } catch {} };
+  if (/^G-[A-Z0-9]{4,15}$/.test(S.ga4Id || '')) {
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { window.dataLayer.push(arguments); };
+    window.gtag('js', new Date());
+    window.gtag('config', S.ga4Id);
+    const ga = document.createElement('script'); ga.async = true;
+    ga.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(S.ga4Id);
+    document.head.appendChild(ga);
+  }
+  // conversões: cliques no WhatsApp (de qual seção), e-book e pedido de orçamento de evento
+  document.addEventListener('click', e => {
+    const a = e.target.closest('a[href]'); if (!a) return;
+    const onde = (a.closest('section[id]') || {}).id || (a.closest('footer') ? 'rodape' : a.classList.contains('wpp-float') ? 'botao_flutuante' : 'topo');
+    if (a.id === 'ebookBtn') track('clique_ebook', { link_url: a.href });
+    else if (a.href.startsWith('https://wa.me/')) track('generate_lead', { method: 'whatsapp', secao: onde, texto: a.textContent.trim().slice(0, 60) });
+  });
+
+  /* ---------- cardápio como dado estruturado (Google) — gerado a partir do painel ---------- */
+  try {
+    const ld = document.createElement('script'); ld.type = 'application/ld+json';
+    ld.textContent = JSON.stringify({
+      '@context': 'https://schema.org', '@type': 'Menu', name: 'Cardápio Mini Pizza Junior', inLanguage: 'pt-BR',
+      hasMenuSection: { '@type': 'MenuSection', name: 'Mini pizzas', hasMenuItem: FL.map(f => ({
+        '@type': 'MenuItem', name: f.name, description: f.desc,
+        ...(S.mostrarPrecos && f.price > 0 ? { offers: { '@type': 'Offer', price: f.price.toFixed(2), priceCurrency: 'BRL' } } : {}),
+      })) },
+    }).replace(/</g, '\\u003c');
+    document.head.appendChild(ld);
+  } catch {}
+
   /* ---------- simulador de brotinhos pra eventos ---------- */
   let evOpt = 'pre';
   const OPT = { pre: 'pré-assadas', assadas: 'assadas', local: 'assadas no local do evento' };
@@ -815,7 +898,7 @@
   $('#evQtd').addEventListener('input', evCalc); evCalc();
 
   /* ---------- ilustrações ---------- */
-  const logo = PK.logoSVG(); // logo oficial do cliente (/img/logo-512.png)
+  const logo = PK.logoSVG(); // logo oficial do cliente (/img/logo-512.webp)
   $$('[data-logo]').forEach(el => el.innerHTML = logo);
   const heroFlavor = flavorFor(S.heroFlavor);
   $('#heroPizza').innerHTML = PK.pizzaSVG(heroFlavor);
@@ -874,7 +957,7 @@
   }
   list.addEventListener('click', e => { const b = e.target.closest('.fl'); if (b) select(+b.dataset.i, true); });
   select(0);
-  window.MPJ = { S, FL, esc, wppLink, current: () => FL[current] };
+  window.MPJ = { S, FL, esc, wppLink, track, current: () => FL[current] };
   document.dispatchEvent(new Event('mpj:ready'));
   function cycle() {
     if (!auto || !hasGsap || FL.length < 2) return;

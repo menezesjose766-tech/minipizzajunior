@@ -201,6 +201,7 @@
       regiao: 'Nanuque e região',
       encomenda: 'Frango com bacon\nMilho com bacon\nLombo canadense\nRomeu e Julieta\nBanana com canela\nNutella',
       ebookLink: 'https://go.hotmart.com/R108434856U',
+      ga4Id: '',
       brotinho1: 2.5, brotinho60: 2, brotinho100: 1.9, eventoLocal: 40,
     },
     flavors: [
@@ -223,7 +224,7 @@
 
   // logo oficial (imagem do cliente)
   function logoSVG() {
-    return `<img src="/img/logo-512.png" alt="Logo Mini Pizza Junior" width="512" height="512" style="width:100%;height:auto;display:block">`;
+    return `<img src="/img/logo-512.webp" srcset="/img/logo-256.webp 256w, /img/logo-512.webp 512w" sizes="(max-width: 600px) 160px, 260px" alt="Logo Mini Pizza Junior" width="512" height="512" decoding="async" style="width:100%;height:auto;display:block">`;
   }
   // versão desenhada antiga (reserva)
   function logoSVGDesenhado() {

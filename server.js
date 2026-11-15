@@ -58,6 +58,7 @@ function cleanSettings(s = {}) {
     regiao: str(s.regiao, 80) || 'Nanuque e região',
     encomenda: str(s.encomenda ?? PizzaKit.DEFAULT_DATA.settings.encomenda, 1000),
     ebookLink: /^https:\/\/[^\s"'<>]+$/.test(str(s.ebookLink, 300)) ? str(s.ebookLink, 300) : '',
+    ga4Id: /^G-[A-Z0-9]{4,15}$/.test(str(s.ga4Id, 20).toUpperCase()) ? str(s.ga4Id, 20).toUpperCase() : '',
     brotinho1: Math.round(num(s.brotinho1, 0, 100, 2.5) * 100) / 100,
     brotinho60: Math.round(num(s.brotinho60, 0, 100, 2) * 100) / 100,
     brotinho100: Math.round(num(s.brotinho100, 0, 100, 1.9) * 100) / 100,
@@ -198,8 +199,10 @@ app.use((req, res, next) => {
   res.setHeader('X-Frame-Options', 'DENY');
   res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
   res.setHeader('Permissions-Policy', 'camera=(), microphone=(), geolocation=(), payment=()');
-  res.setHeader('Content-Security-Policy', "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'");
+  res.setHeader('Content-Security-Policy', "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://*.google-analytics.com https://*.googletagmanager.com; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'");
   if (PROD) res.setHeader('Strict-Transport-Security', 'max-age=31536000');
+  // o servidor Node é só a demo/ambiente local: não deixa o Google indexar (o site oficial é o da Hostinger)
+  res.setHeader('X-Robots-Tag', 'noindex, nofollow');
   next();
 });
 app.use(express.json({ limit: '200kb' }));
@@ -283,7 +286,20 @@ app.put('/api/admin/testimonials', requireAdmin, (req, res) => {
 
 app.use('/api', (req, res) => res.status(404).json({ error: 'Rota não encontrada' })); // não expõe public/api (versão PHP)
 app.get('/admin', (req, res) => res.sendFile(path.join(__dirname, 'public', 'admin', 'index.html')));
+// páginas com o domínio preenchido na hora (__SITE_URL__ = endereço desta demo)
+const LASTMOD = new Date().toISOString().slice(0, 10);
+function sendTemplated(file, type) {
+  return (req, res) => {
+    const site = `${req.protocol}://${req.get('host')}`.replace(/[^\w.:/-]/g, ''); // só caracteres seguros
+    const txt = fs.readFileSync(path.join(__dirname, 'public', file), 'utf8').replaceAll('__SITE_URL__', site).replaceAll('__LASTMOD__', LASTMOD);
+    res.type(type).send(txt);
+  };
+}
+app.get(['/', '/index.html'], sendTemplated('index.html', 'html'));
+app.get('/sitemap.xml', sendTemplated('sitemap.xml', 'application/xml'));
+app.get('/robots.txt', sendTemplated('robots.txt', 'text/plain'));
 app.use(express.static(path.join(__dirname, 'public'), { extensions: ['html'] }));
+app.use((req, res) => res.status(404).sendFile(path.join(__dirname, 'public', '404.html')));
 
 app.listen(PORT, () => {
   readDB();

@@ -123,6 +123,7 @@ function cleanSettings($s): array {
         'regiao' => str($s['regiao'] ?? '', 80) ?: 'Nanuque e região',
         'encomenda' => str($s['encomenda'] ?? $D['encomenda'], 1000),
         'ebookLink' => preg_match('~^https://[^\s"\'<>]+$~', $link) ? $link : '',
+        'ga4Id' => preg_match('/^G-[A-Z0-9]{4,15}$/', strtoupper(str($s['ga4Id'] ?? '', 20))) ? strtoupper(str($s['ga4Id'] ?? '', 20)) : '',
         'brotinho1' => money($s['brotinho1'] ?? null, 100, 2.5),
         'brotinho60' => money($s['brotinho60'] ?? null, 100, 2),
         'brotinho100' => money($s['brotinho100'] ?? null, 100, 1.9),

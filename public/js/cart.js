@@ -128,6 +128,8 @@
     const ex = cart.find(i => i.id === id);
     if (ex) ex.qty = Math.min(500, ex.qty + q); else cart.push({ id, qty: q });
     save(); updateFab(true);
+    const fa = M.FL.find(f => f.id === id);
+    M.track && M.track('add_to_cart', { currency: 'BRL', value: +(fa.price * q).toFixed(2), items: [{ item_id: fa.id, item_name: fa.name, price: fa.price, quantity: q }] });
     toast(`${q}× ${M.FL.find(f => f.id === id).name} no seu pedido! 🍕`);
   }
   const units = () => cart.reduce((s, i) => s + i.qty, 0);
@@ -187,7 +189,7 @@
         row.querySelector('.rm').addEventListener('click', () => { cart = cart.filter(i => i.id !== id); save(); updateFab(); render(); });
       });
       foot.innerHTML = `<button class="btn btn-lar" id="toStep2" ${units() < S.pedidoMinimo ? 'disabled style="opacity:.5"' : ''}>Continuar →</button>`;
-      document.getElementById('toStep2').addEventListener('click', () => { if (units() >= S.pedidoMinimo) { step = 2; render(); } });
+      document.getElementById('toStep2').addEventListener('click', () => { if (units() >= S.pedidoMinimo) { step = 2; render(); gaItems('begin_checkout'); } });
     }
     if (step === 2) {
       const v = k => esc(form[k] || ''), a = form.address || {}, av = k => esc(a[k] || '');
@@ -253,7 +255,15 @@
     }
   }
 
+  // evento do GA4 com os itens do carrinho (begin_checkout / purchase)
+  function gaItems(name, extra = {}) {
+    if (!M.track) return;
+    const t = totals();
+    M.track(name, { currency: 'BRL', value: +(t.lines.reduce((v, l) => v + (l.f.price || 0) * l.qty, 0)).toFixed(2), items: t.lines.map(l => ({ item_id: l.f.id, item_name: l.f.name, price: l.f.price, quantity: l.qty })), ...extra });
+  }
+
   function done(res, p) {
+    gaItems('purchase', { transaction_id: String(res.number), ...(res.total != null ? { value: res.total } : {}) });
     const lines = totals().lines;
     const msg = [`Olá! Acabei de fazer o pedido *#${res.number}* pelo site 🍕`, '', ...lines.map(l => `• ${l.qty}× ${l.f.name}`), '',
       `Nome: ${p.customer.name}`, p.delivery === 'entrega' ? `Entrega: ${p.address.rua}, ${p.address.numero} — ${p.address.bairro}, ${p.address.cidade}` : 'Retirada no local',

@@ -10,10 +10,10 @@ node tools/export-catalog.js
 ```
 
 ```bash
-powershell -ExecutionPolicy Bypass -File tools/make-zip.ps1
+powershell -ExecutionPolicy Bypass -File tools/make-zip.ps1 -Domain minipizzajunior.com
 ```
 
-Esto genera `deploy/minipizzajunior-hostinger.zip`, con el **contenido** de `public/` listo para subir.
+Esto genera `deploy/minipizzajunior-hostinger.zip`, con el **contenido** de `public/` listo para subir. El script completa el dominio en el canonical, Open Graph, Schema.org, `sitemap.xml` y `robots.txt`; sin `-Domain` no genera nada. Si cambia el dominio, vuelve a generar el ZIP.
 
 ## 2. En el hPanel de Hostinger
 1. **Sitios web → Administrar → Avanzado → Configuración PHP**: elige **PHP 8.2** o superior.
@@ -35,6 +35,18 @@ La primera vez, la API crea sola la carpeta `data/` junto al `.env`, con los dat
 
 ## 4. Actualizar el sitio después
 Vuelve a subir el zip y extráelo **encima**. Los datos (`data/`) y el `.env` quedan fuera de `public_html`, así que no se tocan.
+
+## SEO y Analytics (después de publicar)
+1. **Google Search Console:** agrega la propiedad de tipo **Dominio** (`minipizzajunior.com`). Google da un registro **TXT**; pégalo en hPanel → Dominios → DNS. Así no hace falta subir archivos.
+2. En Search Console → Sitemaps, envía `https://minipizzajunior.com/sitemap.xml`.
+3. **Google Analytics 4:** crea la propiedad, copia el ID (`G-XXXXXXXXXX`) y pégalo en el panel → Configurações → Google Analytics. No hace falta tocar el código. Eventos que ya se envían:
+   - `generate_lead`: clic en cualquier botón de WhatsApp, con la sección de donde vino.
+   - `clique_ebook`: clic en el e-book.
+   - `add_to_cart`, `begin_checkout` y `purchase`: pedido completo, con valor y número.
+
+   En GA4 → Administrar → Eventos, marca `purchase` y `generate_lead` como **eventos clave** (conversiones).
+4. Comprueba la vista previa del link en WhatsApp o en https://www.opengraph.xyz.
+5. Comprueba los datos estructurados en https://search.google.com/test/rich-results.
 
 ## Seguridad (ya incluida)
 - **Contraseña:** usa una larga y difícil de adivinar (12 caracteres o más, con números y símbolos). Si la cambias en el `.env`, se cierran todas las sesiones abiertas.

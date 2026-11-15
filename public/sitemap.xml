@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>__SITE_URL__/</loc>
+    <lastmod>__LASTMOD__</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <image:image><image:loc>__SITE_URL__/img/og-image.jpg</image:loc></image:image>
+    <image:image><image:loc>__SITE_URL__/img/sabores-4.jpg</image:loc></image:image>
+    <image:image><image:loc>__SITE_URL__/img/bandeja-etiqueta.jpg</image:loc></image:image>
+    <image:image><image:loc>__SITE_URL__/img/bandeja-brotinhos.jpg</image:loc></image:image>
+  </url>
+</urlset>
