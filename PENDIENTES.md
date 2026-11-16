@@ -15,7 +15,7 @@ _Última actualización: 16/11/2026_
 - [x] **Hostinger Premium contratado.** Vence el 15/11/2027. Tengo acceso como colaborador.
 - [ ] **Registrar `minipizzajunior.com`** (dominio gratis del plan) en hPanel → Dominios. Pide los datos personales de la clienta como titular, así que lo completa ella o el usuario.
 - [x] Sitio PHP/HTML creado y ZIP subido (16/11), con dominio temporal.
-- [ ] **Restaurar el link de Hotmart** en el panel (Configurações → E-book → `https://go.hotmart.com/R108434856U`). La prueba automática del 16/11 lo borró; el script ya está corregido.
+- [x] Link de Hotmart restaurado en vivo (16/11).
 - [ ] Cuando se registre `minipizzajunior.com`: hPanel → Sitio → **Cambiar dominio** al definitivo, activar el SSL y comprobar que el `.env` y `data/` siguen junto a `public_html`.
 - [ ] **Contraseña del panel:** por ahora poner en el `.env` la misma contraseña de la demo, la que ya conoce la clienta. Cambiarla después por una fuerte.
 - [ ] Probar con `bash tools/test-api.sh https://minipizzajunior.com`. Ahora guarda y restaura la configuración, pero crea y borra un pedido de prueba, así que el contador de pedidos avanza. El script lee la contraseña del `.env` **local**, así que debe coincidir con la del servidor.
