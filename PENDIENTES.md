@@ -2,8 +2,10 @@
 
 _Última actualización: 16/11/2026_
 
-## Estado actual: **publicado en Hostinger con el dominio temporal**
-- 🌐 **https://darkseagreen-snail-353135.hostingersite.com**: PHP 8.3, `.env` creado, 19/19 pruebas de API en vivo. Comprobados en vivo: HTTPS, cabeceras de seguridad, gzip, página 404 y bloqueo de `.env` y `.htaccess`.
+## Estado actual: ✅ **PUBLICADO en https://minipizzajunior.com** (16/11/2026)
+- Dominio registrado en Hostinger el 16/11/2026; vence el 16/11/2027. SSL de Let's Encrypt para el dominio con y sin www, con renovación automática.
+- Comprobado en vivo: sitio, panel, API (el `.env` y los datos vinieron del dominio temporal), HTTPS, www → sin www, cabeceras de seguridad, gzip, 404, robots y sitemap con el dominio correcto.
+- El dominio temporal `darkseagreen-snail-353135.hostingersite.com` ya no se usa (responde 403).
 - El sitio y el panel están terminados, con todos los cambios de la clienta: cardápio, encomendas, eventos, revenda, e-book con link de Hotmart, Bandeja Brotinho (calabresa, frango, carne) y el botón "personalizar bandeja" por WhatsApp.
 - **Versión PHP probada el 12/11** desde cero, como en una instalación nueva: 19/19 pruebas de API y revisión en el navegador.
 - **ZIP listo para `minipizzajunior.com`:** `deploy/minipizzajunior-hostinger.zip` (generado el 15/11, 1,5 MB). No lleva datos ni contraseñas. Si se cambia algo en el código o el dominio, regenerarlo con `-Domain` (paso 1 de DEPLOY-HOSTINGER.md).
@@ -13,14 +15,16 @@ _Última actualización: 16/11/2026_
 
 ## Para el día de la subida (seguir [DEPLOY-HOSTINGER.md](DEPLOY-HOSTINGER.md))
 - [x] **Hostinger Premium contratado.** Vence el 15/11/2027. Tengo acceso como colaborador.
-- [ ] **Registrar `minipizzajunior.com`** (dominio gratis del plan) en hPanel → Dominios. Pide los datos personales de la clienta como titular, así que lo completa ella o el usuario.
+- [x] `minipizzajunior.com` registrado (16/11).
 - [x] Sitio PHP/HTML creado y ZIP subido (16/11), con dominio temporal.
 - [x] Link de Hotmart restaurado en vivo (16/11).
-- [ ] Cuando se registre `minipizzajunior.com`: hPanel → Sitio → **Cambiar dominio** al definitivo, activar el SSL y comprobar que el `.env` y `data/` siguen junto a `public_html`.
+- [x] Sitio movido a `minipizzajunior.com`, con el SSL activo (16/11).
+- [ ] El dominio no aparece en "Meus domínios" de la cuenta de la clienta, quizá porque se registró desde otra cuenta de Hostinger. Confirmar en qué cuenta quedó, para la renovación de 2027.
 - [ ] **Contraseña del panel:** por ahora poner en el `.env` la misma contraseña de la demo, la que ya conoce la clienta. Cambiarla después por una fuerte.
 - [ ] Probar con `bash tools/test-api.sh https://minipizzajunior.com`. Ahora guarda y restaura la configuración, pero crea y borra un pedido de prueba, así que el contador de pedidos avanza. El script lee la contraseña del `.env` **local**, así que debe coincidir con la del servidor.
 - [ ] Hacer un pedido de prueba desde el celular, verlo en el panel y borrarlo.
-- [ ] Después de publicar: Search Console (TXT en DNS y enviar el sitemap), ID de GA4 en el panel y comprobar las cabeceras y el `.htaccess` en vivo (sección "SEO y Analytics" de DEPLOY-HOSTINGER.md).
+- [x] Cabeceras y `.htaccess` comprobados en vivo (16/11).
+- [ ] **Search Console** (registro TXT en DNS y enviar `sitemap.xml`) y **ID de GA4** en el panel. Ver la sección "SEO y Analytics" de DEPLOY-HOSTINGER.md.
 
 ## Decidido
 - **Depoimentos:** se quedan los actuales.
