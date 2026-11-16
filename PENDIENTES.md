@@ -24,7 +24,9 @@ _Última actualización: 16/11/2026_
 - [ ] Probar con `bash tools/test-api.sh https://minipizzajunior.com`. Ahora guarda y restaura la configuración, pero crea y borra un pedido de prueba, así que el contador de pedidos avanza. El script lee la contraseña del `.env` **local**, así que debe coincidir con la del servidor.
 - [ ] Hacer un pedido de prueba desde el celular, verlo en el panel y borrarlo.
 - [x] Cabeceras y `.htaccess` comprobados en vivo (16/11).
-- [ ] **Search Console** (registro TXT en DNS y enviar `sitemap.xml`) y **ID de GA4** en el panel. Ver la sección "SEO y Analytics" de DEPLOY-HOSTINGER.md.
+- [x] **Search Console** (16/11): propiedad de dominio `minipizzajunior.com` verificada por TXT en el DNS de Hostinger (**no borrar ese registro**). Sitemap enviado con estado "Correcto". Está en la cuenta de Google del usuario; falta agregar a la clienta como propietaria si lo quiere.
+- [x] **GA4** (16/11): cuenta "Mini Pizza Junior", propiedad `minipizzajunior.com`, ID **G-N9JVDHTBLZ** pegado en el panel. Comprobado en vivo: llega el `page_view`. Zona horaria de São Paulo y moneda R$. `purchase` ya es evento clave.
+- [ ] GA4: marcar **`generate_lead`** como evento clave (Administrar → Eventos → estrella) cuando aparezca en "Eventos recientes", en unas 24 h desde el primer clic en WhatsApp.
 
 ## Decidido
 - **Depoimentos:** se quedan los actuales.
