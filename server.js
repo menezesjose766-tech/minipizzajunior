@@ -47,6 +47,9 @@ function cleanSettings(s = {}) {
     whatsapp: str(s.whatsapp, 20).replace(/\D/g, ''),
     instagram: str(s.instagram, 40).replace(/[^a-zA-Z0-9._]/g, ''),
     endereco: str(s.endereco, 200),
+    razaoSocial: str(s.razaoSocial, 120),
+    documento: [11, 14].includes(str(s.documento, 20).replace(/\D/g, '').length) ? str(s.documento, 20).replace(/\D/g, '') : '',
+    emailContato: /^[^\s@<>"']+@[^\s@<>"']+\.[a-z]{2,}$/i.test(str(s.emailContato, 120)) ? str(s.emailContato, 120) : '',
     heroTitle: str(s.heroTitle, 120) || PizzaKit.DEFAULT_DATA.settings.heroTitle,
     heroSubtitle: str(s.heroSubtitle, 400),
     heroFlavor: str(s.heroFlavor, 40),
@@ -298,6 +301,8 @@ function sendTemplated(file, type) {
 app.get(['/', '/index.html'], sendTemplated('index.html', 'html'));
 app.get('/sitemap.xml', sendTemplated('sitemap.xml', 'application/xml'));
 app.get('/robots.txt', sendTemplated('robots.txt', 'text/plain'));
+app.get(['/privacidade', '/privacidade.html'], sendTemplated('privacidade.html', 'html'));
+app.get(['/termos', '/termos.html'], sendTemplated('termos.html', 'html'));
 app.use(express.static(path.join(__dirname, 'public'), { extensions: ['html'] }));
 app.use((req, res) => res.status(404).sendFile(path.join(__dirname, 'public', '404.html')));
 

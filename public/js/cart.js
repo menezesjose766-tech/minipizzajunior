@@ -26,6 +26,8 @@
   .dr-body{flex:1;overflow:auto;padding:18px 20px}
   .dr-foot{padding:16px 20px;border-top:2px solid var(--creme-2);background:#fff}
   .dr-foot .btn{width:100%}
+  .ck-legal{font-size:.78rem;line-height:1.4;opacity:.75;margin:0 0 10px;text-align:center}
+  .ck-legal a{color:var(--laranja);font-weight:800}
   .dr-foot .back{display:block;margin:10px auto 0;background:none;border:0;font-weight:800;color:var(--laranja);cursor:pointer}
   .ci{display:grid;grid-template-columns:56px 1fr auto;gap:12px;align-items:center;background:#fff;border:2px solid var(--escuro);border-radius:18px;padding:10px 12px;margin-bottom:10px}
   .ci .pz{width:56px;height:56px}
@@ -230,7 +232,7 @@
       });
       fm.addEventListener('submit', e => { e.preventDefault(); submit(); });
       sync();
-      foot.innerHTML = `<button class="btn btn-wpp" id="ckSend">✅ Confirmar pedido</button><button class="back" id="ckBack">← Voltar ao carrinho</button>`;
+      foot.innerHTML = `<p class="ck-legal">Ao confirmar, você concorda com os <a href="/termos" target="_blank" rel="noopener">Termos e Condições</a>. Seus dados são usados só para entregar e confirmar este pedido (<a href="/privacidade" target="_blank" rel="noopener">Política de Privacidade</a>).</p><button class="btn btn-wpp" id="ckSend">✅ Confirmar pedido</button><button class="back" id="ckBack">← Voltar ao carrinho</button>`;
       document.getElementById('ckSend').addEventListener('click', submit);
       document.getElementById('ckBack').addEventListener('click', () => { step = 1; render(); });
     }

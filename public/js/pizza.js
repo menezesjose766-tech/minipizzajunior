@@ -194,6 +194,7 @@
   const DEFAULT_DATA = {
     settings: {
       whatsapp: '5533991315562', instagram: 'minipizzajunior', endereco: '',
+      razaoSocial: '', documento: '', emailContato: '',
       heroTitle: 'Mais *sabor* e praticidade pro seu dia a dia!',
       heroSubtitle: 'Mini pizzas artesanais, feitas com massa caseira e recheio generoso. Congeladas e prontas pro forno — perfeitas pro lanche, pras festas e pra você revender.',
       heroFlavor: 'marguerita', mostrarPrecos: true, margemPadrao: 3,

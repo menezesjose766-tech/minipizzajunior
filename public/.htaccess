@@ -21,6 +21,11 @@ AddType image/webp .webp
   RewriteCond %{THE_REQUEST} \s/index\.html[\s?] [NC]
   RewriteRule ^index\.html$ / [L,R=301]
 
+  # páginas legais com URL limpa: /privacidade.html -> /privacidade e /privacidade -> privacidade.html
+  RewriteCond %{THE_REQUEST} \s/(privacidade|termos)\.html[\s?] [NC]
+  RewriteRule ^ /%1 [L,R=301]
+  RewriteRule ^(privacidade|termos)/?$ $1.html [L]
+
   # toda chamada /api/... vai para a API em PHP
   RewriteCond %{REQUEST_URI} !^/api/index\.php
   RewriteRule ^api(/.*)?$ api/index.php [QSA,L]

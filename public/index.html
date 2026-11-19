@@ -326,6 +326,8 @@
   .foot a{display:block;margin-bottom:8px;font-weight:700;transition:color .2s, transform .2s}
   .foot a:hover{color:var(--laranja);transform:translateX(4px)}
   .copy{margin-top:36px;padding-top:20px;border-top:1px solid rgba(224,82,27,.15);font-size:.85rem;opacity:.65;text-align:center}
+  .copy.legal-links{margin-top:6px;padding-top:0;border-top:0}
+  .copy a{color:inherit;font-weight:800}
 
   .wpp-float{position:fixed;right:20px;bottom:20px;z-index:60;width:62px;height:62px;border-radius:50%;background:var(--verde);color:#fff;display:grid;place-items:center;animation:pulse 2.4s infinite;transition:transform .2s}
   .wpp-float:hover{transform:scale(1.1) rotate(-8deg)}
@@ -789,7 +791,8 @@
         <span style="display:block;font-weight:700;margin-top:8px">📍 Entregamos em <span data-regiao>Nanuque e região</span></span>
       </div>
     </div>
-    <p class="copy">© 2026 Mini Pizza Junior · Todos os direitos reservados</p>
+    <p class="copy legal-id" id="legalId">© 2026 Mini Pizza Junior · Todos os direitos reservados</p>
+    <p class="copy legal-links"><a href="/termos">Termos de Uso</a> · <a href="/privacidade">Política de Privacidade</a> · <a href="#cookies" data-cookie-prefs>Preferências de cookies</a></p>
     <a class="dev-credit" href="https://www.instagram.com/clikko.pt/" target="_blank" rel="noopener">
       <img src="/img/clikko.png" alt="Logo Clikko" width="40" height="40" loading="lazy">
       <span>Site desenvolvido por <b>clikko</b><small>@clikko.pt no Instagram</small></span>
@@ -803,6 +806,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script src="/js/pizza.js"></script>
 <script src="/js/cart.js" defer></script>
+<script src="/js/consent.js"></script>
 <script>
 (async () => {
   const PK = window.PizzaKit; PK.injectDefs();
@@ -832,6 +836,14 @@
     a.hidden = !S.instagram;
   });
   $('#endereco').textContent = S.endereco ? 'Endereço: ' + S.endereco : '';
+  // identificação exigida pelo Decreto 7.962/2013 (preenchida no painel → Configurações → Dados legais)
+  {
+    const d = S.documento || '';
+    const doc = d.length === 14 ? 'CNPJ ' + d.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})$/, '$1.$2.$3/$4-$5')
+      : d.length === 11 ? 'CPF ' + d.replace(/^(\d{3})(\d{3})(\d{3})(\d{2})$/, '$1.$2.$3-$4') : '';
+    const partes = [`© ${new Date().getFullYear()} ${S.razaoSocial || 'Mini Pizza Junior'}`, doc, S.endereco, S.emailContato].filter(Boolean);
+    $('#legalId').textContent = partes.join(' · ') + (doc ? '' : ' · Todos os direitos reservados');
+  }
   $('#wppNum').textContent = 'WhatsApp: ' + S.whatsapp.replace(/^55(\d{2})(\d{4,5})(\d{4})$/, '($1) $2-$3');
   const priceHTML = f => S.mostrarPrecos && f.price > 0
     ? `R$ ${f.price.toFixed(2).replace('.', ',')} <small>cada</small>`
@@ -850,7 +862,9 @@
 
   /* ---------- Google Analytics 4 (só carrega se o ID estiver no painel; não bloqueia a página) ---------- */
   const track = (name, params = {}) => { try { if (window.gtag) window.gtag('event', name, params); } catch {} };
-  if (/^G-[A-Z0-9]{4,15}$/.test(S.ga4Id || '')) {
+  // LGPD: o Analytics só carrega depois que o visitante aceita os cookies de análise (js/consent.js)
+  if (/^G-[A-Z0-9]{4,15}$/.test(S.ga4Id || '')) (window.__onConsent = window.__onConsent || []).push(() => {
+    if (window.gtag) return;
     window.dataLayer = window.dataLayer || [];
     window.gtag = function () { window.dataLayer.push(arguments); };
     window.gtag('js', new Date());
@@ -858,7 +872,7 @@
     const ga = document.createElement('script'); ga.async = true;
     ga.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(S.ga4Id);
     document.head.appendChild(ga);
-  }
+  });
   // conversões: cliques no WhatsApp (de qual seção), e-book e pedido de orçamento de evento
   document.addEventListener('click', e => {
     const a = e.target.closest('a[href]'); if (!a) return;

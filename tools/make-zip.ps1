@@ -16,7 +16,7 @@ New-Item -ItemType Directory -Force $out | Out-Null
 $zipPath = Join-Path $out "minipizzajunior-hostinger.zip"
 if (Test-Path $zipPath) { Remove-Item $zipPath -Force }
 
-$templated = @('index.html', 'sitemap.xml', 'robots.txt')
+$templated = @('index.html', 'sitemap.xml', 'robots.txt', 'privacidade.html', 'termos.html')
 $utf8 = New-Object System.Text.UTF8Encoding($false)
 
 Add-Type -AssemblyName System.IO.Compression

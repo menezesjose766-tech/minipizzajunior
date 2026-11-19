@@ -240,6 +240,15 @@
           <label class="f"><span>Endereço</span><input type="text" name="endereco" placeholder="Rua, número — bairro, cidade"><small>Se ficar vazio, não aparece no site.</small></label>
         </fieldset>
         <fieldset>
+          <legend>Dados legais (exigidos por lei)</legend>
+          <small style="display:block;margin:-4px 0 14px;opacity:.7;font-weight:600">O Decreto 7.962/2013 (comércio eletrônico) exige mostrar no site o nome, o CNPJ ou CPF, o endereço físico e o e-mail de quem vende. Esses dados aparecem no rodapé, na Política de Privacidade e nos Termos.</small>
+          <div class="grid2">
+            <label class="f"><span>Razão social ou nome completo</span><input type="text" name="razaoSocial" maxlength="120" placeholder="Ex.: Mini Pizza Junior Ltda"></label>
+            <label class="f"><span>CNPJ ou CPF</span><input type="text" name="documento" maxlength="20" inputmode="numeric" placeholder="00.000.000/0000-00"><small>Só os números já bastam.</small></label>
+          </div>
+          <label class="f"><span>E-mail de contato</span><input type="email" name="emailContato" maxlength="120" placeholder="contato@minipizzajunior.com"><small>Também é o canal para pedidos sobre dados pessoais (LGPD).</small></label>
+        </fieldset>
+        <fieldset>
           <legend>Topo do site</legend>
           <label class="f"><span>Título principal</span><input type="text" name="heroTitle" maxlength="120"><small>Coloque uma palavra entre *asteriscos* para destacá-la em amarelo.</small></label>
           <label class="f"><span>Texto abaixo do título</span><textarea name="heroSubtitle" maxlength="400"></textarea></label>

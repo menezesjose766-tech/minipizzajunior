@@ -10,4 +10,16 @@
     <image:image><image:loc>__SITE_URL__/img/bandeja-etiqueta.jpg</image:loc></image:image>
     <image:image><image:loc>__SITE_URL__/img/bandeja-brotinhos.jpg</image:loc></image:image>
   </url>
+  <url>
+    <loc>__SITE_URL__/termos</loc>
+    <lastmod>__LASTMOD__</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>__SITE_URL__/privacidade</loc>
+    <lastmod>__LASTMOD__</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
 </urlset>

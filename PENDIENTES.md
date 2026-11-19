@@ -28,6 +28,17 @@ _Última actualización: 16/11/2026_
 - [x] **GA4** (16/11): cuenta "Mini Pizza Junior", propiedad `minipizzajunior.com`, ID **G-N9JVDHTBLZ** pegado en el panel. Comprobado en vivo: llega el `page_view`. Zona horaria de São Paulo y moneda R$. `purchase` ya es evento clave.
 - [ ] GA4: marcar **`generate_lead`** como evento clave (Administrar → Eventos → estrella) cuando aparezca en "Eventos recientes", en unas 24 h desde el primer clic en WhatsApp.
 
+## Cumplimiento legal en Brasil (19/11/2026). Falta subir el ZIP
+- [x] Hecho:
+  - Política de Privacidad, conforme a la LGPD (`/privacidade`).
+  - Términos y condiciones de compra, conforme al CDC y al Decreto 7.962/2013 (`/termos`): arrepentimiento en 7 días, vicios del producto, cancelación y foro.
+  - Banner de cookies: GA4 solo se carga después de "Aceitar", y rechazar es igual de fácil.
+  - Aviso legal en el checkout.
+  - Pie de página con la identificación de la empresa y los enlaces legales.
+- [ ] **Subir el ZIP nuevo** (`deploy/minipizzajunior-hostinger.zip`, del 19/11) a `public_html`, extraerlo sobrescribiendo y limpiar la caché de Hostinger.
+- [ ] **La clienta completa en el panel** (Configurações → Dados legais): razón social o nombre, **CNPJ o CPF**, **dirección física** y **e-mail**. El Decreto 7.962 los exige; mientras falten, las páginas muestran "(a informar)".
+- [ ] Recomendado: que un abogado o contador revise los textos legales. Son una base sólida, pero no sustituyen una asesoría jurídica.
+
 ## Decidido
 - **Depoimentos:** se quedan los actuales.
 - El sitio en Hostinger arranca con datos limpios, sin pedidos de prueba.
