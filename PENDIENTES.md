@@ -28,14 +28,14 @@ _Última actualización: 16/11/2026_
 - [x] **GA4** (16/11): cuenta "Mini Pizza Junior", propiedad `minipizzajunior.com`, ID **G-N9JVDHTBLZ** pegado en el panel. Comprobado en vivo: llega el `page_view`. Zona horaria de São Paulo y moneda R$. `purchase` ya es evento clave.
 - [ ] GA4: marcar **`generate_lead`** como evento clave (Administrar → Eventos → estrella) cuando aparezca en "Eventos recientes", en unas 24 h desde el primer clic en WhatsApp.
 
-## Cumplimiento legal en Brasil (19/11/2026). Falta subir el ZIP
+## Cumplimiento legal en Brasil (19/11/2026)
 - [x] Hecho:
   - Política de Privacidad, conforme a la LGPD (`/privacidade`).
   - Términos y condiciones de compra, conforme al CDC y al Decreto 7.962/2013 (`/termos`): arrepentimiento en 7 días, vicios del producto, cancelación y foro.
   - Banner de cookies: GA4 solo se carga después de "Aceitar", y rechazar es igual de fácil.
   - Aviso legal en el checkout.
   - Pie de página con la identificación de la empresa y los enlaces legales.
-- [ ] **Subir el ZIP nuevo** (`deploy/minipizzajunior-hostinger.zip`, del 19/11) a `public_html`, extraerlo sobrescribiendo y limpiar la caché de Hostinger.
+- [x] ZIP subido y comprobado en vivo (19/11): `/privacidade`, `/termos` y banner de cookies (GA4 solo con consentimiento), sin errores de CSP.
 - [ ] **La clienta completa en el panel** (Configurações → Dados legais): razón social o nombre, **CNPJ o CPF**, **dirección física** y **e-mail**. El Decreto 7.962 los exige; mientras falten, las páginas muestran "(a informar)".
 - [ ] Recomendado: que un abogado o contador revise los textos legales. Son una base sólida, pero no sustituyen una asesoría jurídica.
 
@@ -50,4 +50,5 @@ _Última actualización: 16/11/2026_
 - Abrir esta carpeta en Claude Code y pedir: _"sigamos con Mini Pizza Junior, lee PENDIENTES.md"_.
 - Correr en local: `npm start` (Node, http://localhost:3000). La versión PHP necesita PHP 8.1 o superior:
   `php -S localhost:8080 -t public tools/php-router.php`
+- **Para subir cambios:** en el Gerenciador de arquivos, extraer en `/files/` con el nombre de carpeta `public_html` y marcar "Overwrite". Si se extrae dentro de `public_html`, se crea una subcarpeta duplicada.
 - Videos para redes: `node video/record.js <reel-tools> reel2|reel3` (voz de ElevenLabs "Yuri" en `video/audio/`).
