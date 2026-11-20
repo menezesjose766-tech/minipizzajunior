@@ -43,7 +43,8 @@ _Última actualización: 16/11/2026_
 - Página `/q/<código>`: solo se abre con el link, `noindex` y fuera del sitemap. Pestaña 🧩 Quiz en el panel: encender o apagar, link, textos, perfiles, preguntas y números anónimos. **No recoge datos personales.**
 - **Demo en Render** (para que la clienta lo pruebe): el link está en la variable `QUIZ_SLUG` de Render (no está en el repo). En Render el quiz arranca encendido con ese link aunque el servidor reinicie. Los números y las ediciones de la demo se borran en cada reinicio.
 - En `main` el quiz viene **apagado por defecto**, así que subir el ZIP a Hostinger no lo activa solo.
-- [ ] La clienta **aprueba los textos** (preguntas y perfiles) y envía el **link del checkout** (`pay.hotmart.com/...`) y, si quiere mostrarlo, el **precio**.
+- [x] Link del checkout configurado (20/11): `https://pay.hotmart.com/R108434856U`, es el valor por defecto del quiz.
+- [ ] La clienta **aprueba los textos** (preguntas y perfiles) y, si quiere mostrarlo, envía el **precio**.
 - [ ] Publicar en Hostinger: generar el ZIP, subirlo y, en el panel, encender el quiz, pegar el checkout y copiar el link.
 - [ ] (Para vender después) Captura de WhatsApp en el resultado, con consentimiento LGPD.
 
