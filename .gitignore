@@ -11,3 +11,4 @@ video/out/
 /*.txt
 video/audio/
 deploy/
+data/quizstats.json
