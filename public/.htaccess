@@ -26,6 +26,9 @@ AddType image/webp .webp
   RewriteRule ^ /%1 [L,R=301]
   RewriteRule ^(privacidade|termos)/?$ $1.html [L]
 
+  # quiz oculto: só abre pelo link /q/<código> (o código é validado pela API)
+  RewriteRule ^q/[a-z0-9]{1,32}/?$ quiz.html [L]
+
   # toda chamada /api/... vai para a API em PHP
   RewriteCond %{REQUEST_URI} !^/api/index\.php
   RewriteRule ^api(/.*)?$ api/index.php [QSA,L]
@@ -56,8 +59,8 @@ AddType image/webp .webp
   Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://*.google-analytics.com https://*.googletagmanager.com; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests"
   Header always unset X-Powered-By
   # painel e 404 fora do Google
-  <FilesMatch "^404\.html$">
-    Header set X-Robots-Tag "noindex"
+  <FilesMatch "^(404|quiz)\.html$">
+    Header set X-Robots-Tag "noindex, nofollow"
   </FilesMatch>
   # HTML sempre atualizado; imagens e scripts com cache
   <FilesMatch "\.html$">

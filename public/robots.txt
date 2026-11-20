@@ -2,5 +2,6 @@ User-agent: *
 Allow: /
 Disallow: /admin
 Disallow: /api/
+Disallow: /q/
 
 Sitemap: __SITE_URL__/sitemap.xml

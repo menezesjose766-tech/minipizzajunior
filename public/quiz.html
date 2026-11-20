@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quiz | Mini Pizza Junior</title>
+<!-- página oculta: só abre pelo link enviado; fora do Google -->
+<meta name="robots" content="noindex, nofollow">
+<!-- não envia o endereço secreto do quiz para outros sites (ex.: Hotmart) -->
+<meta name="referrer" content="origin">
+<meta name="theme-color" content="#E0521B">
+<link rel="icon" type="image/png" href="/img/logo-128.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{--laranja:#E0521B;--laranja-esc:#B83F10;--amarelo:#F5A623;--amarelo-claro:#FFD27A;--creme:#FFF6E9;--creme-2:#FCE9CF;--escuro:#2A1A12;--verde:#25D366}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{min-height:100%}
+  body{background:var(--creme);color:var(--escuro);font-family:'Nunito',sans-serif;min-height:100vh;display:flex;flex-direction:column;overflow-x:hidden}
+  body::before{content:"";position:fixed;inset:0;z-index:-1;opacity:.5;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cg opacity='.35'%3E%3Cpath d='M30 28l14 5-11 9z' fill='%23F5A623'/%3E%3Cpath d='M140 46l12 9-14 5z' fill='%23E0521B'/%3E%3Cpath d='M88 114l14 2-8 12z' fill='%23E0521B'/%3E%3Cpath d='M186 134l14 6-12 8z' fill='%23F5A623'/%3E%3Cpath d='M36 180l11 11-14 2z' fill='%23F5A623'/%3E%3C/g%3E%3C/svg%3E")}
+  .d{font-family:'Bagel Fat One',cursive;font-weight:400;line-height:1.05}
+  header{padding:14px 16px;display:flex;justify-content:center}
+  header img{width:64px;height:64px;filter:drop-shadow(0 6px 10px rgba(120,45,10,.2))}
+  main{flex:1;width:100%;max-width:560px;margin:0 auto;padding:6px 16px 30px;display:flex;flex-direction:column}
+  .screen{display:none;flex-direction:column;flex:1;animation:in .45s cubic-bezier(.2,.9,.3,1.2)}
+  .screen.on{display:flex}
+  @keyframes in{from{opacity:0;transform:translateY(24px) scale(.98)}}
+  h1{font-size:clamp(1.9rem,8vw,2.6rem);color:var(--laranja);text-shadow:3px 4px 0 var(--amarelo-claro);text-align:center;margin:6px 0 14px}
+  .lead{text-align:center;font-weight:700;font-size:1.08rem;opacity:.85;margin-bottom:22px}
+  .pz{width:min(250px,64vw);aspect-ratio:1;margin:4px auto 22px;filter:drop-shadow(0 16px 22px rgba(90,30,5,.28));animation:spin 22s linear infinite}
+  .pz svg{width:100%;height:100%}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:17px 22px;border-radius:99px;border:0;font:900 1.1rem 'Nunito',sans-serif;cursor:pointer;text-decoration:none;transition:transform .15s,box-shadow .15s}
+  .btn-lar{background:var(--laranja);color:#fff;box-shadow:0 6px 0 var(--laranja-esc)}
+  .btn-lar:active{transform:translateY(4px);box-shadow:0 2px 0 var(--laranja-esc)}
+  .btn-out{background:#fff;color:var(--escuro);border:2px solid var(--escuro);margin-top:12px;font-size:1rem;padding:13px 20px}
+  [hidden]{display:none!important}
+  .back[hidden]{display:block!important;visibility:hidden}
+  .meta{text-align:center;font-weight:800;opacity:.6;font-size:.85rem;margin-top:12px}
+  /* perguntas */
+  .top{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+  .back{background:none;border:2px solid var(--escuro);border-radius:50%;width:38px;height:38px;flex:none;font:900 1.1rem Nunito;cursor:pointer;color:var(--escuro)}
+
+  .bar{flex:1;height:12px;background:#fff;border:2px solid var(--escuro);border-radius:99px;overflow:hidden}
+  .bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--amarelo),var(--laranja));transition:width .4s}
+  .count{font-weight:900;font-size:.9rem;white-space:nowrap}
+  .q{font-size:clamp(1.5rem,6.6vw,2rem);margin-bottom:20px;color:var(--escuro)}
+  .answers{display:flex;flex-direction:column;gap:12px}
+  .ans{text-align:left;background:#fff;border:2px solid var(--escuro);border-radius:20px;padding:17px 18px;font:800 1.05rem 'Nunito',sans-serif;color:var(--escuro);cursor:pointer;box-shadow:4px 4px 0 var(--escuro);transition:transform .15s,box-shadow .15s,background .15s;display:flex;gap:12px;align-items:center}
+  .ans b{width:30px;height:30px;flex:none;border-radius:50%;background:var(--creme-2);display:grid;place-items:center;font-weight:900}
+  .ans:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--escuro)}
+  .ans.pick{background:var(--laranja);color:#fff;transform:translate(2px,2px);box-shadow:2px 2px 0 var(--escuro)}
+  .ans.pick b{background:#fff;color:var(--laranja)}
+  .ans:focus-visible,.btn:focus-visible,.back:focus-visible{outline:3px solid var(--amarelo);outline-offset:3px}
+  /* resultado */
+  .tag{align-self:center;background:var(--escuro);color:var(--amarelo);font-weight:900;font-size:.8rem;letter-spacing:3px;text-transform:uppercase;padding:8px 18px;border-radius:99px;margin-bottom:12px}
+  .card{background:#fff;border:2px solid var(--escuro);border-radius:24px;padding:20px;box-shadow:6px 6px 0 var(--amarelo);margin-bottom:20px;font-weight:700;line-height:1.6}
+  .preco{text-align:center;font-family:'Bagel Fat One';font-size:1.7rem;margin:-4px 0 14px}
+  .legal{margin-top:22px;font-size:.78rem;line-height:1.5;opacity:.72;text-align:center;font-weight:700}
+  .legal a{color:var(--laranja-esc)}
+  .restart{background:none;border:0;font:800 .9rem Nunito;color:var(--laranja);cursor:pointer;margin-top:14px;text-decoration:underline}
+  .center{text-align:center}
+  .loading{margin:auto;width:44px;height:44px;border-radius:50%;border:5px solid var(--creme-2);border-top-color:var(--laranja);animation:spin 1s linear infinite}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header><a href="/" aria-label="Mini Pizza Junior"><img src="/img/logo-256.webp" alt="Mini Pizza Junior" width="64" height="64"></a></header>
+<main>
+  <div class="screen on" id="sLoad"><div class="loading" aria-label="Carregando"></div></div>
+
+  <section class="screen" id="sOff">
+    <h1 class="d">Ops! 🍕</h1>
+    <p class="lead">Este quiz não está disponível no momento.</p>
+    <a class="btn btn-lar" href="/">Conhecer a Mini Pizza Junior</a>
+  </section>
+
+  <section class="screen" id="sIntro">
+    <div class="pz" id="pzIntro" aria-hidden="true"></div>
+    <h1 class="d" id="qTitle"></h1>
+    <p class="lead" id="qIntro"></p>
+    <button class="btn btn-lar" id="go" type="button">Começar o quiz →</button>
+    <p class="meta" id="qMeta"></p>
+  </section>
+
+  <section class="screen" id="sQ" aria-live="polite">
+    <div class="top">
+      <button class="back" id="prev" type="button" aria-label="Pergunta anterior">←</button>
+      <div class="bar" aria-hidden="true"><i id="barFill"></i></div>
+      <span class="count" id="count"></span>
+    </div>
+    <h2 class="q d" id="qText"></h2>
+    <div class="answers" id="answers" role="group"></div>
+  </section>
+
+  <section class="screen" id="sRes">
+    <span class="tag">Seu perfil</span>
+    <h1 class="d" id="rTitle"></h1>
+    <div class="pz" id="pzRes" aria-hidden="true" style="width:min(180px,46vw);margin-bottom:18px"></div>
+    <div class="card" id="rText"></div>
+    <p class="preco" id="rPreco" hidden></p>
+    <a class="btn btn-lar" id="buy" target="_blank" rel="noopener"></a>
+    <a class="btn btn-out" id="details" target="_blank" rel="noopener" hidden>Ver todos os detalhes do e-book</a>
+    <button class="restart" id="restart" type="button">Refazer o quiz</button>
+    <p class="legal">
+      Este resultado é apenas uma orientação com base nas suas respostas. O e-book ensina técnicas e dá referências, mas os resultados de cada pessoa dependem da dedicação, da região e de outros fatores, e não há garantia de vendas ou de renda.<br><br>
+      A compra é feita com segurança pela <b>Hotmart</b>, que processa o pagamento e entrega o e-book. Você tem <b>7 dias</b> para desistir da compra (Código de Defesa do Consumidor, art. 49).<br><br>
+      <a href="/termos" target="_blank" rel="noopener">Termos de Uso</a> · <a href="/privacidade" target="_blank" rel="noopener">Política de Privacidade</a> · <a href="#cookies" data-cookie-prefs>Cookies</a>
+    </p>
+  </section>
+</main>
+
+<script src="/js/pizza.js"></script>
+<script src="/js/consent.js"></script>
+<script>
+(async () => {
+  const $ = s => document.querySelector(s);
+  const slug = (location.pathname.match(/^\/q\/([a-z0-9]{1,32})\/?$/) || [])[1];
+  const show = id => { document.querySelectorAll('.screen').forEach(s => s.classList.toggle('on', s.id === id)); scrollTo({ top: 0 }); };
+  let Q = null;
+  try { const r = slug && await fetch('/api/quiz/' + slug); if (r && r.ok) Q = await r.json(); } catch {}
+  if (!Q || !Q.questions || !Q.questions.length || !Q.profiles.length) return show('sOff');
+
+  // contadores anônimos (sem dados pessoais)
+  const ev = (type, profile) => { try { fetch('/api/quiz/' + slug + '/event', { method: 'POST', keepalive: true, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ type, profile }) }); } catch {} };
+  // Google Analytics só com consentimento (LGPD)
+  const track = (name, params) => { try { window.gtag && window.gtag('event', name, params || {}); } catch {} };
+  if (/^G-[A-Z0-9]{4,15}$/.test(Q.ga4Id || '')) (window.__onConsent = window.__onConsent || []).push(() => {
+    if (window.gtag) return;
+    window.dataLayer = window.dataLayer || []; window.gtag = function () { window.dataLayer.push(arguments); };
+    gtag('js', new Date());
+    gtag('config', Q.ga4Id, { page_location: location.origin + '/quiz' + location.search, page_title: 'Quiz e-book' }); // o código secreto do link não vai para o Analytics
+    const s = document.createElement('script'); s.async = true; s.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(Q.ga4Id); document.head.appendChild(s);
+  });
+
+  const PK = window.PizzaKit; PK.injectDefs();
+  const pizza = PK.DEFAULT_DATA.flavors[0];
+  $('#pzIntro').innerHTML = PK.pizzaSVG(pizza);
+  $('#qTitle').textContent = Q.title;
+  $('#qIntro').textContent = Q.intro;
+  $('#qMeta').textContent = `${Q.questions.length} perguntas · menos de 1 minuto`;
+  document.title = Q.title.replace(/[^\p{L}\p{N}\s!?.,-]/gu, '').trim() + ' | Mini Pizza Junior';
+  show('sIntro'); ev('views');
+
+  let i = 0; const picks = [];
+  function renderQ() {
+    const q = Q.questions[i];
+    $('#count').textContent = `${i + 1}/${Q.questions.length}`;
+    $('#barFill').style.width = (i / Q.questions.length * 100) + '%';
+    $('#prev').hidden = i === 0;
+    $('#qText').textContent = q.text;
+    const box = $('#answers'); box.innerHTML = '';
+    q.answers.forEach((a, k) => {
+      const b = document.createElement('button');
+      b.type = 'button'; b.className = 'ans' + (picks[i] === k ? ' pick' : '');
+      b.innerHTML = `<b>${'ABCDEF'[k]}</b><span></span>`; b.querySelector('span').textContent = a.text;
+      b.addEventListener('click', () => {
+        picks[i] = k; box.querySelectorAll('.ans').forEach(x => x.classList.remove('pick')); b.classList.add('pick');
+        setTimeout(() => { if (++i < Q.questions.length) { renderQ(); show('sQ'); } else result(); }, 260);
+      });
+      box.appendChild(b);
+    });
+    setTimeout(() => { const f = box.querySelector('.ans'); f && f.focus({ preventScroll: true }); }, 60);
+  }
+  $('#go').addEventListener('click', () => { i = 0; picks.length = 0; renderQ(); show('sQ'); ev('starts'); track('quiz_start'); });
+  $('#prev').addEventListener('click', () => { if (i > 0) { i--; renderQ(); show('sQ'); } });
+  $('#restart').addEventListener('click', () => { i = 0; picks.length = 0; show('sIntro'); });
+
+  function result() {
+    const score = Object.fromEntries(Q.profiles.map(p => [p.id, 0]));
+    picks.forEach((k, n) => { const a = Q.questions[n].answers[k]; if (a && a.profile in score) score[a.profile]++; });
+    // empate: vale o perfil da última resposta empatada; senão, a ordem dos perfis
+    const max = Math.max(...Object.values(score));
+    const tied = Q.profiles.filter(p => score[p.id] === max).map(p => p.id);
+    let pid = tied[0];
+    for (let n = picks.length - 1; n >= 0; n--) { const a = Q.questions[n].answers[picks[n]]; if (a && tied.includes(a.profile)) { pid = a.profile; break; } }
+    const P = Q.profiles.find(p => p.id === pid) || Q.profiles[0];
+
+    $('#rTitle').textContent = P.title;
+    $('#rText').textContent = P.text;
+    $('#rPreco').hidden = !Q.precoTexto; $('#rPreco').textContent = Q.precoTexto;
+    $('#pzRes').innerHTML = PK.pizzaSVG(PK.DEFAULT_DATA.flavors[Q.profiles.indexOf(P) % PK.DEFAULT_DATA.flavors.length]);
+    const buy = $('#buy');
+    buy.textContent = '🛒 ' + Q.buttonText;
+    try { const u = new URL(Q.checkoutLink); u.searchParams.set('src', 'quiz_' + P.id); buy.href = u.href; } catch { buy.removeAttribute('href'); }
+    buy.onclick = () => { ev('checkout', P.id); track('quiz_checkout', { perfil: P.id }); };
+    const det = $('#details'); det.hidden = !Q.detailsLink; if (Q.detailsLink) det.href = Q.detailsLink;
+    $('#barFill').style.width = '100%';
+    show('sRes'); ev('completes', P.id); track('quiz_complete', { perfil: P.id });
+  }
+})();
+</script>
+</body>
+</html>

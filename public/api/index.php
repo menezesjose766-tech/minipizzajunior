@@ -167,6 +167,52 @@ function cleanTestimonial($t): array {
     return ['name' => str($t['name'] ?? '', 40) ?: 'Cliente', 'role' => str($t['role'] ?? '', 40), 'text' => str($t['text'] ?? '', 300)];
 }
 
+/* ---------- quiz do e-book (página oculta, só pelo link /q/<código>) ----------
+ * Não coleta dados pessoais: só contadores anônimos. */
+function isHttps(string $v): bool { return (bool)preg_match('~^https://[^\s"\'<>]+$~', $v); }
+function newSlug(): string { $a = 'abcdefghijkmnpqrstuvwxyz23456789'; $s = ''; for ($i = 0; $i < 8; $i++) $s .= $a[random_int(0, strlen($a) - 1)]; return $s; }
+function quizDefault(): array { return json_decode((string)file_get_contents(__DIR__ . '/quiz-default.json'), true) ?: []; }
+function cleanQuiz($q, array $current = []): array {
+    $q = is_array($q) ? $q : [];
+    $profiles = []; $ids = [];
+    foreach (array_slice(is_array($q['profiles'] ?? null) ? $q['profiles'] : [], 0, 6) as $p) {
+        $p = is_array($p) ? $p : [];
+        $id = preg_replace('/[^a-z0-9-]/', '', strtolower(str($p['id'] ?? '', 20)));
+        if ($id === '' || isset($ids[$id])) $id = 'perfil-' . bin2hex(random_bytes(2));
+        $ids[$id] = true;
+        $profiles[] = ['id' => $id, 'title' => str($p['title'] ?? '', 80) ?: 'Perfil', 'text' => str($p['text'] ?? '', 600)];
+    }
+    $first = $profiles[0]['id'] ?? '';
+    $questions = [];
+    foreach (array_slice(is_array($q['questions'] ?? null) ? $q['questions'] : [], 0, 12) as $x) {
+        $x = is_array($x) ? $x : [];
+        $answers = [];
+        foreach (array_slice(is_array($x['answers'] ?? null) ? $x['answers'] : [], 0, 6) as $a) {
+            $a = is_array($a) ? $a : [];
+            $pid = is_string($a['profile'] ?? null) && isset($ids[$a['profile']]) ? $a['profile'] : $first;
+            $answers[] = ['text' => str($a['text'] ?? '', 100) ?: 'Resposta', 'profile' => $pid];
+        }
+        $questions[] = ['text' => str($x['text'] ?? '', 160) ?: 'Pergunta', 'answers' => $answers];
+    }
+    $slug = is_string($q['slug'] ?? null) && preg_match('/^[a-z0-9]{6,16}$/', $q['slug']) ? $q['slug'] : ($current['slug'] ?? newSlug());
+    $ck = str($q['checkoutLink'] ?? '', 300); $dt = str($q['detailsLink'] ?? '', 300);
+    return [
+        'enabled' => ($q['enabled'] ?? false) === true, 'slug' => $slug,
+        'title' => str($q['title'] ?? '', 120) ?: (quizDefault()['title'] ?? 'Quiz'), 'intro' => str($q['intro'] ?? '', 300),
+        'buttonText' => str($q['buttonText'] ?? '', 40) ?: 'Quero o e-book', 'precoTexto' => str($q['precoTexto'] ?? '', 60),
+        'checkoutLink' => isHttps($ck) ? $ck : '', 'detailsLink' => isHttps($dt) ? $dt : '',
+        'profiles' => $profiles, 'questions' => $questions,
+    ];
+}
+function readQuiz(): array {
+    return locked('db', function () {
+        $db = readDB();
+        if (empty($db['quiz']['slug'])) { $db['quiz'] = cleanQuiz($db['quiz'] ?? quizDefault()); writeDB($db); }
+        return $db['quiz'];
+    });
+}
+function emptyQStats(): array { return ['since' => gmdate('Y-m-d\TH:i:s\Z'), 'views' => 0, 'starts' => 0, 'completes' => 0, 'checkout' => 0, 'profiles' => new stdClass()]; }
+
 /* ---------- pedidos ---------- */
 const STATUS = ['novo', 'confirmado', 'preparo', 'saiu', 'entregue', 'cancelado'];
 const PAGAMENTOS = ['combinar' => 'A combinar no WhatsApp', 'pix' => 'Pix', 'dinheiro' => 'Dinheiro', 'cartao' => 'Cartão na entrega'];
@@ -378,6 +424,53 @@ switch (true) {
         if ($res === null) fail('Pedido não encontrado', 404);
         if (isset($res['__err'])) fail($res['__err']);
         out($res);
+
+    case (bool)preg_match('~^quiz/([a-z0-9]{1,32})$~', $route, $m) && $method === 'GET':
+        $q = readQuiz();
+        if (!$q['enabled'] || !hash_equals($q['slug'], $m[1])) fail('Quiz indisponível', 404);
+        $S = cleanSettings(readDB()['settings'] ?? []);
+        unset($q['slug'], $q['enabled']);
+        $q['checkoutLink'] = $q['checkoutLink'] ?: $S['ebookLink'];
+        $q['ga4Id'] = $S['ga4Id'];
+        out($q);
+
+    case (bool)preg_match('~^quiz/([a-z0-9]{1,32})/event$~', $route, $m) && $method === 'POST':
+        $q = readQuiz(); $type = $body['type'] ?? '';
+        if (!$q['enabled'] || !hash_equals($q['slug'], $m[1]) || !in_array($type, ['views', 'starts', 'completes', 'checkout'], true)) fail('Quiz indisponível', 404);
+        // cada evento conta 1 vez por IP a cada 30 min (recarregar não infla os números)
+        if (rateHit('quiz-' . $type, 1, 1800)) out(['ok' => true]);
+        $pid = is_string($body['profile'] ?? null) ? $body['profile'] : '';
+        $validPid = in_array($pid, array_column($q['profiles'], 'id'), true);
+        locked('quizstats', function () use ($type, $pid, $validPid) {
+            global $DATA_DIR;
+            $f = $DATA_DIR . '/quizstats.json';
+            $s = jread($f, emptyQStats());
+            $s[$type] = (int)($s[$type] ?? 0) + 1;
+            if ($validPid && ($type === 'completes' || $type === 'checkout')) {
+                $s['profiles'] = (array)($s['profiles'] ?? []);
+                $s['profiles'][$pid] = ($s['profiles'][$pid] ?? []) + ['completes' => 0, 'checkout' => 0];
+                $s['profiles'][$pid][$type]++;
+            }
+            jwrite($f, $s);
+        });
+        out(['ok' => true]);
+
+    case $route === 'admin/quiz' && $method === 'GET':
+        requireAdmin();
+        out(['quiz' => readQuiz(), 'stats' => jread($DATA_DIR . '/quizstats.json', emptyQStats())]);
+
+    case $route === 'admin/quiz' && $method === 'PUT':
+        requireAdmin();
+        $cur = readQuiz();
+        out(locked('db', function () use ($body, $cur) { $db = readDB(); $db['quiz'] = cleanQuiz($body, $cur); writeDB($db); return $db['quiz']; }));
+
+    case $route === 'admin/quiz/slug' && $method === 'POST':
+        requireAdmin();
+        out(locked('db', function () { $db = readDB(); $db['quiz'] = cleanQuiz(['slug' => newSlug()] + ($db['quiz'] ?? quizDefault())); writeDB($db); return $db['quiz']; }));
+
+    case $route === 'admin/quiz/stats' && $method === 'DELETE':
+        requireAdmin();
+        $e = emptyQStats(); jwrite($DATA_DIR . '/quizstats.json', $e); out($e);
 
     default:
         fail('Rota não encontrada', 404);

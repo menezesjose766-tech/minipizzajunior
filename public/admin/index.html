@@ -130,6 +130,26 @@
 
   @media (max-width:1100px){.editor{grid-template-columns:1fr}.preview{position:static;max-width:380px;margin:0 auto;order:-1}}
   @media (max-width:800px){.sabores{grid-template-columns:1fr}.grid2{grid-template-columns:1fr}.panel{padding:16px}.esc{grid-template-columns:30px 1fr 90px 26px 26px;gap:6px}.top h1{font-size:.95rem}}
+  /* quiz */
+  .qz-head{display:grid;grid-template-columns:1fr 1.4fr;gap:20px;align-items:start;margin-bottom:10px}
+  .qz-hint{display:block;margin-top:6px;opacity:.65;font-weight:600;font-size:.82rem;line-height:1.4}
+  .qz-link code#qzUrl{display:block;background:var(--creme);border:2px dashed var(--borda);border-radius:12px;padding:10px 12px;font-weight:800;word-break:break-all;font-size:.9rem}
+  .qz-link-acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+  .qz-h{font-family:"Bagel Fat One";font-weight:400;color:var(--laranja);font-size:1.15rem;margin:26px 0 12px}
+  .qz-h small{font-family:Nunito;font-size:.8rem;color:var(--escuro);opacity:.6;font-weight:700}
+  .qz-stats{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+  .qz-stat{background:var(--creme);border:2px solid var(--escuro);border-radius:16px;padding:12px;text-align:center}
+  .qz-stat b{display:block;font-family:"Bagel Fat One";font-weight:400;font-size:1.7rem;color:var(--laranja);line-height:1.1}
+  .qz-stat span{font-size:.8rem;font-weight:800;opacity:.7}
+  .qz-ptab{width:100%;border-collapse:collapse;margin-top:12px;font-size:.9rem}
+  .qz-ptab th,.qz-ptab td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--borda)}
+  .qz-ptab th{font-weight:900;background:var(--creme)}
+  .qz-item{border:2px solid var(--escuro);border-radius:16px;padding:14px;margin-bottom:12px;background:#fff}
+  .qz-item-top{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px;font-weight:900}
+  .qz-ans{display:grid;grid-template-columns:1fr 200px 32px;gap:8px;align-items:center;margin-bottom:8px}
+  .qz-save{position:sticky;bottom:12px;margin:22px 0 0 auto;width:fit-content;display:flex;justify-content:flex-end;align-items:center;gap:14px;background:#fff;border:2px solid var(--escuro);border-radius:16px;padding:10px 14px;box-shadow:4px 4px 0 var(--amarelo)}
+  .qz-save span{font-weight:800;opacity:.7}
+  @media (max-width:800px){.qz-head{grid-template-columns:1fr}.qz-stats{grid-template-columns:repeat(2,1fr)}.qz-ans{grid-template-columns:1fr 32px}.qz-ans select{grid-column:1}}
 </style>
 </head>
 <body>
@@ -159,6 +179,7 @@
     <button class="tab" role="tab" data-tab="pedidos" aria-selected="true">📦 Pedidos <span class="tab-n" id="tabN" hidden></span></button>
     <button class="tab" role="tab" data-tab="sabores" aria-selected="false">🍕 Sabores</button>
     <button class="tab" role="tab" data-tab="depoimentos" aria-selected="false">💬 Depoimentos</button>
+    <button class="tab" role="tab" data-tab="quiz" aria-selected="false">🧩 Quiz</button>
     <button class="tab" role="tab" data-tab="config" aria-selected="false">⚙️ Configurações</button>
   </nav>
 
@@ -229,6 +250,53 @@
     </div>
 
     <!-- CONFIG -->
+    <div class="panel" data-panel="quiz" hidden>
+      <div class="qz-head">
+        <div>
+          <label class="switch"><input type="checkbox" id="qzOn"> Quiz ativo</label>
+          <small class="qz-hint">Desligado, o link mostra "quiz indisponível". O quiz não aparece no site nem no Google: só abre por este link.</small>
+        </div>
+        <div class="qz-link">
+          <code id="qzUrl">…</code>
+          <div class="qz-link-acts">
+            <button class="btn btn-sm" type="button" id="qzCopy">📋 Copiar link</button>
+            <a class="btn btn-sm btn-ghost" id="qzOpen" target="_blank" rel="noopener">↗ Abrir</a>
+            <button class="btn btn-sm btn-ghost" type="button" id="qzNew">🔄 Gerar novo link</button>
+          </div>
+          <small class="qz-hint">Para medir de onde vem cada visita, use no Instagram: <code>…?utm_source=instagram</code></small>
+        </div>
+      </div>
+
+      <h3 class="qz-h">📊 Números <small id="qzSince"></small></h3>
+      <div class="qz-stats" id="qzStats"></div>
+      <div id="qzProfStats"></div>
+      <button class="btn-ghost danger" type="button" id="qzReset" style="margin-top:8px">Zerar números</button>
+      <small class="qz-hint" style="margin-top:6px">Contagem anônima: não guarda nome, telefone nem e-mail de ninguém. Cada pessoa conta 1 vez a cada 30 min.</small>
+
+      <h3 class="qz-h">✏️ Textos e botões</h3>
+      <div class="grid2">
+        <label class="f"><span>Título</span><input type="text" data-q="title" maxlength="120"></label>
+        <label class="f"><span>Texto do botão de compra</span><input type="text" data-q="buttonText" maxlength="40"></label>
+      </div>
+      <label class="f"><span>Introdução</span><textarea data-q="intro" maxlength="300" rows="2"></textarea></label>
+      <div class="grid2">
+        <label class="f"><span>Link do checkout (Hotmart)</span><input type="url" data-q="checkoutLink" maxlength="300" placeholder="https://pay.hotmart.com/..."><small>Vazio = usa o link do e-book de Configurações.</small></label>
+        <label class="f"><span>Link "ver detalhes" (opcional)</span><input type="url" data-q="detailsLink" maxlength="300" placeholder="https://..."><small>Página de vendas, para quem quer saber mais.</small></label>
+      </div>
+      <label class="f" style="max-width:340px"><span>Preço exibido (opcional)</span><input type="text" data-q="precoTexto" maxlength="60" placeholder="Ex.: R$ 47,00"><small>⚠️ Tem que ser igual ao preço do checkout (CDC).</small></label>
+
+      <h3 class="qz-h">🎯 Resultados (perfis)</h3>
+      <small class="qz-hint" style="margin:-6px 0 10px">Cada resposta soma um ponto para um perfil; o perfil com mais pontos é o resultado. ⚖️ Fale só do que o e-book ensina: não prometa renda nem vendas (CDC, art. 37).</small>
+      <div id="qzProfiles"></div>
+      <button class="btn btn-sm btn-ghost" type="button" id="qzAddProf">+ Adicionar perfil</button>
+
+      <h3 class="qz-h">❓ Perguntas</h3>
+      <div id="qzQuestions"></div>
+      <button class="btn btn-sm btn-ghost" type="button" id="qzAddQ">+ Adicionar pergunta</button>
+
+      <div class="qz-save"><span id="qzDirty"></span><button class="btn btn-lar" type="button" id="qzSave">Salvar quiz</button></div>
+    </div>
+
     <div class="panel" data-panel="config" hidden>
       <form id="cfg" onsubmit="return false">
         <fieldset>
@@ -298,5 +366,6 @@
 <script src="/js/pizza.js"></script>
 <script src="/admin/admin.js"></script>
 <script src="/admin/orders.js"></script>
+<script src="/admin/quiz.js"></script>
 </body>
 </html>

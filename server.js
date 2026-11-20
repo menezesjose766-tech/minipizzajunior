@@ -287,6 +287,75 @@ app.put('/api/admin/testimonials', requireAdmin, (req, res) => {
   const db = readDB(); db.testimonials = req.body.slice(0, 30).map(cleanTestimonial); writeDB(db); res.json(db.testimonials);
 });
 
+/* ---------- quiz do e-book (página oculta: só abre pelo link /q/<código>) ----------
+ * Não coleta dados pessoais: só contadores anônimos (visitas, inícios, conclusões, cliques em comprar). */
+const QUIZ_DEFAULT = JSON.parse(fs.readFileSync(path.join(__dirname, 'public', 'api', 'quiz-default.json'), 'utf8'));
+const QSTATS_FILE = path.join(__dirname, 'data', 'quizstats.json');
+const isHttps = v => /^https:\/\/[^\s"'<>]+$/.test(v);
+const newSlug = () => { const A = 'abcdefghijkmnpqrstuvwxyz23456789'; return Array.from(crypto.randomBytes(8), b => A[b % A.length]).join(''); }; // 8 caracteres, ~40 bits
+function cleanQuiz(q = {}, current = {}) {
+  const profiles = [], ids = new Set();
+  for (const p of Array.isArray(q.profiles) ? q.profiles.slice(0, 6) : []) {
+    let id = str(p && p.id, 20).toLowerCase().replace(/[^a-z0-9-]/g, '');
+    if (!id || ids.has(id)) id = 'perfil-' + crypto.randomBytes(2).toString('hex');
+    ids.add(id);
+    profiles.push({ id, title: str(p.title, 80) || 'Perfil', text: str(p.text, 600) });
+  }
+  const questions = (Array.isArray(q.questions) ? q.questions.slice(0, 12) : []).map(x => ({
+    text: str(x && x.text, 160) || 'Pergunta',
+    answers: (Array.isArray(x && x.answers) ? x.answers.slice(0, 6) : []).map(a => ({
+      text: str(a && a.text, 100) || 'Resposta', profile: ids.has(a && a.profile) ? a.profile : (profiles[0] || {}).id || '',
+    })),
+  }));
+  const slug = /^[a-z0-9]{6,16}$/.test(q.slug) ? q.slug : (current.slug || newSlug());
+  return {
+    enabled: q.enabled === true, slug,
+    title: str(q.title, 120) || QUIZ_DEFAULT.title, intro: str(q.intro, 300), buttonText: str(q.buttonText, 40) || 'Quero o e-book',
+    precoTexto: str(q.precoTexto, 60),
+    checkoutLink: isHttps(str(q.checkoutLink, 300)) ? str(q.checkoutLink, 300) : '',
+    detailsLink: isHttps(str(q.detailsLink, 300)) ? str(q.detailsLink, 300) : '',
+    profiles, questions,
+  };
+}
+function readQuiz() {
+  const db = readDB();
+  if (!db.quiz || !db.quiz.slug) { db.quiz = cleanQuiz(db.quiz || QUIZ_DEFAULT); writeDB(db); }
+  return db.quiz;
+}
+const emptyStats = () => ({ since: new Date().toISOString(), views: 0, starts: 0, completes: 0, checkout: 0, profiles: {} });
+function readQStats() { try { return JSON.parse(fs.readFileSync(QSTATS_FILE, 'utf8')); } catch { return emptyStats(); } }
+function writeQStats(s) { fs.mkdirSync(path.dirname(QSTATS_FILE), { recursive: true }); fs.writeFileSync(QSTATS_FILE + '.tmp', JSON.stringify(s)); fs.renameSync(QSTATS_FILE + '.tmp', QSTATS_FILE); }
+const quizSeen = new Map(); // conta cada evento 1 vez por IP a cada 30 min (recarregar a página não infla os números)
+setInterval(() => { const now = Date.now(); for (const [k, t] of quizSeen) if (now - t > 30 * 60e3) quizSeen.delete(k); }, 10 * 60e3).unref();
+
+app.get('/api/quiz/:slug', (req, res) => {
+  const q = readQuiz();
+  if (!q.enabled || req.params.slug !== q.slug) return res.status(404).json({ error: 'Quiz indisponível' });
+  const S = cleanSettings(readDB().settings);
+  res.json({ ...q, slug: undefined, enabled: undefined, checkoutLink: q.checkoutLink || S.ebookLink, detailsLink: q.detailsLink, ga4Id: S.ga4Id });
+});
+app.post('/api/quiz/:slug/event', (req, res) => {
+  const q = readQuiz(), type = req.body && req.body.type;
+  if (!q.enabled || req.params.slug !== q.slug || !['views', 'starts', 'completes', 'checkout'].includes(type)) return res.status(404).json({ error: 'Quiz indisponível' });
+  const key = req.ip + '|' + type;
+  if (quizSeen.has(key) && Date.now() - quizSeen.get(key) < 30 * 60e3) return res.json({ ok: true });
+  quizSeen.set(key, Date.now());
+  const s = readQStats(); s[type]++;
+  const pid = req.body.profile;
+  if ((type === 'completes' || type === 'checkout') && q.profiles.some(p => p.id === pid)) {
+    s.profiles[pid] = s.profiles[pid] || { completes: 0, checkout: 0 }; s.profiles[pid][type]++;
+  }
+  writeQStats(s); res.json({ ok: true });
+});
+app.get('/api/admin/quiz', requireAdmin, (req, res) => res.json({ quiz: readQuiz(), stats: readQStats() }));
+app.put('/api/admin/quiz', requireAdmin, (req, res) => {
+  const db = readDB(); db.quiz = cleanQuiz(req.body || {}, readQuiz()); writeDB(db); res.json(db.quiz);
+});
+app.post('/api/admin/quiz/slug', requireAdmin, (req, res) => {
+  const db = readDB(); db.quiz = { ...readQuiz(), slug: newSlug() }; writeDB(db); res.json(db.quiz);
+});
+app.delete('/api/admin/quiz/stats', requireAdmin, (req, res) => { writeQStats(emptyStats()); res.json(emptyStats()); });
+
 app.use('/api', (req, res) => res.status(404).json({ error: 'Rota não encontrada' })); // não expõe public/api (versão PHP)
 app.get('/admin', (req, res) => res.sendFile(path.join(__dirname, 'public', 'admin', 'index.html')));
 // páginas com o domínio preenchido na hora (__SITE_URL__ = endereço desta demo)
@@ -301,6 +370,7 @@ function sendTemplated(file, type) {
 app.get(['/', '/index.html'], sendTemplated('index.html', 'html'));
 app.get('/sitemap.xml', sendTemplated('sitemap.xml', 'application/xml'));
 app.get('/robots.txt', sendTemplated('robots.txt', 'text/plain'));
+app.get('/q/:slug', (req, res) => res.sendFile(path.join(__dirname, 'public', 'quiz.html')));
 app.get(['/privacidade', '/privacidade.html'], sendTemplated('privacidade.html', 'html'));
 app.get(['/termos', '/termos.html'], sendTemplated('termos.html', 'html'));
 app.use(express.static(path.join(__dirname, 'public'), { extensions: ['html'] }));

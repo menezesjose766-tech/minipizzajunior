@@ -1,0 +1,69 @@
+{
+  "enabled": false,
+  "slug": "",
+  "title": "Descubra seu perfil com as mini pizzas 🍕",
+  "intro": "Responda 5 perguntas rápidas e veja como o E-book Mini Pizzas Pré-Assadas pode te ajudar.",
+  "buttonText": "Quero o e-book",
+  "precoTexto": "",
+  "checkoutLink": "",
+  "detailsLink": "",
+  "profiles": [
+    {
+      "id": "renda",
+      "title": "Renda extra na cozinha de casa",
+      "text": "Você quer aproveitar o tempo que tem para produzir em casa e vender para quem está perto. O e-book traz a receita da nossa massa e dos recheios, os valores de revenda com sugestões de preço e as orientações de armazenamento e forneamento, para você começar com segurança."
+    },
+    {
+      "id": "negocio",
+      "title": "Empreendedor(a) em construção",
+      "text": "Você pensa em transformar as mini pizzas em um negócio de verdade. No e-book você encontra dicas de padronização dos produtos, sugestões de preço para comercialização e indicações de ingredientes, maquinário, embalagens personalizadas e profissionais para tabela nutricional."
+    },
+    {
+      "id": "casa",
+      "title": "Chef da família e das festas",
+      "text": "Você quer ter mini pizzas caseiras sempre à mão para a família e para as festas. O e-book ensina a receita da nossa massa e dos recheios, as combinações de sabores e como armazenar e assar do jeito certo."
+    }
+  ],
+  "questions": [
+    {
+      "text": "Qual é o seu principal objetivo?",
+      "answers": [
+        { "text": "Ganhar uma renda extra", "profile": "renda" },
+        { "text": "Começar meu próprio negócio", "profile": "negocio" },
+        { "text": "Fazer para minha família e festas", "profile": "casa" }
+      ]
+    },
+    {
+      "text": "Você já fez pizza em casa?",
+      "answers": [
+        { "text": "Nunca fiz", "profile": "renda" },
+        { "text": "Algumas vezes", "profile": "casa" },
+        { "text": "Faço com frequência", "profile": "negocio" }
+      ]
+    },
+    {
+      "text": "Para quem você faria as mini pizzas?",
+      "answers": [
+        { "text": "Vizinhos, amigos e conhecidos", "profile": "renda" },
+        { "text": "Clientes, mercados e revendedores", "profile": "negocio" },
+        { "text": "Para a minha casa e as minhas festas", "profile": "casa" }
+      ]
+    },
+    {
+      "text": "Quanto tempo você teria por semana?",
+      "answers": [
+        { "text": "Algumas horas livres", "profile": "renda" },
+        { "text": "Quero me dedicar bastante", "profile": "negocio" },
+        { "text": "Só quando tiver vontade ou ocasião", "profile": "casa" }
+      ]
+    },
+    {
+      "text": "O que mais te trava hoje?",
+      "answers": [
+        { "text": "Não sei por onde começar", "profile": "renda" },
+        { "text": "Não sei quanto cobrar nem como padronizar", "profile": "negocio" },
+        { "text": "Medo de a massa não ficar boa", "profile": "casa" }
+      ]
+    }
+  ]
+}
