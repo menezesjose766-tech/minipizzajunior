@@ -2,7 +2,7 @@
   "enabled": false,
   "slug": "",
   "title": "Descubra seu perfil com as mini pizzas 🍕",
-  "intro": "Responda 5 perguntas rápidas e veja como o E-book Mini Pizzas Pré-Assadas pode te ajudar.",
+  "intro": "Responda 5 perguntas rápidas e veja como o e-book “A massa que funciona e o padrão que vende” pode te ajudar.",
   "buttonText": "Quero o e-book",
   "precoTexto": "",
   "checkoutLink": "https://pay.hotmart.com/R108434856U",
@@ -11,17 +11,17 @@
     {
       "id": "renda",
       "title": "Renda extra na cozinha de casa",
-      "text": "Você quer aproveitar o tempo que tem para produzir em casa e vender para quem está perto. O e-book traz a receita da nossa massa e dos recheios, os valores de revenda com sugestões de preço e as orientações de armazenamento e forneamento, para você começar com segurança."
+      "text": "Você quer produzir em casa e vender para quem está perto. O e-book traz a receita real que usamos todos os dias na Mini Pizza Junior, com fermentação longa de 8 horas, quanto rende cada tamanho (com 1 kg de trigo saem cerca de 25 mini pizzas de 15 cm ou de 90 a 100 brotinhos) e o nosso cardápio e tabela de revenda como referência de valores. E você ainda tem suporte ilimitado para tirar dúvidas."
     },
     {
       "id": "negocio",
       "title": "Empreendedor(a) em construção",
-      "text": "Você pensa em transformar as mini pizzas em um negócio de verdade. No e-book você encontra dicas de padronização dos produtos, sugestões de preço para comercialização e indicações de ingredientes, maquinário, embalagens personalizadas e profissionais para tabela nutricional."
+      "text": "Você quer transformar as mini pizzas em negócio, e o segredo é o padrão. O e-book mostra quantos gramas de queijo e recheio usar em cada tamanho, como reaproveitar as sobras da massa, a embalagem a vácuo e a bandeja que usamos, a validade de até 3 meses no congelador e os contatos para tabela nutricional, máquina a vácuo e embalagem personalizada. E você ainda tem suporte ilimitado para tirar dúvidas."
     },
     {
       "id": "casa",
       "title": "Chef da família e das festas",
-      "text": "Você quer ter mini pizzas caseiras sempre à mão para a família e para as festas. O e-book ensina a receita da nossa massa e dos recheios, as combinações de sabores e como armazenar e assar do jeito certo."
+      "text": "Você quer mini pizzas caseiras sempre à mão. O e-book ensina passo a passo a massa de fermentação longa, os recheios de frango, carne e camarão com tempero simples (alho, cebola e sal), como achar o ponto certo no seu próprio forno e como congelar para durar até 3 meses. E você ainda tem suporte ilimitado para tirar dúvidas."
     }
   ],
   "questions": [
@@ -34,11 +34,11 @@
       ]
     },
     {
-      "text": "Você já fez pizza em casa?",
+      "text": "Como é a sua experiência com massa de pizza?",
       "answers": [
-        { "text": "Nunca fiz", "profile": "renda" },
-        { "text": "Algumas vezes", "profile": "casa" },
-        { "text": "Faço com frequência", "profile": "negocio" }
+        { "text": "Nunca fiz massa", "profile": "renda" },
+        { "text": "Já faço, mas não sai sempre igual", "profile": "negocio" },
+        { "text": "Faço de vez em quando em casa", "profile": "casa" }
       ]
     },
     {
@@ -50,18 +50,18 @@
       ]
     },
     {
-      "text": "Quanto tempo você teria por semana?",
+      "text": "O que você mais quer aprender?",
       "answers": [
-        { "text": "Algumas horas livres", "profile": "renda" },
-        { "text": "Quero me dedicar bastante", "profile": "negocio" },
-        { "text": "Só quando tiver vontade ou ocasião", "profile": "casa" }
+        { "text": "Quanto rende a massa e quanto cobrar", "profile": "renda" },
+        { "text": "Padronizar, embalar a vácuo e conservar", "profile": "negocio" },
+        { "text": "A receita da massa e dos recheios", "profile": "casa" }
       ]
     },
     {
       "text": "O que mais te trava hoje?",
       "answers": [
         { "text": "Não sei por onde começar", "profile": "renda" },
-        { "text": "Não sei quanto cobrar nem como padronizar", "profile": "negocio" },
+        { "text": "Minhas pizzas não saem todas iguais", "profile": "negocio" },
         { "text": "Medo de a massa não ficar boa", "profile": "casa" }
       ]
     }
