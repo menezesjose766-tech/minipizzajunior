@@ -319,7 +319,12 @@ function cleanQuiz(q = {}, current = {}) {
 }
 function readQuiz() {
   const db = readDB();
-  if (!db.quiz || !db.quiz.slug) { db.quiz = cleanQuiz(db.quiz || QUIZ_DEFAULT); writeDB(db); }
+  if (!db.quiz || !db.quiz.slug) {
+    // Demo no Render: o disco é apagado a cada reinício. Com QUIZ_SLUG definido, o quiz já nasce
+    // ligado e com o mesmo link, para o link enviado ao cliente continuar funcionando.
+    const fixed = /^[a-z0-9]{6,16}$/.test(process.env.QUIZ_SLUG || '') ? { enabled: true, slug: process.env.QUIZ_SLUG } : {};
+    db.quiz = cleanQuiz({ ...(db.quiz || QUIZ_DEFAULT), ...fixed }); writeDB(db);
+  }
   return db.quiz;
 }
 const emptyStats = () => ({ since: new Date().toISOString(), views: 0, starts: 0, completes: 0, checkout: 0, profiles: {} });
