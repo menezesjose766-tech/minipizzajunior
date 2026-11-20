@@ -39,6 +39,14 @@ _Última actualización: 16/11/2026_
 - [ ] **La clienta completa en el panel** (Configurações → Dados legais): razón social o nombre, **CNPJ o CPF**, **dirección física** y **e-mail**. El Decreto 7.962 los exige; mientras falten, las páginas muestran "(a informar)".
 - [ ] Recomendado: que un abogado o contador revise los textos legales. Son una base sólida, pero no sustituyen una asesoría jurídica.
 
+## Quiz oculto del e-book (20/11/2026): en prueba con la clienta
+- Página `/q/<código>`: solo se abre con el link, `noindex` y fuera del sitemap. Pestaña 🧩 Quiz en el panel: encender o apagar, link, textos, perfiles, preguntas y números anónimos. **No recoge datos personales.**
+- **Demo en Render** (para que la clienta lo pruebe): el link está en la variable `QUIZ_SLUG` de Render (no está en el repo). En Render el quiz arranca encendido con ese link aunque el servidor reinicie. Los números y las ediciones de la demo se borran en cada reinicio.
+- En `main` el quiz viene **apagado por defecto**, así que subir el ZIP a Hostinger no lo activa solo.
+- [ ] La clienta **aprueba los textos** (preguntas y perfiles) y envía el **link del checkout** (`pay.hotmart.com/...`) y, si quiere mostrarlo, el **precio**.
+- [ ] Publicar en Hostinger: generar el ZIP, subirlo y, en el panel, encender el quiz, pegar el checkout y copiar el link.
+- [ ] (Para vender después) Captura de WhatsApp en el resultado, con consentimiento LGPD.
+
 ## Decidido
 - **Depoimentos:** se quedan los actuales.
 - El sitio en Hostinger arranca con datos limpios, sin pedidos de prueba.
