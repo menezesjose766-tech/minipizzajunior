@@ -248,6 +248,7 @@ app.delete('/api/admin/orders/:n', requireAdmin, (req, res) => {
 });
 
 app.get('/api/public', (req, res) => {
+  res.setHeader('Cache-Control', 'public, max-age=60, stale-while-revalidate=300'); // alivia o servidor em picos
   const db = readDB();
   res.json({ settings: cleanSettings(db.settings), flavors: db.flavors.filter(f => f.active), testimonials: db.testimonials });
 });
@@ -336,6 +337,7 @@ setInterval(() => { const now = Date.now(); for (const [k, t] of quizSeen) if (n
 app.get('/api/quiz/:slug', (req, res) => {
   const q = readQuiz();
   if (!q.enabled || req.params.slug !== q.slug) return res.status(404).json({ error: 'Quiz indisponível' });
+  res.setHeader('Cache-Control', 'public, max-age=60, stale-while-revalidate=300');
   const S = cleanSettings(readDB().settings);
   res.json({ ...q, slug: undefined, enabled: undefined, checkoutLink: q.checkoutLink || S.ebookLink, detailsLink: q.detailsLink, ga4Id: S.ga4Id });
 });

@@ -123,7 +123,10 @@
   if (!Q || !Q.questions || !Q.questions.length || !Q.profiles.length) return show('sOff');
 
   // contadores anônimos (sem dados pessoais)
-  const ev = (type, profile) => { try { fetch('/api/quiz/' + slug + '/event', { method: 'POST', keepalive: true, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ type, profile }) }); } catch {} };
+  const ev = (type, profile) => { try {
+    // cada evento sai só 1 vez por sessão do navegador (menos requisições em picos de acesso)
+    const k = 'mpjq_' + type; if (sessionStorage.getItem(k)) return; sessionStorage.setItem(k, '1');
+  } catch {} try { fetch('/api/quiz/' + slug + '/event', { method: 'POST', keepalive: true, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ type, profile }) }); } catch {} };
   // Google Analytics só com consentimento (LGPD)
   const track = (name, params) => { try { window.gtag && window.gtag('event', name, params || {}); } catch {} };
   if (/^G-[A-Z0-9]{4,15}$/.test(Q.ga4Id || '')) (window.__onConsent = window.__onConsent || []).push(() => {

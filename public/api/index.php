@@ -205,10 +205,29 @@ function cleanQuiz($q, array $current = []): array {
     ];
 }
 function readQuiz(): array {
+    // leitura sem trava (a escrita é atômica com rename); só trava na 1ª vez, para criar o quiz
+    $db = readDB();
+    if (!empty($db['quiz']['slug'])) return $db['quiz'];
     return locked('db', function () {
         $db = readDB();
         if (empty($db['quiz']['slug'])) { $db['quiz'] = cleanQuiz($db['quiz'] ?? quizDefault()); writeDB($db); }
         return $db['quiz'];
+    });
+}
+/** cada evento do quiz conta 1 vez por IP a cada 30 min; arquivos separados em 16 partes,
+ *  para o tráfego do quiz não disputar a trava com pedidos e login */
+function quizSeenBefore(string $type): bool {
+    global $DATA_DIR;
+    $h = hash('sha256', ($_SERVER['REMOTE_ADDR'] ?? '0') . '|' . $type);
+    $shard = 'qseen-' . $h[0];
+    return locked($shard, function () use ($h, $shard, $DATA_DIR) {
+        $f = $DATA_DIR . "/$shard.json"; $now = time();
+        $s = array_filter(jread($f, []), fn($t) => $now - $t < 1800);
+        $key = substr($h, 0, 24);
+        if (isset($s[$key])) return true;
+        if (count($s) > 20000) $s = array_slice($s, -20000, null, true);
+        $s[$key] = $now; jwrite($f, $s);
+        return false;
     });
 }
 function emptyQStats(): array { return ['since' => gmdate('Y-m-d\TH:i:s\Z'), 'views' => 0, 'starts' => 0, 'completes' => 0, 'checkout' => 0, 'profiles' => new stdClass()]; }
@@ -338,6 +357,8 @@ if (!in_array($method, ['GET', 'HEAD', 'DELETE'], true)) {
 
 switch (true) {
     case $route === 'public' && $method === 'GET':
+        // dados públicos: cache de 60 s no navegador e no CDN da Hostinger (alivia o PHP em picos de acesso)
+        header('Cache-Control: public, max-age=60, stale-while-revalidate=300');
         $db = readDB();
         out(['settings' => cleanSettings($db['settings'] ?? []), 'flavors' => array_values(array_filter($db['flavors'], fn($f) => !empty($f['active']))), 'testimonials' => $db['testimonials'] ?? []]);
 
@@ -428,6 +449,7 @@ switch (true) {
     case (bool)preg_match('~^quiz/([a-z0-9]{1,32})$~', $route, $m) && $method === 'GET':
         $q = readQuiz();
         if (!$q['enabled'] || !hash_equals($q['slug'], $m[1])) fail('Quiz indisponível', 404);
+        header('Cache-Control: public, max-age=60, stale-while-revalidate=300');
         $S = cleanSettings(readDB()['settings'] ?? []);
         unset($q['slug'], $q['enabled']);
         $q['checkoutLink'] = $q['checkoutLink'] ?: $S['ebookLink'];
@@ -438,7 +460,7 @@ switch (true) {
         $q = readQuiz(); $type = $body['type'] ?? '';
         if (!$q['enabled'] || !hash_equals($q['slug'], $m[1]) || !in_array($type, ['views', 'starts', 'completes', 'checkout'], true)) fail('Quiz indisponível', 404);
         // cada evento conta 1 vez por IP a cada 30 min (recarregar não infla os números)
-        if (rateHit('quiz-' . $type, 1, 1800)) out(['ok' => true]);
+        if (quizSeenBefore($type)) out(['ok' => true]);
         $pid = is_string($body['profile'] ?? null) ? $body['profile'] : '';
         $validPid = in_array($pid, array_column($q['profiles'], 'id'), true);
         locked('quizstats', function () use ($type, $pid, $validPid) {
