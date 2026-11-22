@@ -45,8 +45,14 @@ _Última actualización: 16/11/2026_
 - En `main` el quiz viene **apagado por defecto**, así que subir el ZIP a Hostinger no lo activa solo.
 - [x] Link del checkout configurado (20/11): `https://pay.hotmart.com/R108434856U`, es el valor por defecto del quiz.
 - [ ] La clienta **aprueba los textos** (preguntas y perfiles) y, si quiere mostrarlo, envía el **precio**.
-- [ ] Publicar en Hostinger: generar el ZIP, subirlo y, en el panel, encender el quiz, pegar el checkout y copiar el link.
+- [x] Publicado en Hostinger (22/11), **apagado**. La clienta lo enciende en el panel → 🧩 Quiz → "Quiz ativo" y copia su link definitivo (`minipizzajunior.com/q/...`).
 - [ ] (Para vender después) Captura de WhatsApp en el resultado, con consentimiento LGPD.
+
+## Tráfico y seguridad (22/11/2026)
+- Prueba de carga en vivo con 60 usuarios simultáneos y 0 errores: página ~110 req/s; API del menú ~230 req/s con caché de 60 s (antes ~78). Capacidad muy por encima de un Reel viral.
+- Auditoría de secretos: no hay claves de API secretas. La contraseña nunca estuvo en git; `.env`, `.git`, `data/` y `secret.key` están bloqueados en vivo, y el ZIP no lleva secretos.
+- [ ] Recomendado: cambiar la contraseña del panel por una de 12 caracteres o más y mover el `.env` una carpeta arriba de `public_html` (hoy está dentro, bloqueado con 403).
+- Nota: los cambios de precio y menú en el panel tardan hasta 1 minuto en verse en el sitio, por la caché.
 
 ## Decidido
 - **Depoimentos:** se quedan los actuales.
