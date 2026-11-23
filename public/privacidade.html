@@ -40,7 +40,8 @@
     <li><b>Ao fazer um pedido pelo site (quando essa opção estiver aberta):</b> nome, número de WhatsApp, endereço de entrega (rua, número, bairro, cidade, complemento e referência), os itens escolhidos e as observações que você escrever.</li>
     <li><b>Ao falar com a gente pelo WhatsApp:</b> as informações que você enviar na conversa.</li>
     <li><b>Dados de navegação (só com o seu consentimento):</b> páginas visitadas, cliques em botões, tipo de aparelho e cidade aproximada, coletados pelo Google Analytics.</li>
-    <li><b>Dados técnicos de segurança:</b> o endereço IP é usado, de forma cifrada e por no máximo 1 hora, para impedir ataques e pedidos falsos. A empresa de hospedagem também registra acessos ao servidor.</li>
+    <li><b>Dados técnicos de segurança:</b> ao tentar entrar no painel ou enviar um pedido, o site guarda um código gerado a partir do seu endereço IP (hash), e não o IP em si, para impedir ataques e pedidos falsos. A empresa de hospedagem também registra acessos ao servidor.</li>
+    <li><b>Quiz do e-book (para quem recebe o link):</b> não pedimos nome, telefone nem e-mail, e suas respostas não são guardadas. Contamos quantas pessoas abriram, começaram e terminaram o quiz, clicaram em comprar e em qual perfil ficaram. Para não contar a mesma pessoa várias vezes, usamos um código gerado a partir do IP (hash), que não fica ligado ao resultado.</li>
   </ul>
   <p>Não pedimos CPF, dados de cartão nem senhas de clientes. A forma de pagamento é combinada diretamente com você pelo WhatsApp.</p>
 
@@ -50,7 +51,8 @@
     <tbody>
       <tr><td>Receber, preparar, entregar e confirmar seu pedido</td><td>Nome, WhatsApp, endereço, itens, observações</td><td>Execução de contrato (inciso V)</td></tr>
       <tr><td>Responder suas mensagens e orçamentos (revenda, eventos)</td><td>Dados enviados por você</td><td>Procedimentos preliminares de contrato (inciso V)</td></tr>
-      <tr><td>Proteger o site contra fraudes e ataques</td><td>IP cifrado, registros técnicos</td><td>Legítimo interesse (inciso IX)</td></tr>
+      <tr><td>Proteger o site contra fraudes e ataques</td><td>Código gerado a partir do IP (hash), registros técnicos</td><td>Legítimo interesse (inciso IX)</td></tr>
+      <tr><td>Contar os acessos ao quiz sem repetir a mesma pessoa</td><td>Código gerado a partir do IP (hash)</td><td>Legítimo interesse (inciso IX)</td></tr>
       <tr><td>Entender como o site é usado e melhorá-lo</td><td>Dados de navegação (Google Analytics)</td><td>Consentimento (inciso I), que você pode recusar ou revogar</td></tr>
       <tr><td>Cumprir obrigações legais e defender direitos</td><td>Registros de pedidos</td><td>Obrigação legal e exercício regular de direitos (incisos II e VI)</td></tr>
     </tbody>
@@ -62,24 +64,27 @@
     <li><b>Hostinger</b>: hospedagem do site e dos pedidos.</li>
     <li><b>Google Analytics</b>: estatísticas de visitas, apenas se você aceitar os cookies de análise.</li>
     <li><b>WhatsApp (Meta)</b>: quando você clica em um botão de WhatsApp, a conversa segue as regras do próprio WhatsApp.</li>
-    <li><b>Hotmart</b>: a compra do e-book é feita na plataforma da Hotmart, que tem sua própria política de privacidade.</li>
+    <li><b>Hotmart</b>: a compra do e-book é feita na plataforma da Hotmart, que tem sua própria política de privacidade. Se você vier do quiz, o link informa à Hotmart que a visita veio do quiz e qual foi o perfil do resultado.</li>
     <li><b>Google Fonts e Cloudflare (cdnjs)</b>: carregam as fontes e animações do site e recebem o seu IP ao fazer isso.</li>
   </ul>
   <p>Alguns desses serviços podem armazenar dados fora do Brasil. Nesses casos, a transferência segue o art. 33 da LGPD, com fornecedores que adotam padrões adequados de proteção.</p>
 
   <h2>5. Por quanto tempo guardamos</h2>
   <ul>
-    <li><b>Pedidos:</b> pelo tempo necessário para entregar e atender você e, depois, por até 5 anos, para cumprir obrigações legais e permitir a defesa de direitos (Código de Defesa do Consumidor, art. 27). Depois disso são apagados.</li>
-    <li><b>Dados de segurança (IP cifrado):</b> até 1 hora.</li>
-    <li><b>Google Analytics:</b> até 2 meses, de forma agregada.</li>
+    <li><b>Pedidos:</b> pelo tempo necessário para entregar e atender você e, depois, pelo prazo necessário para cumprir obrigações legais e permitir a defesa de direitos (em geral, 5 anos, conforme o Código de Defesa do Consumidor, art. 27). A exclusão é feita por nós, no painel, e não de forma automática. Você pode pedir a exclusão antes disso, quando a lei permitir.</li>
+    <li><b>Códigos gerados a partir do IP (hash):</b> são usados por até 1 hora (segurança) ou 30 minutos (quiz). Depois deixam de valer e são removidos nos acessos seguintes ao mesmo recurso, por isso podem permanecer gravados um pouco mais se não houver novos acessos.</li>
+    <li><b>Números do quiz:</b> são apenas totais e ficam guardados até serem zerados por nós.</li>
+    <li><b>Google Analytics:</b> conforme o prazo de retenção configurado na ferramenta. Relatórios com totais podem ficar guardados por mais tempo.</li>
   </ul>
 
   <h2>6. Cookies e armazenamento no navegador</h2>
   <table>
     <thead><tr><th>Nome</th><th>Para que serve</th><th>Tipo</th><th>Duração</th></tr></thead>
     <tbody>
-      <tr><td>Carrinho (armazenamento local)</td><td>Lembrar os itens do seu pedido</td><td>Essencial</td><td>Até você finalizar ou limpar</td></tr>
+      <tr><td>Carrinho (armazenamento local)</td><td>Lembrar os itens do seu pedido, quando os pedidos pelo site estiverem abertos</td><td>Essencial</td><td>Até você finalizar ou limpar</td></tr>
       <tr><td>Preferência de cookies (armazenamento local)</td><td>Lembrar se você aceitou ou recusou os cookies de análise</td><td>Essencial</td><td>12 meses</td></tr>
+      <tr><td>Quiz (armazenamento da sessão)</td><td>Não contar duas vezes a mesma etapa do quiz</td><td>Essencial</td><td>Até fechar a aba</td></tr>
+      <tr><td>Sessão do painel (cookie)</td><td>Manter a administração da loja conectada (não é usado por visitantes)</td><td>Essencial</td><td>Até 8 horas</td></tr>
       <tr><td>_ga, _ga_*</td><td>Google Analytics: contar visitas e cliques</td><td>Análise (opcional)</td><td>Até 2 anos</td></tr>
     </tbody>
   </table>
