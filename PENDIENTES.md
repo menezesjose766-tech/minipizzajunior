@@ -54,9 +54,12 @@ _Última actualización: 23/11/2026_
 - [ ] Recomendado: cambiar la contraseña del panel por una de 12 caracteres o más y mover el `.env` una carpeta arriba de `public_html` (hoy está dentro, bloqueado con 403).
 - Nota: los cambios de precio y menú en el panel tardan hasta 1 minuto en verse en el sitio, por la caché.
 
-## Consulta de disponibilidad (23/11/2026): falta subir el ZIP
-- La clienta no siempre tiene todas las pizzas, así que el sitio ya no toma pedidos: los botones dicen "Ver disponibilidade" y abren el WhatsApp con el nombre del sabor. Usa el interruptor "Aceitar pedidos pelo site"; prendido, vuelve el carrito.
-- [ ] Subir el ZIP del 23/11 y **apagar "Aceitar pedidos pelo site"** en el panel (en vivo está prendido).
+## Cardápio y disponibilidad (23/11/2026): falta subir el ZIP
+- El botón "Cardápio" (inicio y menú) lleva a los sabores con todos los precios; debajo, un solo botón "Ver disponibilidade" abre el WhatsApp. Es lo que pidió la clienta; la versión anterior (botón por pizza) quedó en vivo hasta subir este ZIP.
+- "Aceitar pedidos pelo site" ya está apagado en vivo; prendido, vuelve el carrinho.
+- Los mensajes de WhatsApp van sin emojis: wa.me los convertía en � en computadora.
+- Al cambiar `cart.js` o `pizza.js`, subir el `?v=` en index.html (los navegadores los guardan 1 día).
+- [ ] Subir el ZIP y **borrarlo de `public_html`** después (hoy se puede descargar).
 - [ ] Quiz en vivo: si ya se había creado con los textos viejos, corregir en el panel la frase de los contactos (perfil Empreendedor) y la de congelar (perfil Chef).
 - [ ] Confirmar con la clienta el mínimo de reventa: el sitio dice 20 discos, el e-book dice 15.
 - [ ] Privacidad: no hay borrado automático de pedidos a los 5 años, y el IP cifrado (límites y quiz) se limpia solo con la siguiente visita. Ajustar el texto o programar la limpieza; mencionar los contadores del quiz.

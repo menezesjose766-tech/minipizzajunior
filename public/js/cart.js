@@ -76,17 +76,13 @@
     M = window.MPJ; const { S, FL, esc } = M;
     cart = cart.filter(i => FL.some(f => f.id === i.id)); save();
 
-    // pedidos pelo site desligados (padrão): os botões só consultam a disponibilidade no WhatsApp
-    if (S.aceitarPedidos !== true) {
-      document.querySelectorAll('[data-order]').forEach(a => { a.href = M.wppLink('Olá! Vi o site e gostaria de saber quais mini pizzas estão disponíveis 🍕'); a.target = '_blank'; a.rel = 'noopener'; });
-      return;
-    }
+    // pedidos pelo site desligados (padrão): "Cardápio" leva ao cardápio e, abaixo dele, o botão consulta a disponibilidade
+    if (S.aceitarPedidos !== true) return;
 
     // pedidos ligados: volta os textos e o botão do carrinho
-    document.querySelectorAll('[data-on]').forEach(el => { if (el.id !== 'dBtn') el.textContent = el.dataset.on; });
-    document.getElementById('dNota').hidden = true;
-    const old = document.getElementById('dBtn'), btn = document.createElement('button');
-    btn.className = old.className; btn.id = 'dBtn'; btn.type = 'button'; btn.textContent = old.dataset.on; old.replaceWith(btn);
+    document.querySelectorAll('[data-on]').forEach(el => { el.textContent = el.dataset.on; });
+    document.getElementById('dispCta').hidden = true;
+    document.getElementById('dBtn').hidden = false;
 
     // seletor de quantidade ao lado do botão
     const dBtn = document.getElementById('dBtn');

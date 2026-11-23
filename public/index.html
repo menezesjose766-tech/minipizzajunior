@@ -222,8 +222,12 @@
   .preco{font-family:'Bagel Fat One';font-size:1.8rem;color:var(--escuro)}
   .preco small{font-family:'Nunito';font-size:.8rem;font-weight:700;opacity:.6}
   .timer{position:absolute;left:0;bottom:0;height:5px;background:var(--amarelo);width:0}
-  .disp-nota{margin:14px 0 0!important;font-size:.82rem;font-weight:700;opacity:.65}
-  .disp-nota[hidden]{display:none}
+  #dBtn[hidden],.disp-cta[hidden]{display:none}
+  .disp-cta{margin:38px auto 0;display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center}
+  .disp-cta .btn{font-size:1.15rem;padding:18px 36px}
+  .disp-cta p{font-size:.86rem;font-weight:700;opacity:.65;max-width:420px}
+  .fl .fl-p{display:block;margin-top:4px;font-weight:900;font-size:.95rem;color:var(--escuro);transition:color .2s}
+  .fl[aria-selected="true"] .fl-p{color:#fff}
   .perso{margin-top:20px;padding-top:18px;border-top:2px dashed var(--creme-2);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
   .perso[hidden]{display:none}
   .perso p{margin:0;font-weight:800;font-size:1.02rem}
@@ -503,7 +507,7 @@
       <a href="#ebook">E-book</a>
       <a href="#sobre">Sobre nós</a>
     </nav>
-    <a class="btn btn-lar" data-order data-on="🛒 Pedir agora" href="#sabores">💬 Disponibilidade</a>
+    <a class="btn btn-lar" data-order data-on="🛒 Pedir agora" href="#sabores">🍕 Cardápio</a>
     <button class="burger" id="burger" aria-label="Abrir menu"><span></span><span></span><span></span></button>
   </div>
 </header>
@@ -517,7 +521,7 @@
         <h1 id="heroTitle">Mais <em>sabor</em> e praticidade pro seu dia a dia!</h1>
         <p class="lead h-in" id="heroSub">Mini pizzas artesanais, feitas com massa caseira e recheio generoso. Congeladas e prontas pro forno — perfeitas pro lanche, pras festas e pra você revender.</p>
         <div class="hero-ctas h-in">
-          <a class="btn btn-lar" data-order data-on="🍕 Fazer pedido" href="#sabores">💬 Ver disponibilidade</a>
+          <a class="btn btn-lar" data-order data-on="🍕 Fazer pedido" href="#sabores">🍕 Cardápio</a>
           <a class="btn btn-out" href="#revenda">Quero revender</a>
         </div>
         <div class="hero-ctas sec h-in">
@@ -589,9 +593,8 @@
             <div class="chips" id="dChips"></div>
             <div class="row">
               <span class="preco" id="dPrice"></span>
-              <a class="btn btn-lar" id="dBtn" href="#" target="_blank" rel="noopener" data-on="🛒 Adicionar ao pedido">💬 Ver disponibilidade</a>
+              <button class="btn btn-lar" id="dBtn" type="button" hidden>🛒 Adicionar ao pedido</button>
             </div>
-            <p class="disp-nota" id="dNota">Produtos sujeitos à disponibilidade. Consulte pelo WhatsApp antes de comprar.</p>
             <div class="perso" id="dPerso" hidden>
               <p>Deseja personalizar sua bandeja? Chame no WhatsApp! 💬</p>
               <a class="btn btn-wpp" id="dPersoBtn" href="#" target="_blank" rel="noopener"><svg><use href="#wpp"/></svg>Chamar no WhatsApp</a>
@@ -599,6 +602,10 @@
             <div class="timer" id="timer"></div>
           </div>
         </div>
+      </div>
+      <div class="disp-cta" id="dispCta">
+        <a class="btn btn-wpp" data-wpp="Olá! Gostaria de conferir a disponibilidade do estoque ou fazer uma encomenda." href="#"><svg><use href="#wpp"/></svg>Ver disponibilidade</a>
+        <p>Produtos sujeitos à disponibilidade. Consulte pelo WhatsApp antes de comprar.</p>
       </div>
       <div class="encomenda rv" id="encomendaBox">
         <div>
@@ -623,7 +630,7 @@
           <div class="circ"><span class="num">1</span>
             <svg viewBox="0 0 90 90"><rect x="24" y="10" width="40" height="70" rx="8" fill="#fff" stroke="#2A1A12" stroke-width="3.5"/><rect x="30" y="20" width="28" height="44" rx="3" fill="#FCE9CF"/><circle cx="44" cy="72" r="3" fill="#2A1A12"/><g class="bubble"><path d="M50 6h30a6 6 0 0 1 6 6v14a6 6 0 0 1-6 6H64l-8 7v-7h-6a6 6 0 0 1-6-6V12a6 6 0 0 1 6-6z" fill="#25D366" stroke="#2A1A12" stroke-width="3"/><circle cx="57" cy="19" r="2.4" fill="#fff"/><circle cx="65" cy="19" r="2.4" fill="#fff"/><circle cx="73" cy="19" r="2.4" fill="#fff"/></g></svg>
           </div>
-          <h3 data-on="Peça pelo site">Consulte a disponibilidade</h3><p data-on="Escolha os sabores e a quantidade. A gente confirma rapidinho no WhatsApp.">Escolha o sabor e chame no WhatsApp. A gente te diz o que está disponível.</p>
+          <h3 data-on="Peça pelo site">Veja o cardápio</h3><p data-on="Escolha os sabores e a quantidade. A gente confirma rapidinho no WhatsApp.">Confira os sabores e os valores e consulte a disponibilidade pelo WhatsApp.</p>
         </div>
         <div class="passo stg">
           <div class="circ"><span class="num">2</span>
@@ -769,7 +776,7 @@
         <div class="pz-r" data-mini="1"></div>
         <h2>Bateu aquela vontade<br>de comer uma coisa gostosa?</h2>
         <p>Chama a gente no WhatsApp e veja quais sabores estão disponíveis.</p>
-        <a class="btn btn-wpp" data-wpp="Olá! Vi o site e gostaria de saber quais mini pizzas estão disponíveis 🍕" href="#"><svg><use href="#wpp"/></svg>Ver disponibilidade no WhatsApp</a>
+        <a class="btn btn-wpp" data-wpp="Olá! Gostaria de conferir a disponibilidade do estoque ou fazer uma encomenda." href="#"><svg><use href="#wpp"/></svg>Ver disponibilidade no WhatsApp</a>
       </div>
     </div>
   </section>
@@ -803,12 +810,12 @@
   </div>
 </footer>
 
-<a class="wpp-float" data-wpp="Olá! Vi o site e gostaria de saber quais mini pizzas estão disponíveis 🍕" href="#" aria-label="Falar no WhatsApp"><svg><use href="#wpp"/></svg></a>
+<a class="wpp-float" data-wpp="Olá! Gostaria de conferir a disponibilidade do estoque ou fazer uma encomenda." href="#" aria-label="Falar no WhatsApp"><svg><use href="#wpp"/></svg></a>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-<script src="/js/pizza.js"></script>
-<script src="/js/cart.js" defer></script>
+<script src="/js/pizza.js?v=20261123b"></script>
+<script src="/js/cart.js?v=20261123b" defer></script>
 <script src="/js/consent.js"></script>
 <script>
 (async () => {
@@ -829,7 +836,7 @@
   const flavorFor = key => FL.find(f => f.id === key) || FL[(+key || 0) % FL.length];
 
   /* ---------- textos e contatos ---------- */
-  const wppLink = msg => `https://wa.me/${S.whatsapp}?text=${encodeURIComponent(msg)}`;
+  const wppLink = msg => `https://wa.me/${S.whatsapp}?text=${encodeURIComponent(msg.replace(/\p{Extended_Pictographic}\uFE0F?/gu, '').trim())}`; // o wa.me troca emojis por � no computador
   $$('[data-wpp]').forEach(a => { a.href = wppLink(a.dataset.wpp); a.target = '_blank'; a.rel = 'noopener'; });
   $('#heroTitle').innerHTML = esc(S.heroTitle).replace(/\*(.+?)\*/g, '<em>$1</em>');
   $('#heroSub').textContent = S.heroSubtitle;
@@ -939,7 +946,7 @@
 
   /* ---------- vitrine de sabores ---------- */
   const list = $('#flavorList'), stage = $('#stagePizza');
-  list.innerHTML = FL.map((f, i) => `<button class="fl" role="tab" data-i="${i}" aria-selected="false"><div class="mini">${PK.pizzaSVG(f)}</div><div><b>${esc(f.name)}</b><small>${esc(f.short)}</small></div></button>`).join('');
+  list.innerHTML = FL.map((f, i) => `<button class="fl" role="tab" data-i="${i}" aria-selected="false"><div class="mini">${PK.pizzaSVG(f)}</div><div><b>${esc(f.name)}</b><small>${esc(f.short)}</small>${S.mostrarPrecos && f.price > 0 ? `<span class="fl-p">R$ ${f.price.toFixed(2).replace('.', ',')}</span>` : ''}</div></button>`).join('');
   let current = null, auto = true, busy = false, timerTween = null;
 
   function select(i, user) {
@@ -955,8 +962,6 @@
       $('#stageBadge').textContent = F.badge;
       $('#stageBadge').hidden = !F.badge;
       $('#dPrice').innerHTML = priceHTML(F);
-      const dB = $('#dBtn'); // no modo disponibilidade o botão é um link para o WhatsApp
-      if (dB.tagName === 'A') dB.href = wppLink(`Olá! Vi no site e gostaria de saber se tem disponível: ${F.name} 🍕`);
       const bandeja = /bandeja/i.test(F.id + ' ' + F.name);
       $('#dPerso').hidden = !bandeja;
       if (bandeja) $('#dPersoBtn').href = wppLink(`Olá! Quero personalizar minha ${F.name} 🍕`);
