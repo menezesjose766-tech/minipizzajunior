@@ -1,6 +1,6 @@
 # Pendientes: Mini Pizza Junior
 
-_Última actualización: 16/11/2026_
+_Última actualización: 23/11/2026_
 
 ## Estado actual: ✅ **PUBLICADO en https://minipizzajunior.com** (16/11/2026)
 - Dominio registrado en Hostinger el 16/11/2026; vence el 16/11/2027. SSL de Let's Encrypt para el dominio con y sin www, con renovación automática.
@@ -21,7 +21,7 @@ _Última actualización: 16/11/2026_
 - [x] Sitio movido a `minipizzajunior.com`, con el SSL activo (16/11).
 - [ ] El dominio no aparece en "Meus domínios" de la cuenta de la clienta, quizá porque se registró desde otra cuenta de Hostinger. Confirmar en qué cuenta quedó, para la renovación de 2027.
 - [ ] **Contraseña del panel:** por ahora poner en el `.env` la misma contraseña de la demo, la que ya conoce la clienta. Cambiarla después por una fuerte.
-- [ ] Probar con `bash tools/test-api.sh https://minipizzajunior.com`. Ahora guarda y restaura la configuración, pero crea y borra un pedido de prueba, así que el contador de pedidos avanza. El script lee la contraseña del `.env` **local**, así que debe coincidir con la del servidor.
+- `tools/test-api.sh` ahora solo corre en servidor local: hace login y cambia datos, y el 16/11 borró el link del e-book en el sitio en vivo.
 - [ ] Hacer un pedido de prueba desde el celular, verlo en el panel y borrarlo.
 - [x] Cabeceras y `.htaccess` comprobados en vivo (16/11).
 - [x] **Search Console** (16/11): propiedad de dominio `minipizzajunior.com` verificada por TXT en el DNS de Hostinger (**no borrar ese registro**). Sitemap enviado con estado "Correcto". Está en la cuenta de Google del usuario; falta agregar a la clienta como propietaria si lo quiere.
@@ -53,6 +53,13 @@ _Última actualización: 16/11/2026_
 - Auditoría de secretos: no hay claves de API secretas. La contraseña nunca estuvo en git; `.env`, `.git`, `data/` y `secret.key` están bloqueados en vivo, y el ZIP no lleva secretos.
 - [ ] Recomendado: cambiar la contraseña del panel por una de 12 caracteres o más y mover el `.env` una carpeta arriba de `public_html` (hoy está dentro, bloqueado con 403).
 - Nota: los cambios de precio y menú en el panel tardan hasta 1 minuto en verse en el sitio, por la caché.
+
+## Consulta de disponibilidad (23/11/2026): falta subir el ZIP
+- La clienta no siempre tiene todas las pizzas, así que el sitio ya no toma pedidos: los botones dicen "Ver disponibilidade" y abren el WhatsApp con el nombre del sabor. Usa el interruptor "Aceitar pedidos pelo site"; prendido, vuelve el carrito.
+- [ ] Subir el ZIP del 23/11 y **apagar "Aceitar pedidos pelo site"** en el panel (en vivo está prendido).
+- [ ] Quiz en vivo: si ya se había creado con los textos viejos, corregir en el panel la frase de los contactos (perfil Empreendedor) y la de congelar (perfil Chef).
+- [ ] Confirmar con la clienta el mínimo de reventa: el sitio dice 20 discos, el e-book dice 15.
+- [ ] Privacidad: no hay borrado automático de pedidos a los 5 años, y el IP cifrado (límites y quiz) se limpia solo con la siguiente visita. Ajustar el texto o programar la limpieza; mencionar los contadores del quiz.
 
 ## Decidido
 - **Depoimentos:** se quedan los actuales.

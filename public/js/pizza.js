@@ -198,7 +198,7 @@
       heroTitle: 'Mais *sabor* e praticidade pro seu dia a dia!',
       heroSubtitle: 'Mini pizzas artesanais, feitas com massa caseira e recheio generoso. Congeladas e prontas pro forno — perfeitas pro lanche, pras festas e pra você revender.',
       heroFlavor: 'marguerita', mostrarPrecos: true, margemPadrao: 3,
-      aceitarPedidos: true, taxaEntrega: 0, pedidoMinimo: 1,
+      aceitarPedidos: false, taxaEntrega: 0, pedidoMinimo: 1,
       regiao: 'Nanuque e região',
       encomenda: 'Frango com bacon\nMilho com bacon\nLombo canadense\nRomeu e Julieta\nBanana com canela\nNutella',
       ebookLink: 'https://go.hotmart.com/R108434856U',

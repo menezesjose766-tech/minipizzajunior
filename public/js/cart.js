@@ -76,13 +76,17 @@
     M = window.MPJ; const { S, FL, esc } = M;
     cart = cart.filter(i => FL.some(f => f.id === i.id)); save();
 
-    // pedidos pausados → tudo vai para o WhatsApp
-    if (S.aceitarPedidos === false) {
-      document.querySelectorAll('[data-order]').forEach(a => { a.href = M.wppLink('Olá! Quero fazer um pedido de mini pizzas 🍕'); a.target = '_blank'; a.rel = 'noopener'; });
-      const b = document.getElementById('dBtn'); b.textContent = 'Pedir pelo WhatsApp';
-      b.addEventListener('click', () => open(M.wppLink(`Olá! Quero pedir a mini pizza de ${M.current().name} 🍕`), '_blank'));
+    // pedidos pelo site desligados (padrão): os botões só consultam a disponibilidade no WhatsApp
+    if (S.aceitarPedidos !== true) {
+      document.querySelectorAll('[data-order]').forEach(a => { a.href = M.wppLink('Olá! Vi o site e gostaria de saber quais mini pizzas estão disponíveis 🍕'); a.target = '_blank'; a.rel = 'noopener'; });
       return;
     }
+
+    // pedidos ligados: volta os textos e o botão do carrinho
+    document.querySelectorAll('[data-on]').forEach(el => { if (el.id !== 'dBtn') el.textContent = el.dataset.on; });
+    document.getElementById('dNota').hidden = true;
+    const old = document.getElementById('dBtn'), btn = document.createElement('button');
+    btn.className = old.className; btn.id = 'dBtn'; btn.type = 'button'; btn.textContent = old.dataset.on; old.replaceWith(btn);
 
     // seletor de quantidade ao lado do botão
     const dBtn = document.getElementById('dBtn');

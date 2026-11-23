@@ -15,7 +15,7 @@
 <meta property="og:locale" content="pt_BR">
 <meta property="og:site_name" content="Mini Pizza Junior">
 <meta property="og:title" content="Mini Pizza Junior | Mini pizzas congeladas em Nanuque-MG">
-<meta property="og:description" content="Mini pizzas artesanais pré-assadas, prontas em 8 minutos. Peça pelo site, revenda ou encomende brotinhos pra sua festa.">
+<meta property="og:description" content="Mini pizzas artesanais pré-assadas, prontas em 8 minutos. Veja os sabores e consulte a disponibilidade pelo WhatsApp.">
 <meta property="og:url" content="__SITE_URL__/">
 <meta property="og:image" content="__SITE_URL__/img/og-image.jpg">
 <meta property="og:image:width" content="1200">
@@ -23,7 +23,7 @@
 <meta property="og:image:alt" content="Mini Pizza Junior: mini pizzas artesanais pré-assadas e congeladas">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Mini Pizza Junior | Mini pizzas congeladas em Nanuque-MG">
-<meta name="twitter:description" content="Mini pizzas artesanais pré-assadas, prontas em 8 minutos. Peça pelo site, revenda ou encomende brotinhos pra sua festa.">
+<meta name="twitter:description" content="Mini pizzas artesanais pré-assadas, prontas em 8 minutos. Veja os sabores e consulte a disponibilidade pelo WhatsApp.">
 <meta name="twitter:image" content="__SITE_URL__/img/og-image.jpg">
 <!-- Dados estruturados (Google) -->
 <script type="application/ld+json">
@@ -222,6 +222,8 @@
   .preco{font-family:'Bagel Fat One';font-size:1.8rem;color:var(--escuro)}
   .preco small{font-family:'Nunito';font-size:.8rem;font-weight:700;opacity:.6}
   .timer{position:absolute;left:0;bottom:0;height:5px;background:var(--amarelo);width:0}
+  .disp-nota{margin:14px 0 0!important;font-size:.82rem;font-weight:700;opacity:.65}
+  .disp-nota[hidden]{display:none}
   .perso{margin-top:20px;padding-top:18px;border-top:2px dashed var(--creme-2);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
   .perso[hidden]{display:none}
   .perso p{margin:0;font-weight:800;font-size:1.02rem}
@@ -501,7 +503,7 @@
       <a href="#ebook">E-book</a>
       <a href="#sobre">Sobre nós</a>
     </nav>
-    <a class="btn btn-lar" data-order href="#sabores">🛒 Pedir agora</a>
+    <a class="btn btn-lar" data-order data-on="🛒 Pedir agora" href="#sabores">💬 Disponibilidade</a>
     <button class="burger" id="burger" aria-label="Abrir menu"><span></span><span></span><span></span></button>
   </div>
 </header>
@@ -515,7 +517,7 @@
         <h1 id="heroTitle">Mais <em>sabor</em> e praticidade pro seu dia a dia!</h1>
         <p class="lead h-in" id="heroSub">Mini pizzas artesanais, feitas com massa caseira e recheio generoso. Congeladas e prontas pro forno — perfeitas pro lanche, pras festas e pra você revender.</p>
         <div class="hero-ctas h-in">
-          <a class="btn btn-lar" data-order href="#sabores">🍕 Fazer pedido</a>
+          <a class="btn btn-lar" data-order data-on="🍕 Fazer pedido" href="#sabores">💬 Ver disponibilidade</a>
           <a class="btn btn-out" href="#revenda">Quero revender</a>
         </div>
         <div class="hero-ctas sec h-in">
@@ -587,8 +589,9 @@
             <div class="chips" id="dChips"></div>
             <div class="row">
               <span class="preco" id="dPrice"></span>
-              <button class="btn btn-lar" id="dBtn" type="button">🛒 Adicionar ao pedido</button>
+              <a class="btn btn-lar" id="dBtn" href="#" target="_blank" rel="noopener" data-on="🛒 Adicionar ao pedido">💬 Ver disponibilidade</a>
             </div>
+            <p class="disp-nota" id="dNota">Produtos sujeitos à disponibilidade. Consulte pelo WhatsApp antes de comprar.</p>
             <div class="perso" id="dPerso" hidden>
               <p>Deseja personalizar sua bandeja? Chame no WhatsApp! 💬</p>
               <a class="btn btn-wpp" id="dPersoBtn" href="#" target="_blank" rel="noopener"><svg><use href="#wpp"/></svg>Chamar no WhatsApp</a>
@@ -620,7 +623,7 @@
           <div class="circ"><span class="num">1</span>
             <svg viewBox="0 0 90 90"><rect x="24" y="10" width="40" height="70" rx="8" fill="#fff" stroke="#2A1A12" stroke-width="3.5"/><rect x="30" y="20" width="28" height="44" rx="3" fill="#FCE9CF"/><circle cx="44" cy="72" r="3" fill="#2A1A12"/><g class="bubble"><path d="M50 6h30a6 6 0 0 1 6 6v14a6 6 0 0 1-6 6H64l-8 7v-7h-6a6 6 0 0 1-6-6V12a6 6 0 0 1 6-6z" fill="#25D366" stroke="#2A1A12" stroke-width="3"/><circle cx="57" cy="19" r="2.4" fill="#fff"/><circle cx="65" cy="19" r="2.4" fill="#fff"/><circle cx="73" cy="19" r="2.4" fill="#fff"/></g></svg>
           </div>
-          <h3>Peça pelo site</h3><p>Escolha os sabores e a quantidade. A gente confirma rapidinho no WhatsApp.</p>
+          <h3 data-on="Peça pelo site">Consulte a disponibilidade</h3><p data-on="Escolha os sabores e a quantidade. A gente confirma rapidinho no WhatsApp.">Escolha o sabor e chame no WhatsApp. A gente te diz o que está disponível.</p>
         </div>
         <div class="passo stg">
           <div class="circ"><span class="num">2</span>
@@ -765,8 +768,8 @@
         <div class="pz-l" data-mini="0"></div>
         <div class="pz-r" data-mini="1"></div>
         <h2>Bateu aquela vontade<br>de comer uma coisa gostosa?</h2>
-        <p>Chama a gente no WhatsApp e garanta suas mini pizzas hoje mesmo.</p>
-        <a class="btn btn-wpp" data-wpp="Olá! Quero fazer um pedido de mini pizzas 🍕" href="#"><svg><use href="#wpp"/></svg>Pedir pelo WhatsApp</a>
+        <p>Chama a gente no WhatsApp e veja quais sabores estão disponíveis.</p>
+        <a class="btn btn-wpp" data-wpp="Olá! Vi o site e gostaria de saber quais mini pizzas estão disponíveis 🍕" href="#"><svg><use href="#wpp"/></svg>Ver disponibilidade no WhatsApp</a>
       </div>
     </div>
   </section>
@@ -800,7 +803,7 @@
   </div>
 </footer>
 
-<a class="wpp-float" data-wpp="Olá! Quero fazer um pedido de mini pizzas 🍕" href="#" aria-label="Falar no WhatsApp"><svg><use href="#wpp"/></svg></a>
+<a class="wpp-float" data-wpp="Olá! Vi o site e gostaria de saber quais mini pizzas estão disponíveis 🍕" href="#" aria-label="Falar no WhatsApp"><svg><use href="#wpp"/></svg></a>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
@@ -952,7 +955,8 @@
       $('#stageBadge').textContent = F.badge;
       $('#stageBadge').hidden = !F.badge;
       $('#dPrice').innerHTML = priceHTML(F);
-      $('#dBtn').href = wppLink(`Olá! Quero pedir a mini pizza de ${F.name} 🍕`);
+      const dB = $('#dBtn'); // no modo disponibilidade o botão é um link para o WhatsApp
+      if (dB.tagName === 'A') dB.href = wppLink(`Olá! Vi no site e gostaria de saber se tem disponível: ${F.name} 🍕`);
       const bandeja = /bandeja/i.test(F.id + ' ' + F.name);
       $('#dPerso').hidden = !bandeja;
       if (bandeja) $('#dPersoBtn').href = wppLink(`Olá! Quero personalizar minha ${F.name} 🍕`);

@@ -123,7 +123,7 @@
       "heroFlavor": "marguerita",
       "mostrarPrecos": true,
       "margemPadrao": 3,
-      "aceitarPedidos": true,
+      "aceitarPedidos": false,
       "taxaEntrega": 0,
       "pedidoMinimo": 1,
       "regiao": "Nanuque e região",

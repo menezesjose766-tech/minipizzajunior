@@ -3,6 +3,8 @@
 set -u
 B="${1:-http://localhost:8080}"
 PW=$(grep '^ADMIN_PASSWORD=' "$(dirname "$0")/../.env" | cut -d= -f2-)
+# faz login, altera configurações e cria pedidos: não pode rodar no site publicado
+case "$B" in http://localhost:*|http://127.0.0.1:*) ;; *) echo "Este teste só roda em servidor local."; exit 2;; esac
 J=$(mktemp); ok=0; bad=0
 check() { if [ "$2" = "$3" ]; then echo "  ✅ $1"; ok=$((ok+1)); else echo "  ❌ $1 — esperado $3, veio $2"; bad=$((bad+1)); fi; }
 code() { curl -s -o /dev/null -w "%{http_code}" "$@"; }
@@ -16,6 +18,11 @@ check "senha errada = 401"          "$(code -X POST -H 'Content-Type: applicatio
 check "login certo = 200"           "$(code -c "$J" -X POST -H 'Content-Type: application/json' -d "{\"password\":\"$PW\"}" $B/api/login)" 200
 check "me = admin"                  "$(curl -s -b "$J" $B/api/me)" '{"admin":true}'
 check "admin/data com login"        "$(code -b "$J" $B/api/admin/data)" 200
+ORIG=$(mktemp); curl -s -b "$J" $B/api/admin/data | node -e "let s='';process.stdin.on('data',d=>s+=d).on('end',()=>process.stdout.write(JSON.stringify(JSON.parse(s).settings)))" > "$ORIG"
+setPedidos() { node -e "const o=JSON.parse(require('fs').readFileSync(process.argv[1],'utf8'));o.aceitarPedidos=process.argv[2]==='1';process.stdout.write(JSON.stringify(o))" "$ORIG" "$1" | curl -s -o /dev/null -b "$J" -X PUT -H 'Content-Type: application/json' --data-binary @- $B/api/admin/settings; }
+setPedidos 0
+check "pedidos desligados = 400"    "$(code -X POST -H 'Content-Type: application/json' -d '{"items":[{"id":"marguerita","qty":1}],"customer":{"name":"Teste","phone":"33999990000"},"delivery":"retirada"}' $B/api/orders)" 400
+setPedidos 1
 check "pedido sem endereço = 400"   "$(code -X POST -H 'Content-Type: application/json' -d '{"items":[{"id":"marguerita","qty":1}],"customer":{"name":"Teste","phone":"33999990000"},"delivery":"entrega","address":{}}' $B/api/orders)" 400
 R=$(curl -s -X POST -H 'Content-Type: application/json' -d '{"items":[{"id":"marguerita","qty":2},{"id":"nao-existe","qty":5}],"customer":{"name":"Teste API","phone":"33999990000"},"delivery":"retirada"}' $B/api/orders)
 N=$(echo "$R" | grep -o '"number":[0-9]*' | cut -d: -f2)
@@ -25,8 +32,6 @@ check "pedido aparece no painel"    "$(curl -s -b "$J" $B/api/admin/orders | gre
 check "muda status"                 "$(curl -s -b "$J" -X PATCH -H 'Content-Type: application/json' -d '{"status":"preparo"}' $B/api/admin/orders/$N | grep -o '"status":"preparo"' | head -1)" '"status":"preparo"'
 check "status inválido = 400"       "$(code -b "$J" -X PATCH -H 'Content-Type: application/json' -d '{"status":"xx"}' $B/api/admin/orders/$N)" 400
 check "apaga pedido de teste"       "$(code -b "$J" -X DELETE $B/api/admin/orders/$N)" 200
-# guarda as configurações atuais para restaurar depois do teste (o teste não pode apagar dados reais)
-ORIG=$(mktemp); curl -s -b "$J" $B/api/admin/data | node -e "let s='';process.stdin.on('data',d=>s+=d).on('end',()=>process.stdout.write(JSON.stringify(JSON.parse(s).settings)))" > "$ORIG"
 check "link e-book inválido vira vazio" "$(node -e "const o=JSON.parse(require('fs').readFileSync(process.argv[1],'utf8'));o.ebookLink='javascript:alert(1)';process.stdout.write(JSON.stringify(o))" "$ORIG" | curl -s -b "$J" -X PUT -H 'Content-Type: application/json' --data-binary @- $B/api/admin/settings | grep -o '"ebookLink":""')" '"ebookLink":""'
 check "configurações restauradas"   "$(code -b "$J" -X PUT -H 'Content-Type: application/json' --data-binary @"$ORIG" $B/api/admin/settings)" 200
 rm -f "$ORIG"
