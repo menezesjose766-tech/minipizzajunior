@@ -62,7 +62,7 @@ _Última actualización: 23/11/2026_
 - El `.htaccess` ya bloquea los `.zip` (403). Conviene borrar igual el que queda en `public_html`.
 - [ ] Quiz en vivo: si ya se había creado con los textos viejos, corregir en el panel la frase de los contactos (perfil Empreendedor) y la de congelar (perfil Chef).
 - [ ] Confirmar con la clienta el mínimo de reventa: el sitio dice 20 discos, el e-book dice 15.
-- [x] Privacidad corregida (23/11): describe el borrado manual de pedidos, los códigos (hash) del IP, los contadores del quiz y lo que recibe Hotmart. Falta subir el ZIP.
+- [x] Privacidad corregida (23/11): describe el borrado manual de pedidos, los códigos (hash) del IP, los contadores del quiz y lo que recibe Hotmart. Publicada y comprobada en vivo.
 - [ ] Privacidad: borrar los pedidos viejos a mano en el panel (no hay borrado automático).
 
 ## Decidido
