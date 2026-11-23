@@ -17,6 +17,7 @@
   :root{--laranja:#E0521B;--laranja-esc:#B83F10;--amarelo:#F5A623;--amarelo-claro:#FFD27A;--creme:#FFF6E9;--creme-2:#FCE9CF;--escuro:#2A1A12;--verde:#25D366}
   *{box-sizing:border-box;margin:0;padding:0}
   html,body{min-height:100%}
+  html{overflow-x:hidden}
   body{background:var(--creme);color:var(--escuro);font-family:'Nunito',sans-serif;min-height:100vh;display:flex;flex-direction:column;overflow-x:hidden}
   body::before{content:"";position:fixed;inset:0;z-index:-1;opacity:.5;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cg opacity='.35'%3E%3Cpath d='M30 28l14 5-11 9z' fill='%23F5A623'/%3E%3Cpath d='M140 46l12 9-14 5z' fill='%23E0521B'/%3E%3Cpath d='M88 114l14 2-8 12z' fill='%23E0521B'/%3E%3Cpath d='M186 134l14 6-12 8z' fill='%23F5A623'/%3E%3Cpath d='M36 180l11 11-14 2z' fill='%23F5A623'/%3E%3C/g%3E%3C/svg%3E")}
   .d{font-family:'Bagel Fat One',cursive;font-weight:400;line-height:1.05}
@@ -28,8 +29,8 @@
   @keyframes in{from{opacity:0;transform:translateY(24px) scale(.98)}}
   h1{font-size:clamp(1.9rem,8vw,2.6rem);color:var(--laranja);text-shadow:3px 4px 0 var(--amarelo-claro);text-align:center;margin:6px 0 14px}
   .lead{text-align:center;font-weight:700;font-size:1.08rem;opacity:.85;margin-bottom:22px}
-  .pz{width:min(250px,64vw);aspect-ratio:1;margin:4px auto 22px;filter:drop-shadow(0 16px 22px rgba(90,30,5,.28));animation:spin 22s linear infinite}
-  .pz svg{width:100%;height:100%}
+  .pzbox{pointer-events:none;width:min(250px,64vw);aspect-ratio:1;margin:4px auto 22px;filter:drop-shadow(0 16px 22px rgba(90,30,5,.28));animation:spin 22s linear infinite}
+  .pzbox svg{width:100%;height:100%;display:block}
   @keyframes spin{to{transform:rotate(360deg)}}
   .btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:17px 22px;border-radius:99px;border:0;font:900 1.1rem 'Nunito',sans-serif;cursor:pointer;text-decoration:none;transition:transform .15s,box-shadow .15s}
   .btn-lar{background:var(--laranja);color:#fff;box-shadow:0 6px 0 var(--laranja-esc)}
@@ -77,7 +78,7 @@
   </section>
 
   <section class="screen" id="sIntro">
-    <div class="pz" id="pzIntro" aria-hidden="true"></div>
+    <div class="pzbox" id="pzIntro" aria-hidden="true"></div>
     <h1 class="d" id="qTitle"></h1>
     <p class="lead" id="qIntro"></p>
     <button class="btn btn-lar" id="go" type="button">Começar o quiz →</button>
@@ -97,7 +98,7 @@
   <section class="screen" id="sRes">
     <span class="tag">Seu perfil</span>
     <h1 class="d" id="rTitle"></h1>
-    <div class="pz" id="pzRes" aria-hidden="true" style="width:min(180px,46vw);margin-bottom:18px"></div>
+    <div class="pzbox" id="pzRes" aria-hidden="true" style="width:min(180px,46vw);margin-bottom:18px"></div>
     <div class="card" id="rText"></div>
     <p class="preco" id="rPreco" hidden></p>
     <a class="btn btn-lar" id="buy" target="_blank" rel="noopener"></a>

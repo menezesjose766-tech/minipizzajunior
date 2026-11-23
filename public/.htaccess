@@ -38,7 +38,7 @@ AddType image/webp .webp
 </IfModule>
 
 # nunca servir arquivos sensíveis nem ocultos (.env, .git, .htaccess...)
-<FilesMatch "^(\..+|.*\.lock|.*\.tmp|.*\.bak|.*\.log|.*\.ini|db\.json|orders\.json|ratelimit\.json|session\.json|secret\.key)$">
+<FilesMatch "^(\..+|.*\.lock|.*\.tmp|.*\.bak|.*\.log|.*\.ini|.*\.zip|.*\.sql|db\.json|orders\.json|quizstats\.json|qseen-.*\.json|ratelimit\.json|session\.json|secret\.key)$">
   Require all denied
 </FilesMatch>
 # o único PHP que pode rodar é a API

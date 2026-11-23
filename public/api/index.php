@@ -337,7 +337,7 @@ function setSession(string $value, int $maxAge): void {
     global $HTTPS;
     setcookie(cookieName(), $value, ['expires' => $maxAge ? time() + $maxAge : time() - 3600, 'path' => '/', 'httponly' => true, 'samesite' => 'Strict', 'secure' => $HTTPS]);
 }
-function isAdmin(): bool { return validToken($_COOKIE[cookieName()] ?? null); }
+function isAdmin(): bool { $c = $_COOKIE[cookieName()] ?? null; return is_string($c) && validToken($c); } // cookie em formato de lista não derruba a API
 function requireAdmin(): void { if (!isAdmin()) fail('Não autorizado', 401); }
 
 /* ---------- roteamento ---------- */
